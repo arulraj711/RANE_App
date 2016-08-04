@@ -1,0 +1,524 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA431D533FA9001DC190 /* AppDelegate.swift */; };
+		BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA451D533FA9001DC190 /* ViewController.swift */; };
+		BA49CA491D533FA9001DC190 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA471D533FA9001DC190 /* Main.storyboard */; };
+		BA49CA4C1D533FA9001DC190 /* RANE_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */; };
+		BA49CA4E1D533FA9001DC190 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA4D1D533FA9001DC190 /* Assets.xcassets */; };
+		BA49CA511D533FA9001DC190 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */; };
+		BA49CA5C1D533FA9001DC190 /* RANE_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA5B1D533FA9001DC190 /* RANE_AppTests.swift */; };
+		BA49CA671D533FAA001DC190 /* RANE_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA49CA581D533FA9001DC190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA49CA381D533FA9001DC190 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA49CA3F1D533FA9001DC190;
+			remoteInfo = RANE_App;
+		};
+		BA49CA631D533FAA001DC190 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA49CA381D533FA9001DC190 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA49CA3F1D533FA9001DC190;
+			remoteInfo = RANE_App;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BA49CA401D533FA9001DC190 /* RANE_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RANE_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA49CA431D533FA9001DC190 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BA49CA451D533FA9001DC190 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BA49CA481D533FA9001DC190 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BA49CA4B1D533FA9001DC190 /* RANE_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RANE_App.xcdatamodel; sourceTree = "<group>"; };
+		BA49CA4D1D533FA9001DC190 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA49CA501D533FA9001DC190 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BA49CA521D533FA9001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA49CA571D533FA9001DC190 /* RANE_AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RANE_AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA49CA5B1D533FA9001DC190 /* RANE_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RANE_AppTests.swift; sourceTree = "<group>"; };
+		BA49CA5D1D533FA9001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA49CA621D533FAA001DC190 /* RANE_AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RANE_AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RANE_AppUITests.swift; sourceTree = "<group>"; };
+		BA49CA681D533FAA001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA49CA3D1D533FA9001DC190 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA49CA541D533FA9001DC190 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA49CA5F1D533FAA001DC190 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BA49CA371D533FA9001DC190 = {
+			isa = PBXGroup;
+			children = (
+				BA49CA421D533FA9001DC190 /* RANE_App */,
+				BA49CA5A1D533FA9001DC190 /* RANE_AppTests */,
+				BA49CA651D533FAA001DC190 /* RANE_AppUITests */,
+				BA49CA411D533FA9001DC190 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BA49CA411D533FA9001DC190 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA49CA401D533FA9001DC190 /* RANE_App.app */,
+				BA49CA571D533FA9001DC190 /* RANE_AppTests.xctest */,
+				BA49CA621D533FAA001DC190 /* RANE_AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA49CA421D533FA9001DC190 /* RANE_App */ = {
+			isa = PBXGroup;
+			children = (
+				BA49CA431D533FA9001DC190 /* AppDelegate.swift */,
+				BA49CA451D533FA9001DC190 /* ViewController.swift */,
+				BA49CA471D533FA9001DC190 /* Main.storyboard */,
+				BA49CA4D1D533FA9001DC190 /* Assets.xcassets */,
+				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
+				BA49CA521D533FA9001DC190 /* Info.plist */,
+				BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */,
+			);
+			path = RANE_App;
+			sourceTree = "<group>";
+		};
+		BA49CA5A1D533FA9001DC190 /* RANE_AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				BA49CA5B1D533FA9001DC190 /* RANE_AppTests.swift */,
+				BA49CA5D1D533FA9001DC190 /* Info.plist */,
+			);
+			path = RANE_AppTests;
+			sourceTree = "<group>";
+		};
+		BA49CA651D533FAA001DC190 /* RANE_AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */,
+				BA49CA681D533FAA001DC190 /* Info.plist */,
+			);
+			path = RANE_AppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA49CA3F1D533FA9001DC190 /* RANE_App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA49CA6B1D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_App" */;
+			buildPhases = (
+				BA49CA3C1D533FA9001DC190 /* Sources */,
+				BA49CA3D1D533FA9001DC190 /* Frameworks */,
+				BA49CA3E1D533FA9001DC190 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RANE_App;
+			productName = RANE_App;
+			productReference = BA49CA401D533FA9001DC190 /* RANE_App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA49CA561D533FA9001DC190 /* RANE_AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA49CA6E1D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_AppTests" */;
+			buildPhases = (
+				BA49CA531D533FA9001DC190 /* Sources */,
+				BA49CA541D533FA9001DC190 /* Frameworks */,
+				BA49CA551D533FA9001DC190 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA49CA591D533FA9001DC190 /* PBXTargetDependency */,
+			);
+			name = RANE_AppTests;
+			productName = RANE_AppTests;
+			productReference = BA49CA571D533FA9001DC190 /* RANE_AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BA49CA611D533FAA001DC190 /* RANE_AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA49CA711D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_AppUITests" */;
+			buildPhases = (
+				BA49CA5E1D533FAA001DC190 /* Sources */,
+				BA49CA5F1D533FAA001DC190 /* Frameworks */,
+				BA49CA601D533FAA001DC190 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA49CA641D533FAA001DC190 /* PBXTargetDependency */,
+			);
+			name = RANE_AppUITests;
+			productName = RANE_AppUITests;
+			productReference = BA49CA621D533FAA001DC190 /* RANE_AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA49CA381D533FA9001DC190 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = capestart;
+				TargetAttributes = {
+					BA49CA3F1D533FA9001DC190 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					BA49CA561D533FA9001DC190 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = BA49CA3F1D533FA9001DC190;
+					};
+					BA49CA611D533FAA001DC190 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = BA49CA3F1D533FA9001DC190;
+					};
+				};
+			};
+			buildConfigurationList = BA49CA3B1D533FA9001DC190 /* Build configuration list for PBXProject "RANE_App" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BA49CA371D533FA9001DC190;
+			productRefGroup = BA49CA411D533FA9001DC190 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA49CA3F1D533FA9001DC190 /* RANE_App */,
+				BA49CA561D533FA9001DC190 /* RANE_AppTests */,
+				BA49CA611D533FAA001DC190 /* RANE_AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA49CA3E1D533FA9001DC190 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA49CA511D533FA9001DC190 /* LaunchScreen.storyboard in Resources */,
+				BA49CA4E1D533FA9001DC190 /* Assets.xcassets in Resources */,
+				BA49CA491D533FA9001DC190 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA49CA551D533FA9001DC190 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA49CA601D533FAA001DC190 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA49CA3C1D533FA9001DC190 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
+				BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */,
+				BA49CA4C1D533FA9001DC190 /* RANE_App.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA49CA531D533FA9001DC190 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA49CA5C1D533FA9001DC190 /* RANE_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA49CA5E1D533FAA001DC190 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA49CA671D533FAA001DC190 /* RANE_AppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA49CA591D533FA9001DC190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA49CA3F1D533FA9001DC190 /* RANE_App */;
+			targetProxy = BA49CA581D533FA9001DC190 /* PBXContainerItemProxy */;
+		};
+		BA49CA641D533FAA001DC190 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA49CA3F1D533FA9001DC190 /* RANE_App */;
+			targetProxy = BA49CA631D533FAA001DC190 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BA49CA471D533FA9001DC190 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA49CA481D533FA9001DC190 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA49CA501D533FA9001DC190 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BA49CA691D533FAA001DC190 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA49CA6A1D533FAA001DC190 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA49CA6C1D533FAA001DC190 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = RANE_App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BA49CA6D1D533FAA001DC190 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = RANE_App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BA49CA6F1D533FAA001DC190 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = RANE_AppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RANE_App.app/RANE_App";
+			};
+			name = Debug;
+		};
+		BA49CA701D533FAA001DC190 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = RANE_AppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RANE_App.app/RANE_App";
+			};
+			name = Release;
+		};
+		BA49CA721D533FAA001DC190 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = RANE_AppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = RANE_App;
+			};
+			name = Debug;
+		};
+		BA49CA731D533FAA001DC190 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = RANE_AppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = RANE_App;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA49CA3B1D533FA9001DC190 /* Build configuration list for PBXProject "RANE_App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA49CA691D533FAA001DC190 /* Debug */,
+				BA49CA6A1D533FAA001DC190 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA49CA6B1D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA49CA6C1D533FAA001DC190 /* Debug */,
+				BA49CA6D1D533FAA001DC190 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BA49CA6E1D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA49CA6F1D533FAA001DC190 /* Debug */,
+				BA49CA701D533FAA001DC190 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BA49CA711D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA49CA721D533FAA001DC190 /* Debug */,
+				BA49CA731D533FAA001DC190 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BA49CA4B1D533FA9001DC190 /* RANE_App.xcdatamodel */,
+			);
+			currentVersion = BA49CA4B1D533FA9001DC190 /* RANE_App.xcdatamodel */;
+			path = RANE_App.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = BA49CA381D533FA9001DC190 /* Project object */;
+}
