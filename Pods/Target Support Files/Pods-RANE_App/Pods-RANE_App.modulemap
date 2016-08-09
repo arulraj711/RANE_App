@@ -1,0 +1,6 @@
+framework module Pods_RANE_App {
+  umbrella header "Pods-RANE_App-umbrella.h"
+
+  export *
+  module * { export * }
+}

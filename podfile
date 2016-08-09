@@ -1,0 +1,4 @@
+use_frameworks!
+target 'RANE_App' do
+pod 'Alamofire', '~> 3.4'
+end

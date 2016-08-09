@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FA6C9CD61B2A2D4EA98258B /* Pods_RANE_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */; };
 		BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA431D533FA9001DC190 /* AppDelegate.swift */; };
 		BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA451D533FA9001DC190 /* ViewController.swift */; };
 		BA49CA491D533FA9001DC190 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA471D533FA9001DC190 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 		BA49CA511D533FA9001DC190 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */; };
 		BA49CA5C1D533FA9001DC190 /* RANE_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA5B1D533FA9001DC190 /* RANE_AppTests.swift */; };
 		BA49CA671D533FAA001DC190 /* RANE_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */; };
+		BACA474C1D54B9F600D772ED /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACA474B1D54B9F600D772ED /* WebService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,10 @@
 		BA49CA621D533FAA001DC190 /* RANE_AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RANE_AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RANE_AppUITests.swift; sourceTree = "<group>"; };
 		BA49CA681D533FAA001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BACA474B1D54B9F600D772ED /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		CB096B7EC73BB7F1F3AE23F1 /* Pods-RANE_App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RANE_App.release.xcconfig"; path = "Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App.release.xcconfig"; sourceTree = "<group>"; };
+		D10FF0799AE5D86B924B0897 /* Pods-RANE_App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RANE_App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App.debug.xcconfig"; sourceTree = "<group>"; };
+		F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RANE_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FA6C9CD61B2A2D4EA98258B /* Pods_RANE_App.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +83,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22CA808D46AF4924EF7B93B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2AA6FD359016A06D6DAD2A31 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D10FF0799AE5D86B924B0897 /* Pods-RANE_App.debug.xcconfig */,
+				CB096B7EC73BB7F1F3AE23F1 /* Pods-RANE_App.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		BA49CA371D533FA9001DC190 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +107,8 @@
 				BA49CA5A1D533FA9001DC190 /* RANE_AppTests */,
 				BA49CA651D533FAA001DC190 /* RANE_AppUITests */,
 				BA49CA411D533FA9001DC190 /* Products */,
+				2AA6FD359016A06D6DAD2A31 /* Pods */,
+				22CA808D46AF4924EF7B93B3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +132,7 @@
 				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
 				BA49CA521D533FA9001DC190 /* Info.plist */,
 				BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */,
+				BACA474B1D54B9F600D772ED /* WebService.swift */,
 			);
 			path = RANE_App;
 			sourceTree = "<group>";
@@ -135,9 +162,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BA49CA6B1D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_App" */;
 			buildPhases = (
+				0AD7AFA3C27F6E366156B79D /* [CP] Check Pods Manifest.lock */,
 				BA49CA3C1D533FA9001DC190 /* Sources */,
 				BA49CA3D1D533FA9001DC190 /* Frameworks */,
 				BA49CA3E1D533FA9001DC190 /* Resources */,
+				A65DCEA2387D245D5EF5007B /* [CP] Embed Pods Frameworks */,
+				1BF5D9DD083D46993CAEBF32 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -254,6 +284,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0AD7AFA3C27F6E366156B79D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		1BF5D9DD083D46993CAEBF32 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A65DCEA2387D245D5EF5007B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BA49CA3C1D533FA9001DC190 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -261,6 +339,7 @@
 			files = (
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
 				BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */,
+				BACA474C1D54B9F600D772ED /* WebService.swift in Sources */,
 				BA49CA4C1D533FA9001DC190 /* RANE_App.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +418,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -357,6 +437,8 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -385,6 +467,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -396,6 +479,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -403,10 +488,14 @@
 		};
 		BA49CA6C1D533FAA001DC190 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D10FF0799AE5D86B924B0897 /* Pods-RANE_App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = RANE_App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -414,10 +503,14 @@
 		};
 		BA49CA6D1D533FAA001DC190 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB096B7EC73BB7F1F3AE23F1 /* Pods-RANE_App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = RANE_App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sample.RANE-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -488,6 +581,7 @@
 				BA49CA6D1D533FAA001DC190 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BA49CA6E1D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_AppTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +590,7 @@
 				BA49CA701D533FAA001DC190 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BA49CA711D533FAA001DC190 /* Build configuration list for PBXNativeTarget "RANE_AppUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +599,7 @@
 				BA49CA731D533FAA001DC190 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
