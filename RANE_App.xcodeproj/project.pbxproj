@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3FA6C9CD61B2A2D4EA98258B /* Pods_RANE_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */; };
+		A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */; };
+		A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463F1D5B378E001D8097 /* MenuViewController.swift */; };
+		A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */; };
 		BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA431D533FA9001DC190 /* AppDelegate.swift */; };
 		BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA451D533FA9001DC190 /* ViewController.swift */; };
 		BA49CA491D533FA9001DC190 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA471D533FA9001DC190 /* Main.storyboard */; };
@@ -37,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		A0CF463F1D5B378E001D8097 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenuCell.swift; sourceTree = "<group>"; };
 		BA49CA401D533FA9001DC190 /* RANE_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RANE_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA49CA431D533FA9001DC190 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA49CA451D533FA9001DC190 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +139,9 @@
 				BA49CA521D533FA9001DC190 /* Info.plist */,
 				BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */,
 				BACA474B1D54B9F600D772ED /* WebService.swift */,
+				A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */,
+				A0CF463F1D5B378E001D8097 /* MenuViewController.swift */,
+				A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */,
 			);
 			path = RANE_App;
 			sourceTree = "<group>";
@@ -339,9 +348,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
+				A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */,
 				BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */,
 				BACA474C1D54B9F600D772ED /* WebService.swift in Sources */,
 				BA49CA4C1D533FA9001DC190 /* RANE_App.xcdatamodeld in Sources */,
+				A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */,
+				A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
