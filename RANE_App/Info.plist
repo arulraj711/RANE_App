@@ -48,5 +48,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>Base_Url</key>
+	<string>http://fullintel.com/3.1.0/api/v1/</string>
 </dict>
 </plist>

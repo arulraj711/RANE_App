@@ -7,20 +7,224 @@
 //
 
 import Foundation
+import AFNetworking
 import Alamofire
+
+
 
 
 class WebService: NSObject {
     
     
-    
+    func getBaseURL() -> String {
+        var myDict: NSDictionary?
+        
+        
+        
+        if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist") {
+            myDict = NSDictionary(contentsOfFile: path)
+        }
+        print(myDict)
+        print(myDict!["Base_Url"])
+        
+        let baseURLString:String = myDict!["Base_Url"] as! String
+        
+        return baseURLString
+    }
     
     func mySimpleFunction() {
         print("mySimpleFunction is called");
     }
     
     
+    func callPostServiceMethod() {
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate")!)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.HTTPMethod = "POST"
+        
+        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
+        
+        Alamofire.request(request)
+            .responseJSON { response in
+                print("request--->",response.request)  // original URL request
+                print("response--->",response.response) // URL response
+                print("data--->",response.data)     // server data
+                print("result--->",response.result)   // result of response serialization
+                
+                if let JSON = response.result.value {
+                    print("JSON: \(JSON)")
+                }
+        }
+    }
+    
+    
+    func callGetServiceMethod() {
+        Alamofire.request(.GET, "http://fullintel.com/3.1.0/api/v1/customer/menu?security_token=dfasfsdfgfdgdfghd", parameters: nil)
+                    .responseJSON { response in
+                                        print("request--->",response.request)  // original URL request
+                                        print("response--->",response.response) // URL response
+                                        print("data--->",response.data)     // server data
+                                        print("result--->",response.result)   // result of response serialization
+        
+                                        if let JSON = response.result.value {
+                                            print("JSON: \(JSON)")
+                                        }
+                                    }
+    }
+    
+    
+    
+    func loginWebService(functionName: String, parameters:NSDictionary) {
+        let urlString = getBaseURL()+functionName
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.HTTPMethod = "POST"
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+        
+        Alamofire.request(request)
+            .responseJSON { response in
+                print("request--->",response.request)  // original URL request
+                print("response--->",response.response) // URL response
+                print("data--->",response.data)     // server data
+                print("result--->",response.result)   // result of response serialization
+                
+                if let JSON = response.result.value {
+                    print("JSON: \(JSON)")
+                }
+        }
+    }
+    
     func loginWebServiceCall() {
+        
+        
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: getBaseURL())!)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.HTTPMethod = "POST"
+        
+        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
+
+        Alamofire.request(request)
+                    .responseJSON { response in
+                        print("request--->",response.request)  // original URL request
+                        print("response--->",response.response) // URL response
+                        print("data--->",response.data)     // server data
+                        print("result--->",response.result)   // result of response serialization
+        
+                        if let JSON = response.result.value {
+                            print("JSON: \(JSON)")
+                        }
+                }
+        
+//        let request = NSMutableURLRequest(URL: NSURL(string: "http://fullintel.com/3.1.0/api/v1/userauthentication")!)
+//        request.HTTPMethod = "POST"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        let postString = "id=13&name=Jack"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+//        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+//            guard error == nil && data != nil else {                                                          // check for fundamental networking error
+//                print("error=\(error)")
+//                return
+//            }
+//            
+//            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 {           // check for http errors
+//                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+//                print("response = \(response)")
+//            }
+//            
+//            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//            print("responseString = \(responseString)")
+//        }
+//        task.resume()
+
+        
+        
+        
+//        let reply = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:nil)
+//        
+//        let results = NSString(data:reply!, encoding:NSUTF8StringEncoding)
+//        println("API Response: \(results)")
+        
+        
+        
+        
+      //  Alamofire.request(URLRequestConvertible)
+        
+//        let urlString = "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate"
+//        let url = NSURL(string: urlString)
+//        let URLRequest = NSMutableURLRequest(URL: url!)
+//        
+//        URLRequest.HTTPMethod = "POST"
+//        URLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        URLRequest.timeoutInterval = NSTimeInterval(10 * 1000)
+//        //URLRequest.HTTPBody =
+//        
+// 
+//        Alamofire.request(URLRequest)
+//            .responseJSON { response in
+//                print("request--->",response.request)  // original URL request
+//                print("response--->",response.response) // URL response
+//                print("data--->",response.data)     // server data
+//                print("result--->",response.result)   // result of response serialization
+//                
+//                if let JSON = response.result.value {
+//                    print("JSON: \(JSON)")
+//                }
+//        }
+        
+        
+//        Alamofire.request(.GET, "http://fullintel.com/3.1.0/api/v1/customer/menu?security_token=dfasfsdfgfdgdfghd", parameters: nil)
+//            .responseJSON { response in
+//                                print("request--->",response.request)  // original URL request
+//                                print("response--->",response.response) // URL response
+//                                print("data--->",response.data)     // server data
+//                                print("result--->",response.result)   // result of response serialization
+//                
+//                                if let JSON = response.result.value {
+//                                    print("JSON: \(JSON)")
+//                                }
+//                            }
+        
+//        let urlString = "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate"
+//        if let url = NSURL(string: urlString) {
+//            let URLRequest = NSMutableURLRequest(URL: url)
+//            URLRequest.setValue("MY_API_KEY", forHTTPHeaderField: "X-Mashape-Key")
+//            URLRequest.HTTPMethod = "POST"
+//            let bodyData = "key1=value&key2=value&key3=value"
+//            URLRequest.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding);
+//
+//            print("request-->",URLRequest);
+//            Alamofire.request(URLRequest)
+//            .responseJSON { response in
+//                print("request--->",response.request)  // original URL request
+//                print("response--->",response.response) // URL response
+//                print("data--->",response.data)     // server data
+//                print("result--->",response.result)   // result of response serialization
+//                
+//                if let JSON = response.result.value {
+//                    print("JSON: \(JSON)")
+//                }
+//            }
+//
+//        }
+        
+        
+//        Alamofire.request(.POST, "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate", parameters: ["password" : "Welcome0804!",
+//            "email" : "kristine.eissing@ranenetwork.com"])
+//            .responseJSON { response in
+//                print("request--->",response.request)  // original URL request
+//                print("response--->",response.response) // URL response
+//                print("data--->",response.data)     // server data
+//                print("result--->",response.result)   // result of response serialization
+//                
+//                if let JSON = response.result.value {
+//                    print("JSON: \(JSON)")
+//                }
+//        }
+        
         
         
 //        Alamofire.request(<#T##URLRequest: URLRequestConvertible##URLRequestConvertible#>)
@@ -29,19 +233,61 @@ class WebService: NSObject {
 //        
 //        Alamofire.request(<#T##method: Method##Method#>, <#T##URLString: URLStringConvertible##URLStringConvertible#>, parameters: <#T##[String : AnyObject]?#>, encoding: <#T##ParameterEncoding#>, headers: <#T##[String : String]?#>)
         
-        Alamofire.request(.POST, "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate", parameters: ["password" : "Welcome0804!",
-            "email" : "kristine.eissing@ranenetwork.com"])
-            .validate(contentType: ["application/json"])
-            .responseJSON { response in
-                print(response.request)  // original URL request
-                print(response.response) // URL response
-                print(response.data)     // server data
-                print(response.result)   // result of response serialization
-                
-                if let JSON = response.result.value {
-                    print("JSON: \(JSON)")
-                }
-        }
+        
+//        Alamofire.request(.POST, "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate")
+//            .validate(contentType: ["application/json"])
+//            .responseJSON { response in
+//            switch response.result {
+//            case .Success:
+//                print("Validation Successful")
+//            case .Failure(let error):
+//                print(error)
+//            }
+//        }
+        
+        
+//        Alamofire.request(.GET, "https://httpbin.org/get", parameters: ["foo": "bar"])
+//            .validate()
+//            .responseJSON { response in
+//                switch response.result {
+//                case .Success:
+//                    print("Validation Successful")
+//                case .Failure(let error):
+//                    print(error)
+//                }
+//        }
+//
+//        
+//        let parameters = [
+//            "foo": "bar",
+//            "baz": ["a", 1],
+//            "qux": [
+//                "x": 1,
+//                "y": 2,
+//                "z": 3
+//            ]
+//        ]
+//        
+//        Alamofire.request(.POST, "https://httpbin.org/post", parameters: parameters).responseJSON(completionHandler: <#T##Response<AnyObject, NSError> -> Void#>)
+        
+//        Alamofire.Manager.sharedInstance.session.configuration
+//            .HTTPAdditionalHeaders?.updateValue("application/json",
+//                                                forKey: "Content-Type")
+//        
+        
+        
+//       Alamofire.request(.POST, "http://httpbin.org/get", parameters: ["foo": "bar"], encoding: Alamofire.ParameterEncoding.URL)
+//        .responseJSON { response in
+//                            print("request--->",response.request)  // original URL request
+//                            print("response--->",response.response) // URL response
+//                            print("data--->",response.data)     // server data
+//                            print("result--->",response.result)   // result of response serialization
+//            
+//                            if let JSON = response.result.value {
+//                                print("JSON: \(JSON)")
+//                            }
+//                    }
+        
         
         
 //        let urlString = "http://example.com/file.php"

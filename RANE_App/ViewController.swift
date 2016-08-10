@@ -21,15 +21,14 @@ class ViewController: UIViewController {
         self.outerView.layer.cornerRadius = 6.0;
         
         //WebService().mySimpleFunction()
-        //WebService().loginWebServiceCall()
+       // WebService().loginWebServiceCall()
+        
+        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+        
+        WebService().loginWebService("userauthentication", parameters: dictionary)
         
         
-        
-        if let url = NSURL(string: "http://webartesanal.com/lima-soul-demo/templates/Blue/HTML/img/icon-set/48x48/icon-apple.png") {
-            if let data = NSData(contentsOfURL: url) {
-                testImage.image = UIImage(data: data)
-            }        
-        }
+       
         
         
     }
