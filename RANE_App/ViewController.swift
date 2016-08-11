@@ -38,6 +38,9 @@ class ViewController: UIViewController {
        // WebService().loginWebService("userauthentication", parameters: dictionary)
         
         
+        print(logoImage.frame.size.width)
+        print(logoImage.frame.size.height)
+        
         if let url = NSURL(string: "https://s3.amazonaws.com/ranecloudwp/blog/wp-content/uploads/2016/06/09191314/rane_horz-1-2.png") {
             if let data = NSData(contentsOfURL: url) {
                 logoImage.image = UIImage(data: data)

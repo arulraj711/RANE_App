@@ -11,11 +11,24 @@ import UIKit
 class MenuViewController: UIViewController {
 
     @IBOutlet var menuTableView: UITableView!
-    var items: [String] = ["We", "Heart", "Swift"]
+    var items: [String] = ["Daily Digest", "RiskBook", "Company News","Industry News","Legal & Market Intelligence","Regulatory","Daily Digest Archive","Saved For Later","Marked Important"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.menuTableView.registerClass(CustomMenuCell.self, forCellReuseIdentifier: "cell")
         // Do any additional setup after loading the view.
+        
+        self.navigationItem.setHidesBackButton(true, animated:true);
+        
+        if let url = NSURL(string: "https://s3.amazonaws.com/ranecloudwp/blog/wp-content/uploads/2016/06/09191314/rane_horz-1-2.png") {
+            if let data = NSData(contentsOfURL: url) {
+                let logo = UIImage(data: data)
+                let imageView = UIImageView(image:logo)
+                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+                self.navigationItem.titleView = imageView
+            }
+        }
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
