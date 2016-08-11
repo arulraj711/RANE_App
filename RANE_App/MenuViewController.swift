@@ -18,16 +18,23 @@ class MenuViewController: UIViewController {
         
         self.navigationItem.setHidesBackButton(true, animated:true);
         
-        if let url = NSURL(string: "https://s3.amazonaws.com/ranecloudwp/blog/wp-content/uploads/2016/06/09191314/rane_horz-1-2.png") {
-            if let data = NSData(contentsOfURL: url) {
-                let logo = UIImage(data: data)
-                let imageView = UIImageView(image:logo)
-                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
-                self.navigationItem.titleView = imageView
-            }
-        }
+//        if let url = NSURL(string: "https://s3.amazonaws.com/ranecloudwp/blog/wp-content/uploads/2016/06/09191314/rane_horz-1-2.png") {
+//            if let data = NSData(contentsOfURL: url) {
+//                let logo = UIImage(data: data)
+//                let imageView = UIImageView(image:logo)
+//                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+//                self.navigationItem.titleView = imageView
+//            }
+//        }
         
         
+        let imageName = "loginLogo"
+        let image = UIImage(named: imageName)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 150, y: 0, width: self.view.frame.size.width-300, height: 35)
+        imageView.backgroundColor = UIColor.redColor()
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+        self.navigationItem.titleView = imageView
         
     }
 
