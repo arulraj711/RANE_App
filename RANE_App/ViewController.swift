@@ -33,9 +33,13 @@ class ViewController: UIViewController {
         userInfoView.layer.borderColor = UIColor.lightGrayColor().CGColor;
         userInfoView.layer.borderWidth = 1;
         
-        //let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
         
-       // WebService().loginWebService("userauthentication", parameters: dictionary)
+        WebService().loginWebService("userauthentication", parameters: dictionary)
+        
+        
+//        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+//        WebServiceManager().loginWebServiceManager(dictionary)
         
         
 //        print(logoImage.frame.size.width)
