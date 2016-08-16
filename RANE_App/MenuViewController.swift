@@ -79,6 +79,35 @@ class MenuViewController: UIViewController {
         
     }
 
+//    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//        print("textFieldShouldReturn")
+//        return false
+//    }
+//    
+//    
+//    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+//        print("searchBarTextDidBeginEditing")
+//    }
+//    
+//    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+//        print("searchBarTextDidEndEditing")
+//    }
+//    
+//    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+//        print("searchBarCancelButtonClicked")
+//    }
+//    
+//    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+//        print("searchBarSearchButtonClicked")
+//    }
+//    
+//    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+//        
+//        print("searchBar")
+//    }
+    
+    
+    
 
     /*
     // MARK: - Navigation

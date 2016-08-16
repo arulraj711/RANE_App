@@ -22,8 +22,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         loginButton.layer.masksToBounds = true;
         loginButton.layer.cornerRadius = 6.0;
@@ -71,33 +71,45 @@ class ViewController: UIViewController {
             passwordField.becomeFirstResponder()
         } else {
             self.view.endEditing(true)
+            
         }
         return false
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            if view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-            else {
-                
-            }
-        }
-        
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            if view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-            else {
-                
-            }
-        }
-    }
+//    func keyboardWillShow(sender: NSNotification) {
+//        self.view.frame.origin.y -= 150
+//    }
+//    
+//    func keyboardWillHide(sender: NSNotification) {
+//        self.view.frame.origin.y += 150
+//    }
+//    func keyboardWillShow(notification: NSNotification) {
+//        
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            print("keyboard show height",keyboardSize.height)
+//            print("view y",view.frame.origin.y)
+//            if view.frame.origin.y == 0{
+//                self.view.frame.origin.y -= keyboardSize.height
+//            }
+//            else {
+//                
+//            }
+//        }
+//        
+//    }
+//    
+//    func keyboardWillHide(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            print("keyboard hide height",keyboardSize.height)
+//            print("view y",view.frame.origin.y)
+//            if view.frame.origin.y != 0 {
+//                self.view.frame.origin.y += keyboardSize.height
+//            }
+//            else {
+//                
+//            }
+//        }
+//    }
     
     /* Code for draw path over the view
     func configureEmailField(textfield: UITextField) {
