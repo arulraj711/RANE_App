@@ -10,6 +10,7 @@ import UIKit
 
 class MenuViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var menuTableView: UITableView!
     var items: [String] = ["Daily Digest", "RiskBook", "Company News","Industry News","Legal & Market Intelligence","Regulatory","Daily Digest Archive","Saved For Later","Marked Important"]
     override func viewDidLoad() {
@@ -34,6 +35,8 @@ class MenuViewController: UIViewController {
         imageView.contentMode = UIViewContentMode.ScaleAspectFit;
         self.navigationItem.titleView = imageView
         
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
     }
 
     override func didReceiveMemoryWarning() {

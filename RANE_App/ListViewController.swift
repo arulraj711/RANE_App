@@ -26,7 +26,7 @@ class ListViewController: UIViewController {
         
         let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
                                        style: UIBarButtonItemStyle.Plain ,
-                                       target: self, action: Selector("OnMenuClicked"))
+                                       target: self, action: #selector(ListViewController.OnMenuClicked))
         
         self.navigationItem.leftBarButtonItem = menu_button_
     }
@@ -64,7 +64,7 @@ class ListViewController: UIViewController {
         let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 52))
         //if (section == integerRepresentingYourSectionOfInterest) {
             headerView.backgroundColor = UIColor.whiteColor()
-        let label = UILabel(frame: CGRectMake(20, 0, tableView.bounds.size.width-20, 52))
+        let label = UILabel(frame: CGRectMake(20, 0, tableView.bounds.size.width-60, 52))
         if(section == 0) {
             label.text = "COMPANY NEWS"
         } else if(section == 1) {
@@ -73,6 +73,14 @@ class ListViewController: UIViewController {
         
         label.font = UIFont(name:"OpenSans-Semibold", size: 14)
         label.textColor = UIColor.blackColor()
+        
+        var imageViewObject :UIImageView
+        imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 16, 8, 20));
+        imageViewObject.image = UIImage(named:"expandbutton")
+        headerView.addSubview(imageViewObject)
+        
+        
+        
         headerView.addSubview(label)
         return headerView
     }

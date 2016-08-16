@@ -239,6 +239,7 @@
                     <navigationItem key="navigationItem" id="YuT-kf-fcI"/>
                     <connections>
                         <outlet property="menuTableView" destination="cd5-XP-ZSN" id="Hrs-2w-qoO"/>
+                        <outlet property="searchBar" destination="uAN-iS-FXo" id="dOt-18-MJo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gj-FE-ELi" userLabel="First Responder" sceneMemberID="firstResponder"/>

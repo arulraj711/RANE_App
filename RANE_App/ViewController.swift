@@ -22,18 +22,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         loginButton.layer.masksToBounds = true;
         loginButton.layer.cornerRadius = 6.0;
         
         userInfoView.layer.masksToBounds = true;
         userInfoView.layer.cornerRadius = 6.0;
-        userInfoView.layer.borderColor = UIColor.lightGrayColor().CGColor;
+        userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
         
-        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+        //let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
         
         //WebService().loginWebService("userauthentication", parameters: dictionary)
         
