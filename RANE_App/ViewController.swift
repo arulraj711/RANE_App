@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         
         let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
         
-        WebService().loginWebService("userauthentication", parameters: dictionary)
+        //WebService().loginWebService("userauthentication", parameters: dictionary)
         
         
 //        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]

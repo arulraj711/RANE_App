@@ -74,33 +74,33 @@ class WebService: NSObject {
     
     
     
-    func loginWebService(functionName: String, parameters:NSDictionary) -> AnyObject{
-        let urlString = getBaseURL()+functionName
-        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.HTTPMethod = "POST"
-        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
-        var JSON: AnyObject?
-        print("before API Call")
-        Alamofire.request(request)
-            .responseJSON { response in
-                print("response")
-                print(response)
-                print("request--->",response.request)  // original URL request
-                print("response--->",response.response) // URL response
-                print("data--->",response.data)     // server data
-                print("result--->",response.result)   // result of response serialization
-                
-//                if let JSON = response.result.value {
-//                    print("JSON: \(JSON)")
-//                }
-                print("before assigning",response.result.value)
-//                JSON = response.result.value
-//                print("result",JSON)
-                
-        }
-       
-    }
+//    func loginWebService(functionName: String, parameters:NSDictionary) -> AnyObject{
+//        let urlString = getBaseURL()+functionName
+//        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+//        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//        request.HTTPMethod = "POST"
+//        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+//        var JSON: AnyObject?
+//        print("before API Call")
+//        Alamofire.request(request)
+//            .responseJSON { response in
+//                print("response")
+//                print(response)
+//                print("request--->",response.request)  // original URL request
+//                print("response--->",response.response) // URL response
+//                print("data--->",response.data)     // server data
+//                print("result--->",response.result)   // result of response serialization
+//                
+////                if let JSON = response.result.value {
+////                    print("JSON: \(JSON)")
+////                }
+//                print("before assigning",response.result.value)
+////                JSON = response.result.value
+////                print("result",JSON)
+//                
+//        }
+//       
+//    }
     
     func loginWebServiceCall() {
         

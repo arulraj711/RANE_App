@@ -22,7 +22,12 @@
 		BA49CA511D533FA9001DC190 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */; };
 		BA49CA5C1D533FA9001DC190 /* RANE_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA5B1D533FA9001DC190 /* RANE_AppTests.swift */; };
 		BA49CA671D533FAA001DC190 /* RANE_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */; };
+		BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */; };
+		BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */; };
+		BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */; };
+		BAC9FA581D62AD6C00D95E82 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA541D62AD6C00D95E82 /* OpenSans-Semibold.ttf */; };
 		BACA474C1D54B9F600D772ED /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACA474B1D54B9F600D772ED /* WebService.swift */; };
+		BAFECD071D62E6C60054A5CD /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAFECD061D62E6C60054A5CD /* OpenSans-Italic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +68,12 @@
 		BA49CA621D533FAA001DC190 /* RANE_AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RANE_AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RANE_AppUITests.swift; sourceTree = "<group>"; };
 		BA49CA681D533FAA001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		BAC9FA541D62AD6C00D95E82 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		BACA474B1D54B9F600D772ED /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		BAFECD061D62E6C60054A5CD /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		CB096B7EC73BB7F1F3AE23F1 /* Pods-RANE_App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RANE_App.release.xcconfig"; path = "Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App.release.xcconfig"; sourceTree = "<group>"; };
 		D10FF0799AE5D86B924B0897 /* Pods-RANE_App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RANE_App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App.debug.xcconfig"; sourceTree = "<group>"; };
 		F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RANE_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +147,7 @@
 		BA49CA421D533FA9001DC190 /* RANE_App */ = {
 			isa = PBXGroup;
 			children = (
+				BAC9FA501D62AD4800D95E82 /* CustomFonts */,
 				BA49CA431D533FA9001DC190 /* AppDelegate.swift */,
 				BA49CA451D533FA9001DC190 /* ViewController.swift */,
 				BA49CA471D533FA9001DC190 /* Main.storyboard */,
@@ -171,6 +182,18 @@
 				BA49CA681D533FAA001DC190 /* Info.plist */,
 			);
 			path = RANE_AppUITests;
+			sourceTree = "<group>";
+		};
+		BAC9FA501D62AD4800D95E82 /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
+				BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */,
+				BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */,
+				BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */,
+				BAFECD061D62E6C60054A5CD /* OpenSans-Italic.ttf */,
+				BAC9FA541D62AD6C00D95E82 /* OpenSans-Semibold.ttf */,
+			);
+			name = CustomFonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +306,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA49CA511D533FA9001DC190 /* LaunchScreen.storyboard in Resources */,
+				BAFECD071D62E6C60054A5CD /* OpenSans-Italic.ttf in Resources */,
 				BA49CA4E1D533FA9001DC190 /* Assets.xcassets in Resources */,
+				BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */,
+				BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */,
+				BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */,
+				BAC9FA581D62AD6C00D95E82 /* OpenSans-Semibold.ttf in Resources */,
 				BA49CA491D533FA9001DC190 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,7 +504,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "68035ddc-fccf-476e-9cdb-1648e69822b9";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -520,7 +548,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "68035ddc-fccf-476e-9cdb-1648e69822b9";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -543,7 +571,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranestage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "68035ddc-fccf-476e-9cdb-1648e69822b9";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
@@ -562,7 +590,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranestage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "68035ddc-fccf-476e-9cdb-1648e69822b9";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;

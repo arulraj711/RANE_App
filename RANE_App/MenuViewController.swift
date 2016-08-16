@@ -28,11 +28,9 @@ class MenuViewController: UIViewController {
 //        }
         
         
-        let imageName = "loginLogo"
+        let imageName = "nav_logo"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image!)
-        imageView.frame = CGRect(x: 150, y: 0, width: self.view.frame.size.width-300, height: 35)
-        imageView.backgroundColor = UIColor.redColor()
         imageView.contentMode = UIViewContentMode.ScaleAspectFit;
         self.navigationItem.titleView = imageView
         
@@ -54,11 +52,17 @@ class MenuViewController: UIViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomMenuCell
         
         
-        if let url = NSURL(string: "http://res.cloudinary.com/capestart/image/upload/v1470824285/octicons_4-3-0_star_360_0_000000_none_dprawn.png") {
-            if let data = NSData(contentsOfURL: url) {
-                cell.menuIconImage.image = UIImage(data: data)
-            }
-        }
+//        if let url = NSURL(string: "http://res.cloudinary.com/capestart/image/upload/v1470824285/octicons_4-3-0_star_360_0_000000_none_dprawn.png") {
+//            if let data = NSData(contentsOfURL: url) {
+//                cell.menuIconImage.image = UIImage(data: data)
+//            }
+//        }
+        
+        
+        let menuImage = UIImage(named: items[indexPath.row])
+        cell.menuIconImage.image = menuImage
+//        let imageView = UIImageView(image: image!)
+//        imageView.contentMode = UIViewContentMode.ScaleAspectFit;
         
         
         cell.menuName.text = items[indexPath.row]
