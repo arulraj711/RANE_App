@@ -124,7 +124,8 @@ class WebService: NSObject {
                             print("JSON: \(JSON)")
                         }
                 }
-        
+  
+        /* Test Webservice
 //        let request = NSMutableURLRequest(URL: NSURL(string: "http://fullintel.com/3.1.0/api/v1/userauthentication")!)
 //        request.HTTPMethod = "POST"
 //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -346,7 +347,7 @@ class WebService: NSObject {
 ////            }, failure: {
 ////                (task: NSURLSessionDataTask!, error: NSError!) in
 ////                println("error")
-////        })
+////        })*/
     }
     
 }

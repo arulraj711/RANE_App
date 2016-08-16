@@ -15,19 +15,14 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-       // self.navigationItem.setHidesBackButton(true, animated:true);
         let imageName = "nav_logo"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image!)
         imageView.contentMode = UIViewContentMode.ScaleAspectFit;
         self.navigationItem.titleView = imageView
-        
-        self.navigationItem.hidesBackButton = true
-        
         let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
                                        style: UIBarButtonItemStyle.Plain ,
                                        target: self, action: #selector(ListViewController.OnMenuClicked))
-        
         self.navigationItem.leftBarButtonItem = menu_button_
     }
 
@@ -53,7 +48,7 @@ class ListViewController: UIViewController {
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
-        
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
         //cell.textLabel?.text = "Section \(indexPath.section) Row \(indexPath.row)"
         
         return cell
@@ -61,33 +56,43 @@ class ListViewController: UIViewController {
     
     func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView!
     {
-        let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 52))
-        //if (section == integerRepresentingYourSectionOfInterest) {
-            headerView.backgroundColor = UIColor.whiteColor()
-        let label = UILabel(frame: CGRectMake(20, 0, tableView.bounds.size.width-60, 52))
+        let headerView:UIView = UIView()
+        let label:UILabel = UILabel()
+        let headerColorView:UIView = UIView()
+        var imageViewObject :UIImageView
         if(section == 0) {
+            headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
+            label.frame = CGRectMake(20, 21, tableView.bounds.size.width-60, 52)
+            headerColorView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20)
+            imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 36, 8, 20));
+            headerColorView.backgroundColor = UIColor.init(colorLiteralRed: 241/255, green: 241/255, blue: 245/255, alpha: 1)
             label.text = "COMPANY NEWS"
+            headerView.addSubview(headerColorView)
+            imageViewObject.image = UIImage(named:"expandbutton")
+            headerView.addSubview(imageViewObject)
         } else if(section == 1) {
+            headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
+            label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
+            imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 16, 8, 20));
             label.text = "INDUSTRY NEWS"
+            imageViewObject.image = UIImage(named:"expandbutton")
+            headerView.addSubview(imageViewObject)
         }
-        
+        headerView.backgroundColor = UIColor.whiteColor()
         label.font = UIFont(name:"OpenSans-Semibold", size: 14)
         label.textColor = UIColor.blackColor()
-        
-        var imageViewObject :UIImageView
-        imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 16, 8, 20));
-        imageViewObject.image = UIImage(named:"expandbutton")
-        headerView.addSubview(imageViewObject)
-        
-        
-        
         headerView.addSubview(label)
         return headerView
     }
     
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 52.0
+        if(section == 0) {
+            return 72.0
+        } else {
+            return 52.0
+        }
+        
     }
 
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
