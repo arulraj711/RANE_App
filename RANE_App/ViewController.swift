@@ -8,10 +8,10 @@
 
 import UIKit
 //import WebService
-
+import SwiftyJSON
 class ViewController: UIViewController {
     @IBOutlet var emailAddressField: UITextField!
-
+   
     @IBOutlet var userInfoView: UIView!
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var logoImage: UIImageView!
@@ -41,9 +41,18 @@ class ViewController: UIViewController {
 //        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
 //        WebServiceManager().loginWebServiceManager(dictionary)
         
+        emailAddressField.text = "kavin.xavier@capestart.com"
+        passwordField.text = "start"
         
-
         
+        if let myLoadedString = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
+            print(myLoadedString) // "Hello World"
+            dispatch_async(dispatch_get_main_queue(),{
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+        }
         
     }
 
@@ -92,6 +101,25 @@ class ViewController: UIViewController {
             else {
                 
             }
+        }
+    }
+    
+    @IBAction func loginButtonCick(sender: UIButton) {
+        
+        
+        let loginInputDictionary: NSMutableDictionary = NSMutableDictionary()
+        loginInputDictionary.setValue(emailAddressField.text, forKey: "email")
+        loginInputDictionary.setValue(passwordField.text, forKey: "password")
+        
+        WebServiceManager.sharedInstance.getRandomUser(loginInputDictionary) { (json:JSON) in
+           
+            NSUserDefaults.standardUserDefaults().setObject(json["securityToken"].stringValue, forKey: "securityToken")
+            dispatch_async(dispatch_get_main_queue(),{
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            
         }
     }
     

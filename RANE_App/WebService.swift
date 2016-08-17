@@ -7,126 +7,199 @@
 //
 
 import Foundation
-import Alamofire
+import SwiftyJSON
 
-
-
+typealias ServiceResponse = (JSON, NSError?) -> Void
 
 class WebService: NSObject {
     
     
-    func getBaseURL() -> String {
-        var myDict: NSDictionary?
+//    func getBaseURL() -> String {
+//        var myDict: NSDictionary?
+//        
+//        
+//        
+//        if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist") {
+//            myDict = NSDictionary(contentsOfFile: path)
+//        }
+//        print(myDict)
+//        print(myDict!["Base_Url"])
+//        
+//        let baseURLString:String = myDict!["Base_Url"] as! String
+//        print("test baseURL function")
+//        return baseURLString
+//    }
+//    
+//    func mySimpleFunction() {
+//        print("mySimpleFunction is called");
+//    }
+    
+    static let sharedInstance = WebService()
+    
+    let baseURL = "http://fullintel.com/3.1.0/api/v1/userauthentication"
+    
+    // MARK: Perform a GET Request
+    private func makeHTTPGetRequest(path: String, onCompletion: ServiceResponse) {
+        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         
+        let session = NSURLSession.sharedSession()
         
-        
-        if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist") {
-            myDict = NSDictionary(contentsOfFile: path)
-        }
-        print(myDict)
-        print(myDict!["Base_Url"])
-        
-        let baseURLString:String = myDict!["Base_Url"] as! String
-        print("test baseURL function")
-        return baseURLString
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            if let jsonData = data {
+                let json:JSON = JSON(data: jsonData)
+                onCompletion(json, error)
+            } else {
+                onCompletion(nil, error)
+            }
+        })
+        task.resume()
     }
     
-    func mySimpleFunction() {
-        print("mySimpleFunction is called");
-    }
-    
-    
-    func callPostServiceMethod() {
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate")!)
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+    // MARK: Perform a POST Request
+    func makeHTTPPostRequest(path: String, body: NSMutableDictionary, onCompletion: ServiceResponse) {
+        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+        
+        // Set the method to POST
         request.HTTPMethod = "POST"
-        
-        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
-        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
-        
-        Alamofire.request(request)
-            .responseJSON { response in
-                print("request--->",response.request)  // original URL request
-                print("response--->",response.response) // URL response
-                print("data--->",response.data)     // server data
-                print("result--->",response.result)   // result of response serialization
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        print("request--->",request)
+        do {
+            // Set the POST body for the request
+            let jsonBody = try NSJSONSerialization.dataWithJSONObject(body, options: .PrettyPrinted)
+            print("request body--->",body);
+            request.HTTPBody = jsonBody
+            let session = NSURLSession.sharedSession()
+            
+            let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
                 
-                if let JSON = response.result.value {
-                    print("JSON: \(JSON)")
+                if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+                    let statusCode = httpResponse.statusCode
+                    if(statusCode == 200) {
+                        print("success")
+                        if let jsonData = data {
+                            let json:JSON = JSON(data: jsonData)
+                            onCompletion(json, nil)
+                        } else {
+                            onCompletion(nil, error)
+                        }
+                    } else {
+                        print("failure")
+                    }
                 }
+                
+                
+                
+            })
+            task.resume()
+        } catch {
+            // Create your personal error
+            onCompletion(nil, nil)
         }
     }
     
-    
-    func callGetServiceMethod() {
-        Alamofire.request(.GET, "http://fullintel.com/3.1.0/api/v1/customer/menu?security_token=dfasfsdfgfdgdfghd", parameters: nil)
-                    .responseJSON { response in
-                                        print("request--->",response.request)  // original URL request
-                                        print("response--->",response.response) // URL response
-                                        print("data--->",response.data)     // server data
-                                        print("result--->",response.result)   // result of response serialization
-        
-                                        if let JSON = response.result.value {
-                                            print("JSON: \(JSON)")
-                                        }
-                                    }
-    }
-    
-    
-    
-//    func loginWebService(functionName: String, parameters:NSDictionary) -> AnyObject{
-//        let urlString = getBaseURL()+functionName
-//        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+//    func callPostServiceMethod() {
+//        let request = NSMutableURLRequest(URL: NSURL(string: "http://fullintel.com/3.1.0/api/v1/eti/customers/authenticate")!)
 //        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 //        request.HTTPMethod = "POST"
-//        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
-//        var JSON: AnyObject?
-//        print("before API Call")
+//        
+//        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+//        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
+//        
 //        Alamofire.request(request)
 //            .responseJSON { response in
-//                print("response")
-//                print(response)
 //                print("request--->",response.request)  // original URL request
 //                print("response--->",response.response) // URL response
 //                print("data--->",response.data)     // server data
 //                print("result--->",response.result)   // result of response serialization
 //                
-////                if let JSON = response.result.value {
-////                    print("JSON: \(JSON)")
-////                }
-//                print("before assigning",response.result.value)
-////                JSON = response.result.value
-////                print("result",JSON)
-//                
+//                if let JSON = response.result.value {
+//                    print("JSON: \(JSON)")
+//                }
 //        }
-//       
 //    }
-    
-    func loginWebServiceCall() {
-        
-        
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: getBaseURL())!)
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.HTTPMethod = "POST"
-        
-        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
-        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
-
-        Alamofire.request(request)
-                    .responseJSON { response in
-                        print("request--->",response.request)  // original URL request
-                        print("response--->",response.response) // URL response
-                        print("data--->",response.data)     // server data
-                        print("result--->",response.result)   // result of response serialization
-        
-                        if let JSON = response.result.value {
-                            print("JSON: \(JSON)")
-                        }
-                }
+//    
+//    
+//    func callGetServiceMethod() {
+//        Alamofire.request(.GET, "http://fullintel.com/3.1.0/api/v1/customer/menu?security_token=dfasfsdfgfdgdfghd", parameters: nil)
+//                    .responseJSON { response in
+//                                        print("request--->",response.request)  // original URL request
+//                                        print("response--->",response.response) // URL response
+//                                        print("data--->",response.data)     // server data
+//                                        print("result--->",response.result)   // result of response serialization
+//        
+//                                        if let JSON = response.result.value {
+//                                            print("JSON: \(JSON)")
+//                                        }
+//                                    }
+//    }
+//    
+//    
+//    
+//    func loginWebService(functionName: String, parameters:NSDictionary){
+//        let urlString = getBaseURL()+functionName
+//        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+//        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//        request.HTTPMethod = "POST"
+//        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+//        print("before API Call",urlString)
+//        var json: NSDictionary?
+////        Alamofire.request(request)
+////            .responseJSON { response in
+////                print("response")
+////                print(response)
+////                print("request--->",response.request)  // original URL request
+////                print("response--->",response.response) // URL response
+////                print("data--->",response.data)     // server data
+////                print("result--->",response.result)   // result of response serialization
+////                
+//////                if let JSON = response.result.value {
+//////                    print("JSON: \(JSON)")
+//////                }
+////                print("before assigning",response.result.value)
+//////                JSON = response.result.value
+//////                print("result",JSON)
+////                
+////                
+////                
+////                do {
+////                    json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: NSJSONReadingOptions()) as? NSDictionary
+////                } catch {
+////                    print(error)
+////                }
+////                print("inside block",json)
+////                
+////                
+////                
+////        }
+//       print("result",Alamofire.request(request).response)
+//        print("response JSON",Alamofire.request(request).responseJSON(completionHandler: reponse))
+//    }
+//    
+//    func loginWebServiceCall() {
+//        
+//        
+//        
+//        let request = NSMutableURLRequest(URL: NSURL(string: getBaseURL())!)
+//        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//        request.HTTPMethod = "POST"
+//        
+//        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
+//        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
+//
+//        Alamofire.request(request)
+//                    .responseJSON { response in
+//                        print("request--->",response.request)  // original URL request
+//                        print("response--->",response.response) // URL response
+//                        print("data--->",response.data)     // server data
+//                        print("result--->",response.result)   // result of response serialization
+//        
+//                        if let JSON = response.result.value {
+//                            print("JSON: \(JSON)")
+//                        }
+//                }
   
         /* Test Webservice
-//        let request = NSMutableURLRequest(URL: NSURL(string: "http://fullintel.com/3.1.0/api/v1/userauthentication")!)
+//        let request = NSMutableURLRequest(URL: NSURL(string: ""http://fullintel.com/3.1.0/api/v1/userauthentication)!)
 //        request.HTTPMethod = "POST"
 //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 //        let postString = "id=13&name=Jack"
@@ -350,4 +423,3 @@ class WebService: NSObject {
 ////        })*/
     }
     
-}

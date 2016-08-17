@@ -63,15 +63,27 @@ class MenuViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        dispatch_async(dispatch_get_main_queue(),{
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        self.view.window?.layer.addAnimation(transition,forKey:nil)
+            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                if(indexPath.row == 9) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                    NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
+                } else {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+
+            }
+        )
         
-        if(indexPath.row == 9) {
-            self.navigationController?.popViewControllerAnimated(true)
-        } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("listView") 
-           self.navigationController?.pushViewController(vc, animated: true)
-        }
-        
+        })
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {

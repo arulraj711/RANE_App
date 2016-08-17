@@ -101,7 +101,19 @@ class ListViewController: UIViewController {
     
     
     func OnMenuClicked() {
-        self.navigationController?.popViewControllerAnimated(true)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
+        
+        
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        
+        self.view.window?.layer.addAnimation(transition,forKey:nil)
+        self.presentViewController(vc, animated: false, completion: nil)
     }
     
    

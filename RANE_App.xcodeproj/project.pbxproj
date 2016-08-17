@@ -14,6 +14,7 @@
 		A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463F1D5B378E001D8097 /* MenuViewController.swift */; };
 		A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */; };
 		A0F1D1C71D5DDB99000B032B /* WebServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */; };
+		BA2C79731D64549900851BAE /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2C79721D64549900851BAE /* UserObject.swift */; };
 		BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA431D533FA9001DC190 /* AppDelegate.swift */; };
 		BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA451D533FA9001DC190 /* ViewController.swift */; };
 		BA49CA491D533FA9001DC190 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA471D533FA9001DC190 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		A0CF463F1D5B378E001D8097 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenuCell.swift; sourceTree = "<group>"; };
 		A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServiceManager.swift; sourceTree = "<group>"; };
+		BA2C79721D64549900851BAE /* UserObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
 		BA49CA401D533FA9001DC190 /* RANE_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RANE_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA49CA431D533FA9001DC190 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA49CA451D533FA9001DC190 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				A05C5C6A1D5C580000FA6817 /* ListViewController.swift */,
 				A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */,
 				A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */,
+				BA2C79721D64549900851BAE /* UserObject.swift */,
 			);
 			path = RANE_App;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0F1D1C71D5DDB99000B032B /* WebServiceManager.swift in Sources */,
+				BA2C79731D64549900851BAE /* UserObject.swift in Sources */,
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
 				A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */,
 				BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */,

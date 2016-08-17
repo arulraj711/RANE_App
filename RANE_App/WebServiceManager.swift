@@ -7,17 +7,20 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class WebServiceManager: NSObject {
 
-//    static let sharedInstance = WebServiceManager()
+    static let sharedInstance = WebServiceManager()
     
-    func loginWebServiceManager(inputparameters:NSDictionary) {
-//        print("test")
-//        let JSON:AnyObject? = WebService().loginWebService("userauthentication", parameters: inputparameters)
-//        print(JSON)
-       // let loginJSON = WebService().loginWebService(<#T##functionName: String##String#>, parameters: <#T##NSDictionary#>)
+    let baseURL = "http://fullintel.com/3.1.0/api/v1/userauthentication"
+    
+    func getRandomUser(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
+        let route = baseURL
+        WebService().makeHTTPPostRequest(route, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+        })
+        
         
     }
-    
 }

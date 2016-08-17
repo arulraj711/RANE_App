@@ -1,19 +1,28 @@
 PODS:
-  - Alamofire (3.4.0)
   - Crashlytics (3.7.2):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
+  - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.4)
   - Crashlytics
   - Fabric
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
+
+EXTERNAL SOURCES:
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+CHECKOUT OPTIONS:
+  SwiftyJSON:
+    :commit: 73670b94292b8d8496c398a973f56ac67789ba9f
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 868e3939619d4220b4f0a34632937eabb00c631b
+PODFILE CHECKSUM: 1a185c2ad8fbe6a0aef788fb49d373b29f3402d8
 
 COCOAPODS: 1.0.1

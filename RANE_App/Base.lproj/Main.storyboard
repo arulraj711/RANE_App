@@ -106,7 +106,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="FIh-AL-W62" kind="push" id="QUy-eF-nBc"/>
+                                            <action selector="loginButtonCick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="av9-v5-Jcg"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -151,7 +151,7 @@
         <!--Menu View Controller-->
         <scene sceneID="zNj-My-ogQ">
             <objects>
-                <viewController id="FIh-AL-W62" customClass="MenuViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="menuView" id="FIh-AL-W62" customClass="MenuViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UDH-ev-wZ0"/>
                         <viewControllerLayoutGuide type="bottom" id="PKC-7s-Irj"/>
@@ -236,6 +236,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YuT-kf-fcI"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="menuTableView" destination="cd5-XP-ZSN" id="Hrs-2w-qoO"/>
                         <outlet property="searchBar" destination="uAN-iS-FXo" id="t3Y-B1-n9M"/>
