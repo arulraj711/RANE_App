@@ -11,7 +11,9 @@ import UIKit
 class CustomListCell: UITableViewCell {
 
     @IBOutlet var articleTitle: UILabel!
-    @IBOutlet var moduleName: UILabel!
+    @IBOutlet var fieldName: UILabel!
+    @IBOutlet weak var articleDescription: UILabel!
+    @IBOutlet weak var outletName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

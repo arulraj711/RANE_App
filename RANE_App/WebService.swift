@@ -11,6 +11,8 @@ import SwiftyJSON
 
 typealias ServiceResponse = (JSON, NSError?) -> Void
 
+
+
 class WebService: NSObject {
     
     
@@ -36,12 +38,15 @@ class WebService: NSObject {
     
     static let sharedInstance = WebService()
     
-    let baseURL = "http://fullintel.com/3.1.0/api/v1/userauthentication"
+    let baseURL = "http://stageapi.fullintel.com/3.4.0/api/v1/"
     
     // MARK: Perform a GET Request
-    private func makeHTTPGetRequest(path: String, onCompletion: ServiceResponse) {
-        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+    func makeHTTPGetRequest(functionName: String, onCompletion: ServiceResponse) {
         
+        let urlString = baseURL+functionName
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        print("get request--->",request)
         let session = NSURLSession.sharedSession()
         
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
@@ -56,9 +61,9 @@ class WebService: NSObject {
     }
     
     // MARK: Perform a POST Request
-    func makeHTTPPostRequest(path: String, body: NSMutableDictionary, onCompletion: ServiceResponse) {
-        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
-        
+    func makeHTTPPostRequest(functionName: String, body: NSMutableDictionary, onCompletion: ServiceResponse) {
+        let urlString = baseURL+functionName
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         // Set the method to POST
         request.HTTPMethod = "POST"
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")

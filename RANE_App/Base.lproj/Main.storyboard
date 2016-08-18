@@ -371,8 +371,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="articleDescription" destination="nu9-dP-GoE" id="bSv-pw-WIG"/>
                                             <outlet property="articleTitle" destination="1Vk-9f-Nyq" id="gaw-kR-IA0"/>
-                                            <outlet property="moduleName" destination="U63-2F-d8q" id="d7W-Pg-my4"/>
+                                            <outlet property="fieldName" destination="U63-2F-d8q" id="iqa-AS-oVm"/>
+                                            <outlet property="outletName" destination="oRS-h6-IPQ" id="wpY-F8-irm"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

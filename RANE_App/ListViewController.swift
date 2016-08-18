@@ -7,14 +7,23 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class ListViewController: UIViewController {
 
     @IBOutlet weak var listNavigationBarItem: UINavigationItem!
     @IBOutlet var listTableView: UITableView!
+    var items = [ArticleObject]()
+    
+    let groupedArticleArrayList: NSMutableArray = NSMutableArray();
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        let myCustomViewController: ViewController = ViewController(nibName: nil, bundle: nil)
+//        let getThatValue = myCustomViewController.menuItems
+//        print("menu items",getThatValue)
+        
+        
         // Do any additional setup after loading the view.
         let imageName = "nav_logo"
         let image = UIImage(named: imageName)
@@ -26,8 +35,39 @@ class ListViewController: UIViewController {
                                        target: self, action: #selector(ListViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
         
+       
+        
+        self.dailyDigestAPICall(0)
     }
 
+    
+    func group(menuArray:[MenuObject],articleArray:[ArticleObject]) {
+        print("incoming article count",articleArray.count)
+        self.groupedArticleArrayList.removeAllObjects()
+        for menu in menuArray {
+            let groupedArticleArray = self.groupArticles(menu.companyId, articletypeId: menu.menuId, articleArray: articleArray)
+                if(groupedArticleArray.count != 0) {
+                    let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                    articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
+                    articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+                    self.groupedArticleArrayList.addObject(articleGroupDictionary)
+                }
+        }
+//        print("after updating--->",self.groupedArticleArrayList)
+    }
+    
+    func groupArticles(companyId:Int,articletypeId:Int,articleArray:[ArticleObject])-> [ArticleObject]{
+        var tempArray = [ArticleObject]()
+        for article in articleArray {
+            if(article.articleTypeId == articletypeId && article.companyId == companyId) {
+                tempArray.append(article)
+            } else {
+                continue
+            }
+        }
+        return tempArray
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -37,23 +77,7 @@ class ListViewController: UIViewController {
     // MARK: - Table view data source
     
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
-    }
-    
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Section \(section)"
-    }
-    
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        //cell.textLabel?.text = "Section \(indexPath.section) Row \(indexPath.row)"
-        
-        return cell
+        return self.groupedArticleArrayList.count
     }
     
     func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView!
@@ -62,24 +86,24 @@ class ListViewController: UIViewController {
         let label:UILabel = UILabel()
         let headerColorView:UIView = UIView()
         var imageViewObject :UIImageView
+        let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(section) as! NSDictionary
         if(section == 0) {
             headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
             label.frame = CGRectMake(20, 21, tableView.bounds.size.width-60, 52)
             headerColorView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20)
             imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 36, 8, 20));
             headerColorView.backgroundColor = UIColor.init(colorLiteralRed: 241/255, green: 241/255, blue: 245/255, alpha: 1)
-            label.text = "COMPANY NEWS"
             headerView.addSubview(headerColorView)
             imageViewObject.image = UIImage(named:"expandbutton")
             headerView.addSubview(imageViewObject)
-        } else if(section == 1) {
+        } else {
             headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
             label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
             imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 16, 8, 20));
-            label.text = "INDUSTRY NEWS"
             imageViewObject.image = UIImage(named:"expandbutton")
             headerView.addSubview(imageViewObject)
         }
+        label.text = singleDic.objectForKey("sectionName") as? String
         headerView.backgroundColor = UIColor.whiteColor()
         label.font = UIFont(name:"OpenSans-Semibold", size: 14)
         label.textColor = UIColor.blackColor()
@@ -101,47 +125,97 @@ class ListViewController: UIViewController {
         return 20.0
     }
     
-    
-    func OnMenuClicked() {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        self.navigationController?.popViewControllerAnimated(true)
-        
-//        let <#name#> = <#value#>
-//        
-//        
-//        NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-//        for (UIViewController *aViewController in allViewControllers) {
-//            if ([aViewController isKindOfClass:[RequiredViewController class]]) {
-//                [self.navigationController popToViewController:aViewController animated:NO];
-//            }
-//        }
-        
-//        for (var i = 0; i < self.navigationController?.viewControllers.count; i++) {
-//            if(self.navigationController?.viewControllers[i].isKindOfClass(MenuViewController) == true) {
-//                
-//                self.navigationController?.popToViewController(self.navigationController!.viewControllers[i] as! MenuViewController, animated: true)
-//                
-//                break;
-//            }
-//        }
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc1 = storyboard.instantiateViewControllerWithIdentifier("menuView")
-//        self.navigationController?.showViewController(vc1, sender: nil)
-//        let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
-//        
-//        
-//        let transition = CATransition()
-//        transition.duration = 0.5
-//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//        transition.type = kCATransitionPush
-//        transition.subtype = kCATransitionFromLeft
-//        
-//        self.view.window?.layer.addAnimation(transition,forKey:nil)
-//        self.presentViewController(vc, animated: false, completion: nil)
+        let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(section) as! NSDictionary
+        let itemsArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
+        return (itemsArray?.count)!
     }
     
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CustomListCell
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(indexPath.section) as! NSDictionary
+    
+        let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
+        let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
+        cell.articleTitle.text = articleObject.articleTitle
+        cell.fieldName.text = articleObject.fieldsName
+        cell.articleDescription.text = articleObject.articleDescription
+        cell.outletName.text = articleObject.outletName
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("menu",WebServiceManager.sharedInstance.menuItems);
+    }
+    
+    
+    func OnMenuClicked() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView!, willDecelerate decelerate: Bool) {
+        let offset:CGPoint = self.listTableView.contentOffset;
+        let bounds:CGRect = self.listTableView.bounds
+        let size:CGSize = self.listTableView.contentSize
+        let inset:UIEdgeInsets = self.listTableView.contentInset
+        var y,h,reload_distance:CGFloat?
+        var pageNo:Int?
+        let mod:Int = self.items.count%10
+        
+    
+        y = offset.y + bounds.size.height - inset.bottom;
+        h = size.height;
+        reload_distance = 50;
+        
+        if(y > h! + reload_distance!) {
+            //reached end of scroll
+            if (mod == 0) {
+                pageNo  = self.items.count/10;
+                
+            } else {
+                let defaultValue:Int = 10-mod;
+                pageNo  = (self.items.count+defaultValue)/10;
+                
+            }
+            self.dailyDigestAPICall(pageNo!)
+            
+        } else {
+            //top scrolling
+        }
+    }
+
    
+    
+    func dailyDigestAPICall(pageNo:Int) {
+        if let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
+            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken, page: pageNo, size: 10){ (json:JSON) in
+                print("test",json)
+                // print("list response-->"+json)
+                if let results = json.array {
+                    for entry in results {
+                        self.items.append(ArticleObject(json: entry))
+                        //self.loginInputDictionary.setValue(self.items, forKey: "email")
+                    }
+                    self.group(WebServiceManager.sharedInstance.menuItems, articleArray: self.items)
+                    dispatch_async(dispatch_get_main_queue(),{
+                        //self.tableView.reloadData()
+                        self.listTableView.reloadData()
+                    })
+                } else {
+                    
+                    
+                    //let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
+                    //alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+                   // self.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+        }
+
+    }
+    
     
     /*
     // MARK: - Navigation

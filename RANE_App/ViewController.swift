@@ -11,13 +11,17 @@ import UIKit
 import SwiftyJSON
 class ViewController: UIViewController {
     @IBOutlet var emailAddressField: UITextField!
-   
     @IBOutlet var userInfoView: UIView!
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var logoImage: UIImageView!
     @IBOutlet var passwordField: UITextField!
     @IBOutlet weak var outerView: UIView!
     @IBOutlet weak var testImage: UIImageView!
+    //var menuItems = [MenuObject]()
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -101,9 +105,10 @@ class ViewController: UIViewController {
         loginInputDictionary.setValue(emailAddressField.text, forKey: "email")
         loginInputDictionary.setValue(passwordField.text, forKey: "password")
         
-        WebServiceManager.sharedInstance.getRandomUser(loginInputDictionary) { (json:JSON) in
-           
+        WebServiceManager.sharedInstance.callLoginWebService(loginInputDictionary) { (json:JSON) in
+            print("login response-->",json);
             NSUserDefaults.standardUserDefaults().setObject(json["securityToken"].stringValue, forKey: "securityToken")
+            NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
             dispatch_async(dispatch_get_main_queue(),{
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
@@ -111,7 +116,6 @@ class ViewController: UIViewController {
                 var controllers = self.navigationController?.viewControllers;
                 controllers?.append(vc)
                 controllers?.append(vc1)
-                
                 self.navigationController?.setViewControllers(controllers!, animated: true)
 
             })

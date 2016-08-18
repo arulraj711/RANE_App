@@ -13,7 +13,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var menuNavigationBarItem: UINavigationItem!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var menuTableView: UITableView!
-    var items: [String] = ["Daily Digest", "RiskBook", "Company News","Industry News","Legal & Market Intelligence","Regulatory","Daily Digest Archive","Saved For Later","Marked Important","Logout"]
+    var menuItems: [MenuObject]?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -29,8 +29,8 @@ class MenuViewController: UIViewController {
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
         searchBar.enablesReturnKeyAutomatically = false
-        
-        
+        menuItems = WebServiceManager.sharedInstance.menuItems
+        print("menu items",menuItems);
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //        let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
 //        self.navigationController?.pushViewController(vc, animated: false)
@@ -43,7 +43,7 @@ class MenuViewController: UIViewController {
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count
+        return self.menuItems!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -52,16 +52,20 @@ class MenuViewController: UIViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomMenuCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
-//        if let url = NSURL(string: "http://res.cloudinary.com/capestart/image/upload/v1470824285/octicons_4-3-0_star_360_0_000000_none_dprawn.png") {
-//            if let data = NSData(contentsOfURL: url) {
-//                cell.menuIconImage.image = UIImage(data: data)
-//            }
-//        }
+        let menu = self.menuItems![indexPath.row]
+        
+        if let url = NSURL(string: menu.menuIconURL) {
+            if let data = NSData(contentsOfURL: url) {
+                cell.menuIconImage.image = UIImage(data: data)
+            }
+        }
         
         
-        let menuImage = UIImage(named: items[indexPath.row])
-        cell.menuIconImage.image = menuImage
-        cell.menuName.text = items[indexPath.row]
+        
+        
+//        let menuImage = UIImage(named: items[indexPath.row])
+//        cell.menuIconImage.image = menuImage
+        cell.menuName.text = menu.menuName
         
         return cell
         
