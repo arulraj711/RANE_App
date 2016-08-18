@@ -10,6 +10,7 @@ import UIKit
 
 class MenuViewController: UIViewController {
 
+    @IBOutlet weak var menuNavigationBarItem: UINavigationItem!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var menuTableView: UITableView!
     var items: [String] = ["Daily Digest", "RiskBook", "Company News","Industry News","Legal & Market Intelligence","Regulatory","Daily Digest Archive","Saved For Later","Marked Important","Logout"]
@@ -28,6 +29,11 @@ class MenuViewController: UIViewController {
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
         searchBar.enablesReturnKeyAutomatically = false
+        
+        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
+//        self.navigationController?.pushViewController(vc, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,27 +69,42 @@ class MenuViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue(),{
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionPush
-        transition.subtype = kCATransitionFromRight
-        self.view.window?.layer.addAnimation(transition,forKey:nil)
-            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        //dispatch_async(dispatch_get_main_queue(),{
+        
+        
+        
+//        let transition = CATransition()
+//        transition.duration = 0.3
+//        //kCAMediaTimingFunctionEaseInEaseOut
+//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+//        transition.type = kCATransitionPush
+//        transition.subtype = kCATransitionFromRight
+//        self.view.window?.layer.addAnimation(transition,forKey:nil)
+//        dispatch_async(dispatch_get_main_queue(),{
+//            self.dismissViewControllerAnimated(false, completion: nil)
+//        })
+            //self.dismissViewControllerAnimated(true, completion: { () -> Void in
                 if(indexPath.row == 9) {
-                    self.navigationController?.popViewControllerAnimated(true)
+                    for (var i = 0; i < self.navigationController?.viewControllers.count; i++) {
+                        if(self.navigationController?.viewControllers[i].isKindOfClass(ViewController) == true) {
+                            
+                            self.navigationController?.popToViewController(self.navigationController!.viewControllers[i] as! ViewController, animated: true)
+                            
+                            break;
+                        }
+                    }
                     NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
                 } else {
+                    print(self.navigationController?.viewControllers)
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
 
-            }
-        )
+//            }
+//        )
         
-        })
+       // })
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {

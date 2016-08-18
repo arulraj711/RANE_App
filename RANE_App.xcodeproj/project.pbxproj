@@ -28,6 +28,7 @@
 		BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */; };
 		BAC9FA581D62AD6C00D95E82 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA541D62AD6C00D95E82 /* OpenSans-Semibold.ttf */; };
 		BACA474C1D54B9F600D772ED /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACA474B1D54B9F600D772ED /* WebService.swift */; };
+		BAD5C7481D64B29100C4746D /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD5C7471D64B29100C4746D /* CommonViewController.swift */; };
 		BAFECD071D62E6C60054A5CD /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAFECD061D62E6C60054A5CD /* OpenSans-Italic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		BAC9FA541D62AD6C00D95E82 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		BACA474B1D54B9F600D772ED /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		BAD5C7471D64B29100C4746D /* CommonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		BAFECD061D62E6C60054A5CD /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		CB096B7EC73BB7F1F3AE23F1 /* Pods-RANE_App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RANE_App.release.xcconfig"; path = "Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App.release.xcconfig"; sourceTree = "<group>"; };
 		D10FF0799AE5D86B924B0897 /* Pods-RANE_App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RANE_App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RANE_App/Pods-RANE_App.debug.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */,
 				A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */,
 				BA2C79721D64549900851BAE /* UserObject.swift */,
+				BAD5C7471D64B29100C4746D /* CommonViewController.swift */,
 			);
 			path = RANE_App;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				BA49CA4C1D533FA9001DC190 /* RANE_App.xcdatamodeld in Sources */,
 				A05C5C6D1D5C844400FA6817 /* CustomListCell.swift in Sources */,
 				A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */,
+				BAD5C7481D64B29100C4746D /* CommonViewController.swift in Sources */,
 				A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */,
 				A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */,
 			);

@@ -10,6 +10,7 @@ import UIKit
 
 class ListViewController: UIViewController {
 
+    @IBOutlet weak var listNavigationBarItem: UINavigationItem!
     @IBOutlet var listTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class ListViewController: UIViewController {
                                        style: UIBarButtonItemStyle.Plain ,
                                        target: self, action: #selector(ListViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,18 +104,41 @@ class ListViewController: UIViewController {
     
     func OnMenuClicked() {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
+        self.navigationController?.popViewControllerAnimated(true)
         
+//        let <#name#> = <#value#>
+//        
+//        
+//        NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+//        for (UIViewController *aViewController in allViewControllers) {
+//            if ([aViewController isKindOfClass:[RequiredViewController class]]) {
+//                [self.navigationController popToViewController:aViewController animated:NO];
+//            }
+//        }
         
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionPush
-        transition.subtype = kCATransitionFromLeft
+//        for (var i = 0; i < self.navigationController?.viewControllers.count; i++) {
+//            if(self.navigationController?.viewControllers[i].isKindOfClass(MenuViewController) == true) {
+//                
+//                self.navigationController?.popToViewController(self.navigationController!.viewControllers[i] as! MenuViewController, animated: true)
+//                
+//                break;
+//            }
+//        }
         
-        self.view.window?.layer.addAnimation(transition,forKey:nil)
-        self.presentViewController(vc, animated: false, completion: nil)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc1 = storyboard.instantiateViewControllerWithIdentifier("menuView")
+//        self.navigationController?.showViewController(vc1, sender: nil)
+//        let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
+//        
+//        
+//        let transition = CATransition()
+//        transition.duration = 0.5
+//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+//        transition.type = kCATransitionPush
+//        transition.subtype = kCATransitionFromLeft
+//        
+//        self.view.window?.layer.addAnimation(transition,forKey:nil)
+//        self.presentViewController(vc, animated: false, completion: nil)
     }
     
    

@@ -44,16 +44,6 @@ class ViewController: UIViewController {
         emailAddressField.text = "kavin.xavier@capestart.com"
         passwordField.text = "start"
         
-        
-        if let myLoadedString = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
-            print(myLoadedString) // "Hello World"
-            dispatch_async(dispatch_get_main_queue(),{
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
-        }
-        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -116,11 +106,20 @@ class ViewController: UIViewController {
             NSUserDefaults.standardUserDefaults().setObject(json["securityToken"].stringValue, forKey: "securityToken")
             dispatch_async(dispatch_get_main_queue(),{
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
-                self.navigationController?.pushViewController(vc, animated: true)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
+                let vc1 = storyboard.instantiateViewControllerWithIdentifier("listView")
+                var controllers = self.navigationController?.viewControllers;
+                controllers?.append(vc)
+                controllers?.append(vc1)
+                
+                self.navigationController?.setViewControllers(controllers!, animated: true)
+
             })
             
         }
+        //        self.navigationController?.setViewControllers(controllers, animated: true)
+       // [self.navigationController setViewControllers:controllers animated:YES];
+        
     }
     
     /* Code for draw path over the view
