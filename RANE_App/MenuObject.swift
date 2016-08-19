@@ -17,7 +17,7 @@ class MenuObject {
     
     required init(json: JSON) {
         menuId = json["id"].intValue
-        menuName = json["name"].stringValue
+        menuName = json["name"].stringValue.capitalizedString
         menuIconURL = json["iconUrl"].stringValue
         companyId = json["companyId"].intValue
     }

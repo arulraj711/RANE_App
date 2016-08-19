@@ -8,8 +8,9 @@
 
 import UIKit
 import Kingfisher
+import SwiftyJSON
 
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController,UIActionSheetDelegate {
 
     @IBOutlet weak var menuNavigationBarItem: UINavigationItem!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -32,9 +33,12 @@ class MenuViewController: UIViewController {
         searchBar.enablesReturnKeyAutomatically = false
         menuItems = WebServiceManager.sharedInstance.menuItems
         print("menu items",menuItems);
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
-//        self.navigationController?.pushViewController(vc, animated: false)
+        
+        
+        
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,8 +64,14 @@ class MenuViewController: UIViewController {
 //                cell.menuIconImage.image = UIImage(data: data)
 //            }
 //        }
+        if(menu.menuId == 101) {
+            cell.menuIconImage.kf_setImageWithURL(NSURL(string:"http://www.3daspect.com.au/here/wp-content/themes/gds3daspect/images/contact-icon-black-phone-90x90.png")!, placeholderImage: nil)
+        } else if(menu.menuId == 102) {
+            cell.menuIconImage.image = UIImage(named: "Logout")
+        } else {
+            cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
+        }
         
-        cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
         
         
 //        let menuImage = UIImage(named: items[indexPath.row])
@@ -74,44 +84,49 @@ class MenuViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //dispatch_async(dispatch_get_main_queue(),{
-        
-        
-        
-//        let transition = CATransition()
-//        transition.duration = 0.3
-//        //kCAMediaTimingFunctionEaseInEaseOut
-//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-//        transition.type = kCATransitionPush
-//        transition.subtype = kCATransitionFromRight
-//        self.view.window?.layer.addAnimation(transition,forKey:nil)
-//        dispatch_async(dispatch_get_main_queue(),{
-//            self.dismissViewControllerAnimated(false, completion: nil)
-//        })
-            //self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                if(indexPath.row == 9) {
-                    for (var i = 0; i < self.navigationController?.viewControllers.count; i++) {
-                        if(self.navigationController?.viewControllers[i].isKindOfClass(ViewController) == true) {
-                            
-                            self.navigationController?.popToViewController(self.navigationController!.viewControllers[i] as! ViewController, animated: true)
-                            
-                            break;
-                        }
-                    }
-                    NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
-                } else {
-                    print(self.navigationController?.viewControllers)
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
-                    self.navigationController?.pushViewController(vc, animated: true)
+
+        let menu = self.menuItems![indexPath.row]
+        if(menu.menuId == 101) {
+            let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1 844-RUN-RANE")
+            actionSheet.showInView(self.view)
+            
+        } else if(menu.menuId == 102) {
+            //logout action
+            
+            for viewCtlr in (self.navigationController?.viewControllers)! {
+                if(viewCtlr.isKindOfClass(ViewController) == true) {
+                    self.navigationController?.popToViewController(viewCtlr as! ViewController, animated: true)
+                    break;
                 }
 
-//            }
-//        )
-        
-       // })
+            }
+            
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
+        } else {
+            print(self.navigationController?.viewControllers)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
+    
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int)
+    {
+        switch (buttonIndex){
+        case 0:
+            print("Cancel")
+        case 1:
+            print("Save")
+            UIApplication.sharedApplication().openURL(NSURL(string: "tel://+18447867263")!)
+        default:
+            print("Default")
+            //Some code here..
+        }
+    }
+    
+    
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         return false
     }

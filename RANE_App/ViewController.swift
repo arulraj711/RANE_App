@@ -36,16 +36,8 @@ class ViewController: UIViewController {
         userInfoView.layer.cornerRadius = 6.0;
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
-        
-        //let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
-        
-        //WebService().loginWebService("userauthentication", parameters: dictionary)
-        
-        
-//        let dictionary = ["email": "arul.raj@capestart.com", "password": "start"]
-//        WebServiceManager().loginWebServiceManager(dictionary)
-        
-        emailAddressField.text = "kavin.xavier@capestart.com"
+  
+        emailAddressField.text = "testingrane@capestart.com"
         passwordField.text = "start"
         
     }

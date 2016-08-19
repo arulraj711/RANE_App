@@ -19,9 +19,12 @@ class WebServiceManager: NSObject {
         let loginAPIFunctionName = "userauthentication"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
             onCompletion(json as JSON)
-            if let myLoadedString = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
+            
+            let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+            
+            if(securityToken?.characters.count != 0) {
                 
-                self.callMenuWebService(myLoadedString) { (json:JSON) in }
+                self.callMenuWebService(securityToken!) { (json:JSON) in }
             }
         })
     }
@@ -36,10 +39,29 @@ class WebServiceManager: NSObject {
             self.menuItems.removeAll()
             if let results = json.array {
                 for entry in results {
-                    self.menuItems.append(MenuObject(json: entry))
+                    if(entry["subscribed"].boolValue == true) {
+                        
+                        if(entry["id"].intValue == 9) {
+                            //marked important
+                            continue
+                        } else if(entry["id"].intValue == 6) {
+                            //saved for later
+                            continue
+                        } else {
+                            self.menuItems.append(MenuObject(json: entry))
+                        }
+                    }
+                    
                     //self.loginInputDictionary.setValue(self.items, forKey: "email")
                 }
                 
+                let contactDictionary = ["id": "101", "name": "Contact RiskDesk"]
+                let contactJSONObj = JSON(contactDictionary)
+                self.menuItems.append(MenuObject(json: contactJSONObj))
+                
+                let logoutDictionary = ["id": "102", "name": "Logout"]
+                let logoutJSONObj = JSON(logoutDictionary)
+                self.menuItems.append(MenuObject(json: logoutJSONObj))
             }
             
             onCompletion(json as JSON)

@@ -44,8 +44,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         print("applicationDidBecomeActive")
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        if let myLoadedString = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
-            WebServiceManager.sharedInstance.callMenuWebService(myLoadedString) { (json:JSON) in }
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0 )  {
+            dispatch_async(dispatch_get_main_queue(),{
+                WebServiceManager.sharedInstance.callMenuWebService(securityToken!) { (json:JSON) in }
+            })
         }
     }
 

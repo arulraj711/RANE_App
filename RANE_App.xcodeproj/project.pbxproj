@@ -25,6 +25,7 @@
 		BA49CA511D533FA9001DC190 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */; };
 		BA49CA5C1D533FA9001DC190 /* RANE_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA5B1D533FA9001DC190 /* RANE_AppTests.swift */; };
 		BA49CA671D533FAA001DC190 /* RANE_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */; };
+		BA5EC5401D67064700A52CB4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC53F1D67064700A52CB4 /* Reachability.swift */; };
 		BA5EF53A1D66D35F004BE00E /* HRToast+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EF5391D66D35F004BE00E /* HRToast+UIView.swift */; };
 		BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */; };
 		BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */; };
@@ -76,6 +77,7 @@
 		BA49CA621D533FAA001DC190 /* RANE_AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RANE_AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RANE_AppUITests.swift; sourceTree = "<group>"; };
 		BA49CA681D533FAA001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA5EC53F1D67064700A52CB4 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		BA5EF5391D66D35F004BE00E /* HRToast+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HRToast+UIView.swift"; sourceTree = "<group>"; };
 		BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				BA2C79721D64549900851BAE /* UserObject.swift */,
 				BAD5C7471D64B29100C4746D /* CommonViewController.swift */,
 				BA2274EF1D65B6D4009E30BE /* MenuObject.swift */,
+				BA5EC53F1D67064700A52CB4 /* Reachability.swift */,
 			);
 			path = RANE_App;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				BA5EF53A1D66D35F004BE00E /* HRToast+UIView.swift in Sources */,
 				BAD5C7481D64B29100C4746D /* CommonViewController.swift in Sources */,
 				A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */,
+				BA5EC5401D67064700A52CB4 /* Reachability.swift in Sources */,
 				A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

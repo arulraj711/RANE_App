@@ -21,9 +21,10 @@ class CommonViewController: UIViewController {
                                            target: self, action: #selector(CommonViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
         
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         
-        if let myLoadedString = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
-            print(myLoadedString) // "Hello World"
+        if(securityToken!.characters.count != 0){
+            print(securityToken!.characters.count) // "Hello World"
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
             let vc1 = storyboard.instantiateViewControllerWithIdentifier("menuView")
@@ -36,13 +37,10 @@ class CommonViewController: UIViewController {
             self.navigationController?.setViewControllers(controllers!, animated: true)
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        
-        let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
-        
-        //self.navigationController?.addChildViewController(vc)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
+            self.navigationController?.addChildViewController(vc)
 
-        self.navigationController?.pushViewController(vc, animated: true)
+        //self.navigationController?.pushViewController(vc, animated: true)
         
 //        let vc1 = storyboard.instantiateViewControllerWithIdentifier("listView")
 //        

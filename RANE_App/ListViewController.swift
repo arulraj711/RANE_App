@@ -190,8 +190,9 @@ class ListViewController: UIViewController {
    
     
     func dailyDigestAPICall(pageNo:Int) {
-        if let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
-            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken, page: pageNo, size: 10){ (json:JSON) in
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
                 if let results = json.array {
                     print("results",results.count)
                     if(results.count != 0) {

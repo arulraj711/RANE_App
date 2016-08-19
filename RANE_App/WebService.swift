@@ -42,58 +42,14 @@ class WebService: NSObject {
     
     // MARK: Perform a GET Request
     func makeHTTPGetRequest(functionName: String, onCompletion: ServiceResponse) {
-        self.showProgressView() //show progressview
         let urlString = baseURL+functionName
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         print("get request--->",request)
         let session = NSURLSession.sharedSession()
-        
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            
-            if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
-                self.hideProgressView() //hide progressview
-                let statusCode = httpResponse.statusCode
-                if(statusCode == 200) {
-                    //success block
-                    if let jsonData = data {
-                        let json:JSON = JSON(data: jsonData)
-                        onCompletion(json, nil)
-                    } else {
-                        onCompletion(nil, error)
-                    }
-                } else {
-                    //failure block
-                    if let jsonData = data {
-                        let json:JSON = JSON(data: jsonData)
-                        if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
-                            dispatch_async(dispatch_get_main_queue(),{
-                                window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
-                            })
-                        }
-                    }
-                }
-            }
-        })
-        task.resume()
-    }
-    
-    // MARK: Perform a POST Request
-    func makeHTTPPostRequest(functionName: String, body: NSMutableDictionary, onCompletion: ServiceResponse) {
-        self.showProgressView() //show progressview
-        let urlString = baseURL+functionName
-        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
-        // Set the method to POST
-        request.HTTPMethod = "POST"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        print("request--->",request)
-        do {
-            // Set the POST body for the request
-            let jsonBody = try NSJSONSerialization.dataWithJSONObject(body, options: .PrettyPrinted)
-            print("request body--->",body);
-            request.HTTPBody = jsonBody
-            let session = NSURLSession.sharedSession()
-            
+        if(Reachability.isConnectedToNetwork()) {
+            self.showProgressView() //show progressview
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+                
                 if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
                     self.hideProgressView() //hide progressview
                     let statusCode = httpResponse.statusCode
@@ -111,21 +67,81 @@ class WebService: NSObject {
                             let json:JSON = JSON(data: jsonData)
                             if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
                                 dispatch_async(dispatch_get_main_queue(),{
-                                window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
+                                    window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
                                 })
                             }
                         }
-                        
                     }
                 }
-                
-                
-                
             })
             task.resume()
-        } catch {
-            // Create your personal error
-            onCompletion(nil, nil)
+        } else {
+            self.showNoNetworkErrorMessage()
+        }
+    }
+    
+    // MARK: Perform a POST Request
+    func makeHTTPPostRequest(functionName: String, body: NSMutableDictionary, onCompletion: ServiceResponse) {
+        let urlString = baseURL+functionName
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        // Set the method to POST
+        request.HTTPMethod = "POST"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        print("request--->",request)
+        
+        if(Reachability.isConnectedToNetwork()) {
+            self.showProgressView() //show progressview
+            do {
+                // Set the POST body for the request
+                let jsonBody = try NSJSONSerialization.dataWithJSONObject(body, options: .PrettyPrinted)
+                print("request body--->",body);
+                request.HTTPBody = jsonBody
+                let session = NSURLSession.sharedSession()
+                
+                let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+                    if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+                        self.hideProgressView() //hide progressview
+                        let statusCode = httpResponse.statusCode
+                        if(statusCode == 200) {
+                            //success block
+                            if let jsonData = data {
+                                let json:JSON = JSON(data: jsonData)
+                                onCompletion(json, nil)
+                            } else {
+                                onCompletion(nil, error)
+                            }
+                        } else {
+                            //failure block
+                            if let jsonData = data {
+                                let json:JSON = JSON(data: jsonData)
+                                if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+                                    dispatch_async(dispatch_get_main_queue(),{
+                                        window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
+                                    })
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                    
+                    
+                })
+                task.resume()
+            } catch {
+                // Create your personal error
+                onCompletion(nil, nil)
+            }
+        } else {
+            self.showNoNetworkErrorMessage()
+        }
+    }
+    
+    func showNoNetworkErrorMessage() {
+        if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+            dispatch_async(dispatch_get_main_queue(),{
+                window.makeToast(message: "Please check your network connection", duration: 1, position: HRToastPositionCenter, title: "Message")
+            })
         }
     }
     
