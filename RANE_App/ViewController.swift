@@ -46,6 +46,10 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBarHidden = true
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         self.navigationController?.navigationBarHidden = false;
     }
@@ -90,7 +94,8 @@ class ViewController: UIViewController {
     
     @IBAction func loginButtonCick(sender: UIButton) {
         
-        
+        self.emailAddressField.resignFirstResponder()
+        self.passwordField.resignFirstResponder()
         let loginInputDictionary: NSMutableDictionary = NSMutableDictionary()
         loginInputDictionary.setValue(emailAddressField.text, forKey: "email")
         loginInputDictionary.setValue(passwordField.text, forKey: "password")
