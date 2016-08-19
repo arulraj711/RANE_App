@@ -121,9 +121,6 @@ class ViewController: UIViewController {
             })
             
         }
-        //        self.navigationController?.setViewControllers(controllers, animated: true)
-       // [self.navigationController setViewControllers:controllers animated:YES];
-        
     }
     
     /* Code for draw path over the view

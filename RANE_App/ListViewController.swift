@@ -192,24 +192,27 @@ class ListViewController: UIViewController {
     func dailyDigestAPICall(pageNo:Int) {
         if let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken") {
             WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken, page: pageNo, size: 10){ (json:JSON) in
-                print("test",json)
-                // print("list response-->"+json)
                 if let results = json.array {
-                    for entry in results {
-                        self.items.append(ArticleObject(json: entry))
-                        //self.loginInputDictionary.setValue(self.items, forKey: "email")
+                    print("results",results.count)
+                    if(results.count != 0) {
+                        for entry in results {
+                            self.items.append(ArticleObject(json: entry))
+                        }
+                        self.group(WebServiceManager.sharedInstance.menuItems, articleArray: self.items)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            //self.tableView.reloadData()
+                            self.listTableView.reloadData()
+                        })
+
+                    } else {
+                        //handle empty article list
+                        dispatch_async(dispatch_get_main_queue(),{
+                        self.view.makeToast(message: "No more articles to display", duration: 1, position: HRToastPositionCenter, title: "Message")
+                        })
                     }
-                    self.group(WebServiceManager.sharedInstance.menuItems, articleArray: self.items)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        //self.tableView.reloadData()
-                        self.listTableView.reloadData()
-                    })
+                    
                 } else {
-                    
-                    
-                    //let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
-                    //alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-                   // self.presentViewController(alert, animated: true, completion: nil)
+    
                 }
             }
         }

@@ -42,19 +42,36 @@ class WebService: NSObject {
     
     // MARK: Perform a GET Request
     func makeHTTPGetRequest(functionName: String, onCompletion: ServiceResponse) {
-        
+        self.showProgressView() //show progressview
         let urlString = baseURL+functionName
-        
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         print("get request--->",request)
         let session = NSURLSession.sharedSession()
         
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            if let jsonData = data {
-                let json:JSON = JSON(data: jsonData)
-                onCompletion(json, error)
-            } else {
-                onCompletion(nil, error)
+            
+            if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+                self.hideProgressView() //hide progressview
+                let statusCode = httpResponse.statusCode
+                if(statusCode == 200) {
+                    //success block
+                    if let jsonData = data {
+                        let json:JSON = JSON(data: jsonData)
+                        onCompletion(json, nil)
+                    } else {
+                        onCompletion(nil, error)
+                    }
+                } else {
+                    //failure block
+                    if let jsonData = data {
+                        let json:JSON = JSON(data: jsonData)
+                        if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+                            dispatch_async(dispatch_get_main_queue(),{
+                                window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
+                            })
+                        }
+                    }
+                }
             }
         })
         task.resume()
@@ -62,6 +79,7 @@ class WebService: NSObject {
     
     // MARK: Perform a POST Request
     func makeHTTPPostRequest(functionName: String, body: NSMutableDictionary, onCompletion: ServiceResponse) {
+        self.showProgressView() //show progressview
         let urlString = baseURL+functionName
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         // Set the method to POST
@@ -76,11 +94,11 @@ class WebService: NSObject {
             let session = NSURLSession.sharedSession()
             
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-                
                 if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+                    self.hideProgressView() //hide progressview
                     let statusCode = httpResponse.statusCode
                     if(statusCode == 200) {
-                        print("success")
+                        //success block
                         if let jsonData = data {
                             let json:JSON = JSON(data: jsonData)
                             onCompletion(json, nil)
@@ -88,7 +106,16 @@ class WebService: NSObject {
                             onCompletion(nil, error)
                         }
                     } else {
-                        print("failure")
+                        //failure block
+                        if let jsonData = data {
+                            let json:JSON = JSON(data: jsonData)
+                            if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+                                dispatch_async(dispatch_get_main_queue(),{
+                                window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
+                                })
+                            }
+                        }
+                        
                     }
                 }
                 
@@ -99,6 +126,22 @@ class WebService: NSObject {
         } catch {
             // Create your personal error
             onCompletion(nil, nil)
+        }
+    }
+    
+    func showProgressView() {
+        if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+            dispatch_async(dispatch_get_main_queue(),{
+                window.makeToastActivity()
+            })
+        }
+    }
+    
+    func hideProgressView() {
+        if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+            dispatch_async(dispatch_get_main_queue(),{
+                window.hideToastActivity()
+            })
         }
     }
     
