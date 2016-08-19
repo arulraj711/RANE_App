@@ -19,7 +19,7 @@ func /(lhs: CGFloat, rhs: Int) -> CGFloat {
 /*
 *  Toast Config
 */
-let HRToastDefaultDuration  =   2.0
+let HRToastDefaultDuration  =   1.0
 let HRToastFadeDuration     =   0.2
 let HRToastHorizontalMargin : CGFloat  =   10.0
 let HRToastVerticalMargin   : CGFloat  =   10.0
@@ -29,8 +29,8 @@ let HRToastPositionTop      =   "top"
 let HRToastPositionCenter   =   "center"
 
 // activity
-let HRToastActivityWidth  :  CGFloat  = 100.0
-let HRToastActivityHeight :  CGFloat  = 100.0
+let HRToastActivityWidth  :  CGFloat  = 60.0
+let HRToastActivityHeight :  CGFloat  = 60.0
 let HRToastActivityPositionDefault    = "center"
 
 // image size
@@ -133,7 +133,7 @@ extension UIView {
     }
     
     func makeToast(message msg: String) {
-        self.makeToast(message: msg, duration: HRToastDefaultDuration, position: HRToastPositionDefault)
+        self.makeToast(message: msg, duration: HRToastDefaultDuration, position: HRToastPositionCenter)
     }
     
     func makeToast(message msg: String, duration: Double, position: AnyObject) {
@@ -237,7 +237,7 @@ extension UIView {
             activityView.layer.shadowOffset = HRToastShadowOffset
         }
         
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .White)
         activityIndicatorView.center = CGPointMake(activityView.bounds.size.width / 2, activityView.bounds.size.height / 2)
         activityView.addSubview(activityIndicatorView)
         activityIndicatorView.startAnimating()

@@ -67,7 +67,7 @@ class WebService: NSObject {
                             let json:JSON = JSON(data: jsonData)
                             if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
                                 dispatch_async(dispatch_get_main_queue(),{
-                                    window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
+                                    window.makeToast(message: json["message"].stringValue)
                                 })
                             }
                         }
@@ -116,7 +116,7 @@ class WebService: NSObject {
                                 let json:JSON = JSON(data: jsonData)
                                 if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
                                     dispatch_async(dispatch_get_main_queue(),{
-                                        window.makeToast(message: json["message"].stringValue, duration: 1, position: HRToastPositionCenter, title: "Message")
+                                        window.makeToast(message: json["message"].stringValue)
                                     })
                                 }
                             }
@@ -140,7 +140,7 @@ class WebService: NSObject {
     func showNoNetworkErrorMessage() {
         if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
             dispatch_async(dispatch_get_main_queue(),{
-                window.makeToast(message: "Please check your network connection", duration: 1, position: HRToastPositionCenter, title: "Message")
+                window.makeToast(message: "Please check your network connection")
             })
         }
     }

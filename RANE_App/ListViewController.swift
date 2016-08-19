@@ -34,12 +34,13 @@ class ListViewController: UIViewController {
                                        style: UIBarButtonItemStyle.Plain ,
                                        target: self, action: #selector(ListViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
-        
-       
-        
-        self.dailyDigestAPICall(0)
+    
     }
 
+    override func viewDidAppear(animated: Bool) {
+        self.dailyDigestAPICall(0)
+    }
+    
     
     func group(menuArray:[MenuObject],articleArray:[ArticleObject]) {
         print("incoming article count",articleArray.count)
@@ -208,7 +209,7 @@ class ListViewController: UIViewController {
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
-                        self.view.makeToast(message: "No more articles to display", duration: 1, position: HRToastPositionCenter, title: "Message")
+                            self.view.makeToast(message: "No more articles to display")
                         })
                     }
                     

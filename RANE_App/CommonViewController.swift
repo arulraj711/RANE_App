@@ -20,38 +20,30 @@ class CommonViewController: UIViewController {
                                            style: UIBarButtonItemStyle.Plain ,
                                            target: self, action: #selector(CommonViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
-        
-        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
-        
-        if(securityToken!.characters.count != 0){
-            print(securityToken!.characters.count) // "Hello World"
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
-            let vc1 = storyboard.instantiateViewControllerWithIdentifier("menuView")
-            let vc2 = storyboard.instantiateViewControllerWithIdentifier("listView")
-            var controllers = self.navigationController?.viewControllers;
-            controllers?.append(vc)
-            controllers?.append(vc1)
-            controllers?.append(vc2)
-            
-            self.navigationController?.setViewControllers(controllers!, animated: true)
+        if(NSUserDefaults.standardUserDefaults().stringForKey("securityToken") != nil) {
+            let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+            if(securityToken!.characters.count != 0){
+                print(securityToken!.characters.count) // "Hello World"
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
+                let vc1 = storyboard.instantiateViewControllerWithIdentifier("menuView")
+                let vc2 = storyboard.instantiateViewControllerWithIdentifier("listView")
+                var controllers = self.navigationController?.viewControllers;
+                controllers?.append(vc)
+                controllers?.append(vc1)
+                controllers?.append(vc2)
+                
+                self.navigationController?.setViewControllers(controllers!, animated: true)
+            } else {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
+                self.navigationController?.addChildViewController(vc)
+                
+            }
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
             self.navigationController?.addChildViewController(vc)
-
-        //self.navigationController?.pushViewController(vc, animated: true)
-        
-//        let vc1 = storyboard.instantiateViewControllerWithIdentifier("listView")
-//        
-//        self.navigationController?.addChildViewController(vc1)
-//        
-//        let vc2 = storyboard.instantiateViewControllerWithIdentifier("menuView")
-//        self.navigationController?.addChildViewController(vc2)
-        
-        
-        
-            
         }
         
     }

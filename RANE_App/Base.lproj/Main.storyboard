@@ -27,7 +27,6 @@
         <!--Common View Controller-->
         <scene sceneID="ZeM-uC-fgv">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Yua-9B-wC6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="r6y-Av-xtc" customClass="CommonViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3ZT-iR-uet"/>
@@ -41,6 +40,7 @@
                     <navigationItem key="navigationItem" id="lc3-17-poF"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yua-9B-wC6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1426.5" y="-502.5"/>
         </scene>
@@ -405,18 +405,19 @@
         <!--Navigation Controller-->
         <scene sceneID="7wF-We-BD1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Gw4-OU-IIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="il0-Za-EHd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SpS-cw-tEN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="r6y-Av-xtc" kind="relationship" relationship="rootViewController" id="a6r-CF-2sT"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gw4-OU-IIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="615" y="-502"/>
         </scene>
