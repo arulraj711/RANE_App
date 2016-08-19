@@ -87,7 +87,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
 
         let menu = self.menuItems![indexPath.row]
         if(menu.menuId == 101) {
-            let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1 844-RUN-RANE")
+            let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1-844-RUN-RANE")
             actionSheet.showInView(self.view)
             
         } else if(menu.menuId == 102) {

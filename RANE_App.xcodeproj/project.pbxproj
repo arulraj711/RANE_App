@@ -159,26 +159,17 @@
 		BA49CA421D533FA9001DC190 /* RANE_App */ = {
 			isa = PBXGroup;
 			children = (
+				BA5EC5461D673E8D00A52CB4 /* Views */,
+				BA5EC5411D673C3E00A52CB4 /* ViewController */,
+				BA5EC5451D673E1900A52CB4 /* Helpers */,
+				BA5EC5441D673DFC00A52CB4 /* CustomCell */,
+				BA5EC5431D673DE000A52CB4 /* WebService */,
+				BA5EC5421D673D2000A52CB4 /* CustomObject */,
 				BAC9FA501D62AD4800D95E82 /* CustomFonts */,
 				BA49CA431D533FA9001DC190 /* AppDelegate.swift */,
-				BA49CA451D533FA9001DC190 /* ViewController.swift */,
-				BA49CA471D533FA9001DC190 /* Main.storyboard */,
 				BA49CA4D1D533FA9001DC190 /* Assets.xcassets */,
-				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
 				BA49CA521D533FA9001DC190 /* Info.plist */,
 				BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */,
-				BACA474B1D54B9F600D772ED /* WebService.swift */,
-				A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */,
-				A0CF463F1D5B378E001D8097 /* MenuViewController.swift */,
-				A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */,
-				A05C5C6A1D5C580000FA6817 /* ListViewController.swift */,
-				A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */,
-				A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */,
-				BA2274ED1D65A3D5009E30BE /* ArticleObject.swift */,
-				BA2C79721D64549900851BAE /* UserObject.swift */,
-				BAD5C7471D64B29100C4746D /* CommonViewController.swift */,
-				BA2274EF1D65B6D4009E30BE /* MenuObject.swift */,
-				BA5EC53F1D67064700A52CB4 /* Reachability.swift */,
 			);
 			path = RANE_App;
 			sourceTree = "<group>";
@@ -201,10 +192,67 @@
 			path = RANE_AppUITests;
 			sourceTree = "<group>";
 		};
-		BAC9FA501D62AD4800D95E82 /* CustomFonts */ = {
+		BA5EC5411D673C3E00A52CB4 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BA49CA451D533FA9001DC190 /* ViewController.swift */,
+				A05C5C6A1D5C580000FA6817 /* ListViewController.swift */,
+				BAD5C7471D64B29100C4746D /* CommonViewController.swift */,
+				A0CF463F1D5B378E001D8097 /* MenuViewController.swift */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		BA5EC5421D673D2000A52CB4 /* CustomObject */ = {
+			isa = PBXGroup;
+			children = (
+				BA2C79721D64549900851BAE /* UserObject.swift */,
+				BA2274ED1D65A3D5009E30BE /* ArticleObject.swift */,
+				BA2274EF1D65B6D4009E30BE /* MenuObject.swift */,
+			);
+			name = CustomObject;
+			sourceTree = "<group>";
+		};
+		BA5EC5431D673DE000A52CB4 /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				BACA474B1D54B9F600D772ED /* WebService.swift */,
+				A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */,
+			);
+			name = WebService;
+			sourceTree = "<group>";
+		};
+		BA5EC5441D673DFC00A52CB4 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */,
+				A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
+		BA5EC5451D673E1900A52CB4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				BA5EF5391D66D35F004BE00E /* HRToast+UIView.swift */,
+				A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */,
+				BA5EC53F1D67064700A52CB4 /* Reachability.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		BA5EC5461D673E8D00A52CB4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
+				BA49CA471D533FA9001DC190 /* Main.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		BAC9FA501D62AD4800D95E82 /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
 				BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */,
 				BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */,
 				BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */,
