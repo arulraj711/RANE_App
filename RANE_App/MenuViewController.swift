@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MenuViewController: UIViewController {
 
@@ -54,13 +55,13 @@ class MenuViewController: UIViewController {
         
         let menu = self.menuItems![indexPath.row]
         
-        if let url = NSURL(string: menu.menuIconURL) {
-            if let data = NSData(contentsOfURL: url) {
-                cell.menuIconImage.image = UIImage(data: data)
-            }
-        }
+//        if let url = NSURL(string: menu.menuIconURL) {
+//            if let data = NSData(contentsOfURL: url) {
+//                cell.menuIconImage.image = UIImage(data: data)
+//            }
+//        }
         
-        
+        cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
         
         
 //        let menuImage = UIImage(named: items[indexPath.row])

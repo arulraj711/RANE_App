@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Kingfisher.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-RANE_App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>C3BD63BA1036A9A39E9E5D7BE4AD62FD</key>
+		<key>25E91FEA8B6642696EF2EB3423C7040C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F2EAA2755E7CF1CFBA62F2D544627B14</key>
+		<key>59A85FFF5497CF0FF979329743E77D95</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E96E13C4D3B5B5FC0651440734C2BF4D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

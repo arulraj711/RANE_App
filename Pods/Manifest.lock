@@ -2,11 +2,13 @@ PODS:
   - Crashlytics (3.7.2):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
+  - Kingfisher (2.4.2)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - Crashlytics
   - Fabric
+  - Kingfisher (~> 2.4)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
@@ -21,8 +23,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 1a185c2ad8fbe6a0aef788fb49d373b29f3402d8
+PODFILE CHECKSUM: ccac1d21f83e2d04ec2d3332961ec0463c01d630
 
 COCOAPODS: 1.0.1
