@@ -11,6 +11,7 @@ import UIKit
 class CustomListCell: UITableViewCell {
 
     @IBOutlet var articleTitle: UILabel!
+    @IBOutlet weak var fieldNameLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet var fieldName: UILabel!
     @IBOutlet weak var articleDescription: UILabel!
     @IBOutlet weak var outletName: UILabel!

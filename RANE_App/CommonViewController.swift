@@ -23,7 +23,6 @@ class CommonViewController: UIViewController {
         if(NSUserDefaults.standardUserDefaults().stringForKey("securityToken") != nil) {
             let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
             if(securityToken!.characters.count != 0){
-                print(securityToken!.characters.count) // "Hello World"
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
                 let vc1 = storyboard.instantiateViewControllerWithIdentifier("menuView")

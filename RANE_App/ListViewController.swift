@@ -18,12 +18,6 @@ class ListViewController: UIViewController {
     let groupedArticleArrayList: NSMutableArray = NSMutableArray();
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        let myCustomViewController: ViewController = ViewController(nibName: nil, bundle: nil)
-//        let getThatValue = myCustomViewController.menuItems
-//        print("menu items",getThatValue)
-        
-        
         // Do any additional setup after loading the view.
         let imageName = "nav_logo"
         let image = UIImage(named: imageName)
@@ -34,7 +28,7 @@ class ListViewController: UIViewController {
                                        style: UIBarButtonItemStyle.Plain ,
                                        target: self, action: #selector(ListViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
-    
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -43,7 +37,6 @@ class ListViewController: UIViewController {
     
     
     func group(menuArray:[MenuObject],articleArray:[ArticleObject]) {
-        print("incoming article count",articleArray.count)
         self.groupedArticleArrayList.removeAllObjects()
         for menu in menuArray {
             let groupedArticleArray = self.groupArticles(menu.companyId, articletypeId: menu.menuId, articleArray: articleArray)
@@ -54,7 +47,6 @@ class ListViewController: UIViewController {
                     self.groupedArticleArrayList.addObject(articleGroupDictionary)
                 }
         }
-//        print("after updating--->",self.groupedArticleArrayList)
     }
     
     func groupArticles(companyId:Int,articletypeId:Int,articleArray:[ArticleObject])-> [ArticleObject]{
@@ -140,15 +132,19 @@ class ListViewController: UIViewController {
     
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
+        if(articleObject.fieldsName.characters.count == 0) {
+            cell.fieldNameLabelHeightConstraint.constant=0
+        } else {
+            cell.fieldNameLabelHeightConstraint.constant=20
+            cell.fieldName.text = articleObject.fieldsName
+        }
         cell.articleTitle.text = articleObject.articleTitle
-        cell.fieldName.text = articleObject.fieldsName
         cell.articleDescription.text = articleObject.articleDescription
         cell.outletName.text = articleObject.outletName
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("menu",WebServiceManager.sharedInstance.menuItems);
     }
     
     
@@ -195,7 +191,6 @@ class ListViewController: UIViewController {
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
                 if let results = json.array {
-                    print("results",results.count)
                     if(results.count != 0) {
                         for entry in results {
                             self.items.append(ArticleObject(json: entry))

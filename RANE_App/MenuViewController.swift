@@ -32,13 +32,6 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
         searchBar.enablesReturnKeyAutomatically = false
         menuItems = WebServiceManager.sharedInstance.menuItems
-        print("menu items",menuItems);
-        
-        
-        
-        
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -103,7 +96,6 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
         } else {
-            print(self.navigationController?.viewControllers)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
             self.navigationController?.pushViewController(vc, animated: true)
@@ -114,13 +106,10 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int)
     {
         switch (buttonIndex){
-        case 0:
-            print("Cancel")
+        case 0: break
         case 1:
-            print("Save")
             UIApplication.sharedApplication().openURL(NSURL(string: "tel://+18447867263")!)
-        default:
-            print("Default")
+        default: break
             //Some code here..
         }
     }

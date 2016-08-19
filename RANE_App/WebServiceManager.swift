@@ -76,7 +76,6 @@ class WebServiceManager: NSObject {
         //let test = "client/newsletter/0/articles?security_token="+securityToken+"&page="+page
         
         let dailyDigestAPIFunctionName = "client/newsletter/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
-        print(dailyDigestAPIFunctionName)
         
         WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
             onCompletion(json as JSON)

@@ -300,14 +300,11 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="China's 'Left Field' Buyers Shake Up Global M&amp;A" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vk-9f-Nyq">
                                                     <rect key="frame" x="20" y="40" width="335" height="52"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="52" id="e1h-ab-Ixl"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="19"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nu9-dP-GoE">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nu9-dP-GoE">
                                                     <rect key="frame" x="20" y="101" width="335" height="57"/>
                                                     <string key="text">Foreign takeover bids by little-known Chinese companies, from real estate firms to a vacuum cleaner maker, are driving a surge in due diligence.</string>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
@@ -374,6 +371,7 @@
                                             <outlet property="articleDescription" destination="nu9-dP-GoE" id="bSv-pw-WIG"/>
                                             <outlet property="articleTitle" destination="1Vk-9f-Nyq" id="gaw-kR-IA0"/>
                                             <outlet property="fieldName" destination="U63-2F-d8q" id="iqa-AS-oVm"/>
+                                            <outlet property="fieldNameLabelHeightConstraint" destination="tgF-1O-v4k" id="91f-Wj-sEl"/>
                                             <outlet property="outletName" destination="oRS-h6-IPQ" id="wpY-F8-irm"/>
                                         </connections>
                                     </tableViewCell>

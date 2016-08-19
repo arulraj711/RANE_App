@@ -36,9 +36,9 @@ class ViewController: UIViewController {
         userInfoView.layer.cornerRadius = 6.0;
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
-  
-        emailAddressField.text = "testingrane@capestart.com"
-        passwordField.text = "start"
+//  
+//        emailAddressField.text = "kavin.xavier@capestart.com"
+//        passwordField.text = "start"
         
     }
 
@@ -66,8 +66,7 @@ class ViewController: UIViewController {
     
     func keyboardWillShow(notification: NSNotification) {
         
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            print("keyboard show height",keyboardSize.height)
+        if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()) != nil {
             if view.frame.origin.y == 0{
                 self.view.frame.origin.y -= 120
             }
@@ -79,8 +78,7 @@ class ViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            print("keyboard hide height",keyboardSize.height)
+        if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()) != nil {
             if view.frame.origin.y != 0 {
                 self.view.frame.origin.y += 120
             }
