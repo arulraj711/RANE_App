@@ -13,9 +13,11 @@ class ListViewController: UIViewController {
 
     @IBOutlet weak var listNavigationBarItem: UINavigationItem!
     @IBOutlet var listTableView: UITableView!
-    var items = [ArticleObject]()
-    
+    var articles = [ArticleObject]()
     let groupedArticleArrayList: NSMutableArray = NSMutableArray();
+    var contentTypeId:Int = 1
+    var activityTypeId:Int = 0
+    var searchKeyword:String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -32,17 +34,97 @@ class ListViewController: UIViewController {
         self.listTableView.rowHeight = UITableViewAutomaticDimension
         self.listTableView.estimatedRowHeight = 220
         
+        print("company type id--->",self.contentTypeId)
     }
 
     override func viewDidAppear(animated: Bool) {
-        self.dailyDigestAPICall(0)
+//        if(self.searchKeyword.characters.count == 0) {
+//            if(self.contentTypeId == 1) {
+                //for daily digest
+                self.dailyDigestAPICall(0)
+//            } else {
+//                //for normal article list
+//                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo: 0)
+//            }
+//        } else {
+//            
+//        }
+        
+        
     }
     
     
-    func group(menuArray:[MenuObject],articleArray:[ArticleObject]) {
+    
+//    func testGroup(articleArray:[ArticleObject]) {
+//        let dic:NSMutableDictionary = NSMutableDictionary()
+//        for article in self.articles {
+//            var testArticles = [ArticleObject]()
+//            let articlePublishedDate = Utils.convertTimeStampToDate(article.articlepublishedDate)
+//            if((dic.objectForKey(articlePublishedDate)) != nil) {
+//                testArticles = dic.objectForKey(articlePublishedDate) as! [ArticleObject]
+//                testArticles.append(article)
+//                dic.setObject(testArticles, forKey: articlePublishedDate)
+//            } else {
+//                testArticles.append(article)
+//                dic.setObject(testArticles, forKey: articlePublishedDate)
+//            }
+//        }
+//        print("final dic",dic)
+//        print("final keys",dic.allKeys)
+//        print("final values",dic.allValues)
+//    }
+    
+    
+    func groupByPublishedDate(articleArray:[ArticleObject]) {
+        self.groupedArticleArrayList.removeAllObjects()
+        let articlePublishedDateList = self.getArticlePubslishedDateList(articleArray)
+        print("published date array",articlePublishedDateList)
+        for articlePublishedDate in articlePublishedDateList {
+            print("inside for loop",articlePublishedDate)
+            let groupedArticleArray = self.groupArticlesBasedOnPublishedDate(articlePublishedDate as! String, articleArray: articleArray)
+            if(groupedArticleArray.count != 0) {
+                let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                
+                articleGroupDictionary.setValue(articlePublishedDate, forKey: "sectionName")
+                articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+                self.groupedArticleArrayList.addObject(articleGroupDictionary)
+            }
+        }
+    }
+    
+    func groupArticlesBasedOnPublishedDate(publishedDate:String,articleArray:[ArticleObject]) -> [ArticleObject] {
+        var tempArray = [ArticleObject]()
+        for article in articleArray {
+            print("olddd")
+            print("old",Utils.convertTimeStampToDate(article.articlepublishedDate))
+            print("new",publishedDate)
+            if(Utils.convertTimeStampToDate(article.articlepublishedDate) == publishedDate) {
+                tempArray.append(article)
+            } else {
+                continue
+            }
+        }
+        return tempArray
+    }
+    
+    func getArticlePubslishedDateList(articleArray:[ArticleObject]) -> NSMutableArray {
+        let articlePublishedDateArray: NSMutableArray = NSMutableArray()
+        for article in articleArray {
+           
+            
+            if(articlePublishedDateArray.containsObject(Utils.convertTimeStampToDate(article.articlepublishedDate))) {
+               continue
+            } else {
+                articlePublishedDateArray.addObject(Utils.convertTimeStampToDate(article.articlepublishedDate))
+            }
+        }
+        return articlePublishedDateArray
+    }
+    
+    func groupByContentType(menuArray:[MenuObject],articleArray:[ArticleObject]) {
         self.groupedArticleArrayList.removeAllObjects()
         for menu in menuArray {
-            let groupedArticleArray = self.groupArticles(menu.companyId, articletypeId: menu.menuId, articleArray: articleArray)
+            let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId, articletypeId: menu.menuId, articleArray: articleArray)
                 if(groupedArticleArray.count != 0) {
                     let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
                     articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
@@ -52,7 +134,7 @@ class ListViewController: UIViewController {
         }
     }
     
-    func groupArticles(companyId:Int,articletypeId:Int,articleArray:[ArticleObject])-> [ArticleObject]{
+    func groupArticlesBasedOnContentType(companyId:Int,articletypeId:Int,articleArray:[ArticleObject])-> [ArticleObject]{
         var tempArray = [ArticleObject]()
         for article in articleArray {
             if(article.articleTypeId == articletypeId && article.companyId == companyId) {
@@ -99,6 +181,8 @@ class ListViewController: UIViewController {
             imageViewObject.image = UIImage(named:"expandbutton")
             headerView.addSubview(imageViewObject)
         }
+        print("section name",singleDic.objectForKey("sectionName"))
+        print("after section name",singleDic.objectForKey("sectionName") as? String)
         label.text = singleDic.objectForKey("sectionName") as? String
         headerView.backgroundColor = UIColor.whiteColor()
         label.font = UIFont(name:"OpenSans-Semibold", size: 14)
@@ -166,7 +250,7 @@ class ListViewController: UIViewController {
         let inset:UIEdgeInsets = self.listTableView.contentInset
         var y,h,reload_distance:CGFloat?
         var pageNo:Int?
-        let mod:Int = self.items.count%10
+        let mod:Int = self.articles.count%10
         
     
         y = offset.y + bounds.size.height - inset.bottom;
@@ -176,14 +260,23 @@ class ListViewController: UIViewController {
         if(y > h! + reload_distance!) {
             //reached end of scroll
             if (mod == 0) {
-                pageNo  = self.items.count/10;
+                pageNo  = self.articles.count/10;
                 
             } else {
                 let defaultValue:Int = 10-mod;
-                pageNo  = (self.items.count+defaultValue)/10;
+                pageNo  = (self.articles.count+defaultValue)/10;
                 
             }
-            self.dailyDigestAPICall(pageNo!)
+            
+            
+            
+           // if(self.contentTypeId == 1) {
+                //for daily digest
+                self.dailyDigestAPICall(pageNo!)
+//            } else {
+//                //for normal article list
+//                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo: pageNo!)
+//            }
             
         } else {
             //top scrolling
@@ -199,9 +292,9 @@ class ListViewController: UIViewController {
                 if let results = json.array {
                     if(results.count != 0) {
                         for entry in results {
-                            self.items.append(ArticleObject(json: entry))
+                            self.articles.append(ArticleObject(json: entry))
                         }
-                        self.group(WebServiceManager.sharedInstance.menuItems, articleArray: self.items)
+                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
@@ -220,6 +313,37 @@ class ListViewController: UIViewController {
             }
         }
 
+    }
+    
+    
+    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int) {
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10){ (json:JSON) in
+                if let results = json.array {
+                    if(results.count != 0) {
+                        for entry in results {
+                            self.articles.append(ArticleObject(json: entry))
+                        }
+                        //self.testGroup(self.articles)
+                        self.groupByPublishedDate(self.articles)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            //self.tableView.reloadData()
+                            self.listTableView.reloadData()
+                        })
+                    } else {
+                        //handle empty article list
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "No more articles to display")
+                        })
+                    }
+                    
+                } else {
+                    
+                }
+            }
+
+        }
     }
     
     

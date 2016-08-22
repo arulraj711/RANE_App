@@ -97,7 +97,8 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("listView")
+            let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+            vc.contentTypeId = menu.menuId
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -135,6 +136,10 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+        vc.searchKeyword = searchBar.text!
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 //
 //    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {

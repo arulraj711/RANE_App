@@ -68,21 +68,24 @@ class WebServiceManager: NSObject {
         })
     }
     
-    
+    // For newsletter API call
     func callDailyDigestArticleListWebService(dailyDigestId:Int,securityToken:String,page:Int,size:Int,onCompletion: (JSON) -> Void) {
-        //client/newsletter/2099/articles?security_token=559726fb5cb73933cb5da372d8e1b99df1dc3b38&page=0&size=10
-        
-        
-        //let test = "client/newsletter/0/articles?security_token="+securityToken+"&page="+page
-        
         let dailyDigestAPIFunctionName = "client/newsletter/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
-        
         WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
             onCompletion(json as JSON)
             
         })
+    }
+    
+    func callArticleListWebService(activityTypeId:Int,securityToken:String,contentTypeId:Int,page:Int,size:Int,onCompletion: (JSON) -> Void) {
         
+        //articles?security_token=ab6526b6260000c584e810ccede97ca8111533e9&contentTypeId=1&page=0&size=10
         
+        let articleAPIFunctionName = "articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+        WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+        })
     }
     
 }
