@@ -29,6 +29,9 @@ class ListViewController: UIViewController {
                                        target: self, action: #selector(ListViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
         
+        self.listTableView.rowHeight = UITableViewAutomaticDimension
+        self.listTableView.estimatedRowHeight = 220
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -138,7 +141,10 @@ class ListViewController: UIViewController {
             cell.fieldNameLabelHeightConstraint.constant=20
             cell.fieldName.text = articleObject.fieldsName
         }
-        cell.articleTitle.text = articleObject.articleTitle
+        
+        cell.articleTitle.text = articleObject.articleTitle.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        )
         cell.articleDescription.text = articleObject.articleDescription
         cell.outletName.text = articleObject.outletName
         return cell

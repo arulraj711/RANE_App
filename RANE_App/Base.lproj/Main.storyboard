@@ -305,7 +305,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nu9-dP-GoE">
-                                                    <rect key="frame" x="20" y="101" width="335" height="57"/>
+                                                    <rect key="frame" x="20" y="101" width="335" height="60"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="60" id="zH7-jE-VNP"/>
+                                                    </constraints>
                                                     <string key="text">Foreign takeover bids by little-known Chinese companies, from real estate firms to a vacuum cleaner maker, are driving a surge in due diligence.</string>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -363,7 +367,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="nu9-dP-GoE" secondAttribute="trailing" constant="12" id="lXn-FT-vyx"/>
                                                 <constraint firstItem="d58-rn-rLC" firstAttribute="leading" secondItem="x6m-jH-LyO" secondAttribute="trailing" constant="20" id="mJs-NU-9Gz"/>
                                                 <constraint firstItem="nu9-dP-GoE" firstAttribute="leading" secondItem="cY4-jp-ONe" secondAttribute="leadingMargin" constant="12" id="oVF-hE-dJJ"/>
-                                                <constraint firstItem="oRS-h6-IPQ" firstAttribute="top" secondItem="nu9-dP-GoE" secondAttribute="bottom" constant="16" id="pFM-us-ND9"/>
+                                                <constraint firstItem="oRS-h6-IPQ" firstAttribute="top" secondItem="nu9-dP-GoE" secondAttribute="bottom" constant="13" id="pFM-us-ND9"/>
                                                 <constraint firstItem="oRS-h6-IPQ" firstAttribute="leading" secondItem="cY4-jp-ONe" secondAttribute="leadingMargin" constant="12" id="sga-Dl-dAv"/>
                                             </constraints>
                                         </tableViewCellContentView>
