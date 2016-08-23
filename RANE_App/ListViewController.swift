@@ -18,37 +18,46 @@ class ListViewController: UIViewController {
     var contentTypeId:Int = 1
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
+    var titleString:String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let imageName = "nav_logo"
-        let image = UIImage(named: imageName)
-        let imageView = UIImageView(image: image!)
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit;
-        self.navigationItem.titleView = imageView
-        let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
-                                       style: UIBarButtonItemStyle.Plain ,
-                                       target: self, action: #selector(ListViewController.OnMenuClicked))
-        self.navigationItem.leftBarButtonItem = menu_button_
-        
+
         self.listTableView.rowHeight = UITableViewAutomaticDimension
         self.listTableView.estimatedRowHeight = 220
         
-        print("company type id--->",self.contentTypeId)
-    }
+        let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
+                                           style: UIBarButtonItemStyle.Plain ,
+                                           target: self, action: #selector(ListViewController.OnMenuClicked))
+        self.navigationItem.leftBarButtonItem = menu_button_
 
-    override func viewDidAppear(animated: Bool) {
+        
+        print("company type id--->",self.contentTypeId)
         if(self.searchKeyword.characters.count == 0) {
             if(self.contentTypeId == 1) {
                 //for daily digest
+                
+                let imageName = "nav_logo"
+                let image = UIImage(named: imageName)
+                let imageView = UIImageView(image: image!)
+                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+                self.navigationItem.titleView = imageView
+                
                 self.dailyDigestAPICall(0)
             } else {
                 //for normal article list
+                
+                self.title = titleString
+                
                 self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
             }
         } else {
             self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
         }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        
 
         
     }
@@ -230,11 +239,25 @@ class ListViewController: UIViewController {
             NSCharacterSet.whitespaceAndNewlineCharacterSet()
         )
         cell.articleDescription.text = articleObject.articleDescription
-        cell.outletName.text = articleObject.outletName
+        cell.outletName.text = articleObject.outletName.uppercaseString
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(indexPath.section) as! NSDictionary
+        let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
+        let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc:DetailViewController = storyboard.instantiateViewControllerWithIdentifier("detailView") as! DetailViewController
+        vc.articleFieldName = articleObject.fieldsName
+        vc.articleTitle = articleObject.articleTitle
+        vc.articleContact = articleObject.contactName
+        vc.articleOutlet = articleObject.outletName
+        vc.articlePublishedDate = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
+        vc.articleDetailDescription = articleObject.articleDetailedDescription
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     
@@ -269,15 +292,17 @@ class ListViewController: UIViewController {
             }
             
             
-            
-            if(self.contentTypeId == 1) {
-                //for daily digest
-                self.dailyDigestAPICall(pageNo!)
+            if(self.searchKeyword.characters.count == 0) {
+                if(self.contentTypeId == 1) {
+                    //for daily digest
+                    self.dailyDigestAPICall(pageNo!)
+                } else {
+                    //for normal article list
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+                }
             } else {
-                //for normal article list
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo: pageNo!,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
             }
-        
         } else {
             //top scrolling
         }

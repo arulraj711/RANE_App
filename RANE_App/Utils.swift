@@ -20,4 +20,17 @@ public class Utils {
         print("Dateobj:",dateString)
         return dateString
     }
+    
+    class func convertTimeStampToDrillDateModel(timestamp:Double) -> String {
+        let date = NSDate(timeIntervalSince1970:timestamp/1000)
+        print("date conversion",date)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        //        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        let dateString = dateFormatter.stringFromDate(date)
+        
+        print("Dateobj:",dateString)
+        return dateString
+    }
+    
 }

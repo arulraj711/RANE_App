@@ -12,17 +12,20 @@ import SwiftyJSON
 class ArticleObject {
     var articleId:String!
     var articleDescription:String!
+    var articleDetailedDescription:String!
     var articleURL:String!
     var articleTitle:String!
     var articleTypeId:Int!
     var companyId:Int!
     var fieldsName:String = ""
     var outletName:String = ""
+    var contactName:String = ""
     var articlepublishedDate:Double!
     
     required init(json: JSON) {
         articleId = json["id"].stringValue
         articleDescription = json["articleDescription"].stringValue
+        articleDetailedDescription = json["articleDetailedDescription"].stringValue
         articleURL = json["articleURL"].stringValue
         articleTitle = json["heading"].stringValue
         //articleTypeIdArray = json["articleTypeId"].array.[0]
@@ -45,9 +48,21 @@ class ArticleObject {
         if let outletArray = json["outlet"].array {
             for outlet in outletArray {
                 if(outletName.characters.count == 0) {
-                    outletName = outletName.uppercaseString+outlet["name"].stringValue.uppercaseString
+                    outletName = outletName+outlet["name"].stringValue
                 } else {
-                    outletName = outletName.uppercaseString+" & "+outlet["name"].stringValue.uppercaseString
+                    outletName = outletName+" & "+outlet["name"].stringValue
+                }
+                
+            }
+        }
+        
+        /* contact name configuration */
+        if let contactArray = json["contact"].array {
+            for contact in contactArray {
+                if(contactName.characters.count == 0) {
+                    contactName = contactName+contact["name"].stringValue
+                } else {
+                    contactName = contactName+","+contact["name"].stringValue
                 }
                 
             }

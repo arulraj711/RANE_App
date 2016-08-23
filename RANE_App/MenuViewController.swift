@@ -99,6 +99,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
             vc.contentTypeId = menu.menuId
+            vc.titleString = menu.menuName
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -136,10 +137,12 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-        vc.searchKeyword = searchBar.text!
-        self.navigationController?.pushViewController(vc, animated: true)
+        if(searchBar.text?.characters.count != 0) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+            vc.searchKeyword = searchBar.text!
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 //
 //    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
