@@ -77,11 +77,19 @@ class WebServiceManager: NSObject {
         })
     }
     
-    func callArticleListWebService(activityTypeId:Int,securityToken:String,contentTypeId:Int,page:Int,size:Int,onCompletion: (JSON) -> Void) {
+    func callArticleListWebService(activityTypeId:Int,securityToken:String,contentTypeId:Int,page:Int,size:Int,searchString:String,onCompletion: (JSON) -> Void) {
         
         //articles?security_token=ab6526b6260000c584e810ccede97ca8111533e9&contentTypeId=1&page=0&size=10
         
-        let articleAPIFunctionName = "articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+        //http://fullintel.com/2.0.0/api/v1/articles/2?security_token=ab6526b6260000c584e810ccede97ca8111533e9&contentTypeId=1&page=0&size=10&query=Google
+        
+        
+        var articleAPIFunctionName:String = ""
+        if(searchString.characters.count == 0) {
+            articleAPIFunctionName = "articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+        } else {
+            articleAPIFunctionName = "articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString
+        }
         WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
             onCompletion(json as JSON)
             

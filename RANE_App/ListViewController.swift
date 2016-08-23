@@ -38,18 +38,18 @@ class ListViewController: UIViewController {
     }
 
     override func viewDidAppear(animated: Bool) {
-//        if(self.searchKeyword.characters.count == 0) {
-//            if(self.contentTypeId == 1) {
+        if(self.searchKeyword.characters.count == 0) {
+            if(self.contentTypeId == 1) {
                 //for daily digest
                 self.dailyDigestAPICall(0)
-//            } else {
-//                //for normal article list
-//                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo: 0)
-//            }
-//        } else {
-//            
-//        }
-        
+            } else {
+                //for normal article list
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+            }
+        } else {
+            self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+        }
+
         
     }
     
@@ -270,14 +270,14 @@ class ListViewController: UIViewController {
             
             
             
-           // if(self.contentTypeId == 1) {
+            if(self.contentTypeId == 1) {
                 //for daily digest
                 self.dailyDigestAPICall(pageNo!)
-//            } else {
-//                //for normal article list
-//                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo: pageNo!)
-//            }
-            
+            } else {
+                //for normal article list
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo: pageNo!,searchString: self.searchKeyword)
+            }
+        
         } else {
             //top scrolling
         }
@@ -316,10 +316,10 @@ class ListViewController: UIViewController {
     }
     
     
-    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int) {
+    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int,searchString:String) {
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10){ (json:JSON) in
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
                 if let results = json.array {
                     if(results.count != 0) {
                         for entry in results {
