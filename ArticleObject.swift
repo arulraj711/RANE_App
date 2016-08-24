@@ -21,6 +21,7 @@ class ArticleObject {
     var outletName:String = ""
     var contactName:String = ""
     var articlepublishedDate:Double!
+    var articleModifiedDate:Double!
     
     required init(json: JSON) {
         articleId = json["id"].stringValue
@@ -32,6 +33,7 @@ class ArticleObject {
         articleTypeId = json["articleTypeId"][0].intValue
         companyId = json["companyId"].intValue
         articlepublishedDate = json["publishedDate"].doubleValue
+        articleModifiedDate = json["modifiedDate"].doubleValue
         /* fields name configuration */
         if let fieldsArray = json["fields"].array {
             for fields in fieldsArray {

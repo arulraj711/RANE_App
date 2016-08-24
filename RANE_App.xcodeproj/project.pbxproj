@@ -10,6 +10,9 @@
 		3FA6C9CD61B2A2D4EA98258B /* Pods_RANE_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */; };
 		A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C5C6A1D5C580000FA6817 /* ListViewController.swift */; };
 		A05C5C6D1D5C844400FA6817 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */; };
+		A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */; };
+		A0A9F9E71D6DE09C003A6E30 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0A9F9E61D6DE09C003A6E30 /* View.xib */; };
+		A0A9F9E91D6DE113003A6E30 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9F9E81D6DE113003A6E30 /* TestView.swift */; };
 		A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */; };
 		A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463F1D5B378E001D8097 /* MenuViewController.swift */; };
 		A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */; };
@@ -58,6 +61,9 @@
 /* Begin PBXFileReference section */
 		A05C5C6A1D5C580000FA6817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
+		A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
+		A0A9F9E61D6DE09C003A6E30 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
+		A0A9F9E81D6DE113003A6E30 /* TestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A0CF463F1D5B378E001D8097 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenuCell.swift; sourceTree = "<group>"; };
@@ -232,6 +238,7 @@
 			children = (
 				A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */,
 				A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */,
+				A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -252,6 +259,8 @@
 			children = (
 				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
 				BA49CA471D533FA9001DC190 /* Main.storyboard */,
+				A0A9F9E61D6DE09C003A6E30 /* View.xib */,
+				A0A9F9E81D6DE113003A6E30 /* TestView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -381,6 +390,7 @@
 				BAFECD071D62E6C60054A5CD /* OpenSans-Italic.ttf in Resources */,
 				BA49CA4E1D533FA9001DC190 /* Assets.xcassets in Resources */,
 				BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */,
+				A0A9F9E71D6DE09C003A6E30 /* View.xib in Resources */,
 				BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */,
 				BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */,
 				BAC9FA581D62AD6C00D95E82 /* OpenSans-Semibold.ttf in Resources */,
@@ -486,7 +496,9 @@
 				BA5EF53A1D66D35F004BE00E /* HRToast+UIView.swift in Sources */,
 				BAD5C7481D64B29100C4746D /* CommonViewController.swift in Sources */,
 				A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */,
+				A0A9F9E91D6DE113003A6E30 /* TestView.swift in Sources */,
 				BA5EC5401D67064700A52CB4 /* Reachability.swift in Sources */,
+				A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */,
 				A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,8 +572,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -584,7 +596,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "3349a92f-bbdc-40cd-b5dc-aac94b2bb97c";
+				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -611,8 +623,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -628,7 +640,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "3349a92f-bbdc-40cd-b5dc-aac94b2bb97c";
+				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -642,16 +654,19 @@
 			baseConfigurationReference = D10FF0799AE5D86B924B0897 /* Pods-RANE_App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = RANE_App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranemonitoring;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranestage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3349a92f-bbdc-40cd-b5dc-aac94b2bb97c";
+				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
@@ -661,16 +676,19 @@
 			baseConfigurationReference = CB096B7EC73BB7F1F3AE23F1 /* Pods-RANE_App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RANE Corp. (2EKG8QACMX)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kristine Eissing (MP25BQW4WP)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = RANE_App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranemonitoring;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranestage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3349a92f-bbdc-40cd-b5dc-aac94b2bb97c";
+				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;

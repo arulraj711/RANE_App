@@ -41,15 +41,15 @@ class WebServiceManager: NSObject {
                 for entry in results {
                     if(entry["subscribed"].boolValue == true) {
                         
-                        if(entry["id"].intValue == 9) {
-                            //marked important
-                            continue
-                        } else if(entry["id"].intValue == 6) {
-                            //saved for later
-                            continue
-                        } else {
+//                        if(entry["id"].intValue == 9) {
+//                            //marked important
+//                            continue
+//                        } else if(entry["id"].intValue == 6) {
+//                            //saved for later
+//                            continue
+//                        } else {
                             self.menuItems.append(MenuObject(json: entry))
-                        }
+                        //}
                     }
                     
                     //self.loginInputDictionary.setValue(self.items, forKey: "email")

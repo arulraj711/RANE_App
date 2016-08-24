@@ -65,49 +65,79 @@ class ListViewController: UIViewController {
     
     
 //    func testGroup(articleArray:[ArticleObject]) {
+//        let testArray:NSMutableArray = NSMutableArray()
 //        let dic:NSMutableDictionary = NSMutableDictionary()
 //        for article in self.articles {
 //            var testArticles = [ArticleObject]()
-//            let articlePublishedDate = Utils.convertTimeStampToDate(article.articlepublishedDate)
-//            if((dic.objectForKey(articlePublishedDate)) != nil) {
-//                testArticles = dic.objectForKey(articlePublishedDate) as! [ArticleObject]
+//            let articleModifiedDate = Utils.convertTimeStampToDate(article.articleModifiedDate)
+//            if((dic.objectForKey(articleModifiedDate)) != nil) {
+//                testArticles = dic.objectForKey(articleModifiedDate) as! [ArticleObject]
 //                testArticles.append(article)
-//                dic.setObject(testArticles, forKey: articlePublishedDate)
+//                dic.setObject(testArticles, forKey: articleModifiedDate)
+////                orderedDic.insertElementWithKey(articlePublishedDate, value: testArticles, atIndex: index)
+//                
 //            } else {
 //                testArticles.append(article)
-//                dic.setObject(testArticles, forKey: articlePublishedDate)
+//                dic.setObject(testArticles, forKey: articleModifiedDate)
+////                orderedDic.insertElementWithKey(articlePublishedDate, value: testArticles, atIndex: index)
 //            }
 //        }
 //        print("final dic",dic)
+//        print("array format",testArray)
+//        print("final keys",dic.allKeys)
+//        print("final values",dic.allValues)
+//    }
+//    
+//    
+//    func testModuleGroup(articleArray:[ArticleObject]) {
+//        let testArray:NSMutableArray = NSMutableArray()
+//        let dic:NSMutableDictionary = NSMutableDictionary()
+//        for article in self.articles {
+//            var testArticles = [ArticleObject]()
+//            let articleModifiedDate = Utils.convertTimeStampToDate(article.articleModifiedDate)
+//            if((dic.objectForKey(articleModifiedDate)) != nil) {
+//                testArticles = dic.objectForKey(articleModifiedDate) as! [ArticleObject]
+//                testArticles.append(article)
+//                dic.setObject(testArticles, forKey: articleModifiedDate)
+//                //                orderedDic.insertElementWithKey(articlePublishedDate, value: testArticles, atIndex: index)
+//                
+//            } else {
+//                testArticles.append(article)
+//                dic.setObject(testArticles, forKey: articleModifiedDate)
+//                //                orderedDic.insertElementWithKey(articlePublishedDate, value: testArticles, atIndex: index)
+//            }
+//        }
+//        print("final dic",dic)
+//        print("array format",testArray)
 //        print("final keys",dic.allKeys)
 //        print("final values",dic.allValues)
 //    }
     
     
-    func groupByPublishedDate(articleArray:[ArticleObject]) {
+    func groupByModifiedDate(articleArray:[ArticleObject]) {
         self.groupedArticleArrayList.removeAllObjects()
-        let articlePublishedDateList = self.getArticlePubslishedDateList(articleArray)
-        print("published date array",articlePublishedDateList)
-        for articlePublishedDate in articlePublishedDateList {
-            print("inside for loop",articlePublishedDate)
-            let groupedArticleArray = self.groupArticlesBasedOnPublishedDate(articlePublishedDate as! String, articleArray: articleArray)
+        let articleModifiedDateList = self.getArticlePubslishedDateList(articleArray)
+        print("published date array",articleModifiedDateList)
+        for articleModifiedDate in articleModifiedDateList {
+            print("inside for loop",articleModifiedDate)
+            let groupedArticleArray = self.groupArticlesBasedOnModofiedDate(articleModifiedDate as! String, articleArray: articleArray)
             if(groupedArticleArray.count != 0) {
                 let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
                 
-                articleGroupDictionary.setValue(articlePublishedDate, forKey: "sectionName")
+                articleGroupDictionary.setValue(articleModifiedDate, forKey: "sectionName")
                 articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
                 self.groupedArticleArrayList.addObject(articleGroupDictionary)
             }
         }
     }
     
-    func groupArticlesBasedOnPublishedDate(publishedDate:String,articleArray:[ArticleObject]) -> [ArticleObject] {
+    func groupArticlesBasedOnModofiedDate(modifiedDate:String,articleArray:[ArticleObject]) -> [ArticleObject] {
         var tempArray = [ArticleObject]()
         for article in articleArray {
             print("olddd")
-            print("old",Utils.convertTimeStampToDate(article.articlepublishedDate))
-            print("new",publishedDate)
-            if(Utils.convertTimeStampToDate(article.articlepublishedDate) == publishedDate) {
+            print("old",Utils.convertTimeStampToDate(article.articleModifiedDate))
+            print("new",modifiedDate)
+            if(Utils.convertTimeStampToDate(article.articleModifiedDate) == modifiedDate) {
                 tempArray.append(article)
             } else {
                 continue
@@ -121,10 +151,10 @@ class ListViewController: UIViewController {
         for article in articleArray {
            
             
-            if(articlePublishedDateArray.containsObject(Utils.convertTimeStampToDate(article.articlepublishedDate))) {
+            if(articlePublishedDateArray.containsObject(Utils.convertTimeStampToDate(article.articleModifiedDate))) {
                continue
             } else {
-                articlePublishedDateArray.addObject(Utils.convertTimeStampToDate(article.articlepublishedDate))
+                articlePublishedDateArray.addObject(Utils.convertTimeStampToDate(article.articleModifiedDate))
             }
         }
         return articlePublishedDateArray
@@ -351,7 +381,7 @@ class ListViewController: UIViewController {
                             self.articles.append(ArticleObject(json: entry))
                         }
                         //self.testGroup(self.articles)
-                        self.groupByPublishedDate(self.articles)
+                        self.groupByModifiedDate(self.articles)
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="il0-Za-EHd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="TY2-Lg-KrR">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -409,10 +409,10 @@
             </objects>
             <point key="canvasLocation" x="2390.5" y="-480.5"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--View Controller-->
         <scene sceneID="T9p-bb-ykq">
             <objects>
-                <viewController storyboardIdentifier="detailView" id="iC9-8W-W7w" customClass="DetailViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="iC9-8W-W7w" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Nr8-gi-xEH"/>
                         <viewControllerLayoutGuide type="bottom" id="Lkh-Su-coe"/>
@@ -439,7 +439,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Las Vegas-Based Diamond Resorts Being Sold for $2.2B" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIH-D6-N1o">
                                                 <rect key="frame" x="20" y="51" width="335" height="52"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="19"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Las Vegas review | Richard Velotta" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ztx-2Y-VNm">
@@ -523,17 +523,6 @@
                     </view>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="articleContactLabel" destination="Ztx-2Y-VNm" id="tM4-nR-9Ee"/>
-                        <outlet property="articleDetailWebView" destination="62P-kX-HDQ" id="SyA-VG-tHO"/>
-                        <outlet property="articleFieldNamelabel" destination="FOh-xW-doL" id="Jxi-5k-Bkv"/>
-                        <outlet property="articlePublishedDateLabel" destination="DU6-Vu-IMY" id="ckH-qi-ez0"/>
-                        <outlet property="articleTitleLabel" destination="fIH-D6-N1o" id="nDA-Rh-08M"/>
-                        <outlet property="fieldsNameHeightConstraint" destination="SER-ix-dL4" id="0SD-jE-Nxj"/>
-                        <outlet property="readFullArticleButton" destination="NyU-NO-AK2" id="GiJ-0Z-afx"/>
-                        <outlet property="scrollView" destination="e9g-dz-P9s" id="inj-LA-OIe"/>
-                        <outlet property="webviewHeightConstraint" destination="4e9-RO-xXw" id="hzp-En-D7b"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Kr-cw-eBo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -562,6 +551,102 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gw4-OU-IIz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="615" y="-502"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="DSi-Na-t0P">
+            <objects>
+                <viewController storyboardIdentifier="detailView" id="aaz-hG-PNP" customClass="DetailViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yV2-rU-wvw"/>
+                        <viewControllerLayoutGuide type="bottom" id="59i-J4-Ct0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wen-pg-pUE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dFN-aP-6fo">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="xJe-QM-e3K">
+                                    <size key="itemSize" width="600" height="600"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="XM6-9S-1Ow" customClass="DetailViewCell" customModule="RANE_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="32" width="600" height="600"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I2e-SW-L69">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8DA-Rt-wba">
+                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="8DA-Rt-wba" firstAttribute="centerY" secondItem="I2e-SW-L69" secondAttribute="centerY" id="0de-5U-V31"/>
+                                                        <constraint firstAttribute="bottom" secondItem="8DA-Rt-wba" secondAttribute="bottom" id="Ov4-DV-cXq"/>
+                                                        <constraint firstItem="8DA-Rt-wba" firstAttribute="top" secondItem="I2e-SW-L69" secondAttribute="top" id="T2v-x6-Zuf"/>
+                                                        <constraint firstItem="8DA-Rt-wba" firstAttribute="leading" secondItem="I2e-SW-L69" secondAttribute="leading" id="cxX-9J-Bxy"/>
+                                                        <constraint firstItem="8DA-Rt-wba" firstAttribute="centerX" secondItem="I2e-SW-L69" secondAttribute="centerX" id="nfl-w2-ktR"/>
+                                                        <constraint firstAttribute="trailing" secondItem="8DA-Rt-wba" secondAttribute="trailing" id="wvF-Tz-qLM"/>
+                                                    </constraints>
+                                                </scrollView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.68627450980000004" green="0.035294117649999998" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="I2e-SW-L69" secondAttribute="trailing" id="3ai-RD-wkw"/>
+                                            <constraint firstItem="I2e-SW-L69" firstAttribute="top" secondItem="XM6-9S-1Ow" secondAttribute="top" id="521-oS-5jX"/>
+                                            <constraint firstItem="I2e-SW-L69" firstAttribute="leading" secondItem="XM6-9S-1Ow" secondAttribute="leading" id="d9g-NE-FsK"/>
+                                            <constraint firstAttribute="bottom" secondItem="I2e-SW-L69" secondAttribute="bottom" id="gKu-9h-VaT"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="aaz-hG-PNP" id="wSQ-Wv-zSX"/>
+                                    <outlet property="delegate" destination="aaz-hG-PNP" id="rCx-nO-Jd3"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.68627450980000004" green="0.035294117649999998" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="dFN-aP-6fo" firstAttribute="leading" secondItem="Wen-pg-pUE" secondAttribute="leading" id="24W-Wn-Z2K"/>
+                            <constraint firstItem="dFN-aP-6fo" firstAttribute="top" secondItem="Wen-pg-pUE" secondAttribute="top" id="Gl2-W5-J4k"/>
+                            <constraint firstItem="dFN-aP-6fo" firstAttribute="bottom" secondItem="59i-J4-Ct0" secondAttribute="top" id="TdR-Wk-Nvq"/>
+                            <constraint firstAttribute="trailing" secondItem="dFN-aP-6fo" secondAttribute="trailing" id="VsX-W4-VRQ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="CUP-QN-TI2"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qe8-tT-cGn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4133" y="-539"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="dH4-M2-qz0">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TY2-Lg-KrR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sUT-9B-EkY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="aaz-hG-PNP" kind="relationship" relationship="rootViewController" id="en8-yq-llg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RsI-38-7wh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3321" y="-539"/>
         </scene>
     </scenes>
     <resources>

@@ -10,15 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    @IBOutlet var fieldsNameHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var readFullArticleButton: UIButton!
-    @IBOutlet var webviewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var articlePublishedDateLabel: UILabel!
-    @IBOutlet var articleDetailWebView: UIWebView!
-    @IBOutlet var articleContactLabel: UILabel!
-    @IBOutlet var articleTitleLabel: UILabel!
-    @IBOutlet var articleFieldNamelabel: UILabel!
+
     var articleFieldName:String = ""
     var articleTitle:String = ""
     var articleContact:String = ""
@@ -31,8 +23,8 @@ class DetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        readFullArticleButton.layer.masksToBounds = true;
-        readFullArticleButton.layer.cornerRadius = 6.0;
+//        readFullArticleButton.layer.masksToBounds = true;
+//        readFullArticleButton.layer.cornerRadius = 6.0;
         
         let chatButton = UIButton()
         chatButton.setImage(UIImage(named: "chat_icon"), forState: .Normal)
@@ -86,29 +78,63 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        //#warning Incomplete method implementation -- Return the number of sections
+        return 1
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //#warning Incomplete method implementation -- Return the number of items in the section
+        return 5
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! DetailViewCell
+        
+        // Configure the cell
+        
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        print("flow layout delegate")
+        
+        return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
+        
+        
+    }
+    
+//    - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    float cellWidth = (self.view.frame.size.width / 2) - 35;
+//    float cellHeight = cellWidth * 190.0f / 270.0f;
+//    return CGSizeMake(cellWidth, cellHeight);
+//    }
+    
     func updateDetailView() {
         
-        if(self.articleFieldName.characters.count == 0) {
-            self.fieldsNameHeightConstraint.constant = 0;
-        } else {
-            self.fieldsNameHeightConstraint.constant = 21;
-            self.articleFieldNamelabel.text = self.articleFieldName
-        }
-        
-        self.articleTitleLabel.text = self.articleTitle
-        
-        self.outletWithContactString = self.articleOutlet+" | "+self.articleContact
-        
-        self.articleContactLabel.text = outletWithContactString
-        self.articlePublishedDateLabel.text = "Published: "+self.articlePublishedDate
-//        print("before removing",self.articleDetailDescription)
-//        let removedLinkString = self.articleDetailDescription.stringByReplacingOccurrencesOfString("<span style=\"color:#000080\">Click here to read full article</span>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-//        print("after removing".removedLinkString)
-        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", self.articleDetailDescription)
-        
-//        htmlString = [NSString stringWithFormat:@"<body style='color:#000000;font-family:Open Sans;line-height: 1.7;font-size: 16px;font-weight: 310;'>%@",[curatedNewsDetail valueForKey:@"article"]];
-        
-        self.articleDetailWebView.loadHTMLString(aStr, baseURL: nil)
+//        if(self.articleFieldName.characters.count == 0) {
+//            self.fieldsNameHeightConstraint.constant = 0;
+//        } else {
+//            self.fieldsNameHeightConstraint.constant = 21;
+//            self.articleFieldNamelabel.text = self.articleFieldName
+//        }
+//        
+//        self.articleTitleLabel.text = self.articleTitle
+//        
+//        self.outletWithContactString = self.articleOutlet+" | "+self.articleContact
+//        
+//        self.articleContactLabel.text = outletWithContactString
+//        self.articlePublishedDateLabel.text = "Published: "+self.articlePublishedDate
+////        print("before removing",self.articleDetailDescription)
+////        let removedLinkString = self.articleDetailDescription.stringByReplacingOccurrencesOfString("<span style=\"color:#000080\">Click here to read full article</span>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+////        print("after removing".removedLinkString)
+//        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", self.articleDetailDescription)
+//        
+////        htmlString = [NSString stringWithFormat:@"<body style='color:#000000;font-family:Open Sans;line-height: 1.7;font-size: 16px;font-weight: 310;'>%@",[curatedNewsDetail valueForKey:@"article"]];
+//        
+//        self.articleDetailWebView.loadHTMLString(aStr, baseURL: nil)
     }
 
     func webViewDidStartLoad(webView : UIWebView) {
@@ -119,16 +145,16 @@ class DetailViewController: UIViewController {
     func webViewDidFinishLoad(webView : UIWebView) {
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         print("BB")
-        webView.scrollView.scrollEnabled = false;
-        webView.scrollView.bounces = false;
-        let frame:CGRect = webView.frame
-        var newBounds:CGRect = self.articleDetailWebView.bounds
-        newBounds.size.height =  self.articleDetailWebView.scrollView.contentSize.height
-        let pointOfWebview:CGFloat = newBounds.size.height
-        print("webview height",pointOfWebview)
-        print("webview y position",webView.frame.origin.y)
-        self.webviewHeightConstraint.constant = pointOfWebview
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,pointOfWebview+webView.frame.origin.y)
+//        webView.scrollView.scrollEnabled = false;
+//        webView.scrollView.bounces = false;
+//        let frame:CGRect = webView.frame
+//        var newBounds:CGRect = self.articleDetailWebView.bounds
+//        newBounds.size.height =  self.articleDetailWebView.scrollView.contentSize.height
+//        let pointOfWebview:CGFloat = newBounds.size.height
+//        print("webview height",pointOfWebview)
+//        print("webview y position",webView.frame.origin.y)
+//        self.webviewHeightConstraint.constant = pointOfWebview
+//        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,pointOfWebview+webView.frame.origin.y)
     }
     
     /*
