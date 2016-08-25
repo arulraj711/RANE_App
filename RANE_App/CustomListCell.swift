@@ -10,11 +10,22 @@ import UIKit
 
 class CustomListCell: UITableViewCell {
 
+    @IBOutlet var markedImportantButton: UIButton!
+    @IBOutlet var savedForLaterButton: UIButton!
+    @IBAction func mailButtonClick(sender: UIButton) {
+        
+        var dataDict = Dictionary<String, String>()
+        dataDict["title"] = cellArticleObject.articleTitle
+        dataDict["Description"] = cellArticleObject.articleDescription
+         NSNotificationCenter.defaultCenter().postNotificationName("MailButtonClick", object:self, userInfo:dataDict)
+    }
+    @IBOutlet var mailButton: UIButton!
     @IBOutlet var articleTitle: UILabel!
     @IBOutlet weak var fieldNameLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet var fieldName: UILabel!
     @IBOutlet weak var articleDescription: UILabel!
     @IBOutlet weak var outletName: UILabel!
+    var cellArticleObject:ArticleObject!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

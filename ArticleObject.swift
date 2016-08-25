@@ -22,6 +22,8 @@ class ArticleObject {
     var contactName:String = ""
     var articlepublishedDate:Double!
     var articleModifiedDate:Double!
+    var isSavedForLater:Int!
+    var isMarkedImportant:Int!
     
     required init(json: JSON) {
         articleId = json["id"].stringValue
@@ -34,6 +36,8 @@ class ArticleObject {
         companyId = json["companyId"].intValue
         articlepublishedDate = json["publishedDate"].doubleValue
         articleModifiedDate = json["modifiedDate"].doubleValue
+        isSavedForLater = json["saveForLater"].intValue
+        isMarkedImportant = json["markAsImportant"].intValue
         /* fields name configuration */
         if let fieldsArray = json["fields"].array {
             for fields in fieldsArray {

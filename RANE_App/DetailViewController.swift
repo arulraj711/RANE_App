@@ -1,3 +1,5 @@
+
+
 //
 //  DetailViewController.swift
 //  RANE_App
@@ -8,76 +10,115 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-
-
-    var articleFieldName:String = ""
-    var articleTitle:String = ""
-    var articleContact:String = ""
-    var articleOutlet:String = ""
-    var articlePublishedDate:String = ""
-    var articleDetailDescription:String = ""
+class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate {
+    var articleArray = [ArticleObject]()
+    @IBOutlet var collectionView: UICollectionView!
+     @IBOutlet var readFullArticleButton: UIButton!
     var outletWithContactString:String = ""
+    var currentindex:Int?
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-//        readFullArticleButton.layer.masksToBounds = true;
-//        readFullArticleButton.layer.cornerRadius = 6.0;
+        readFullArticleButton.layer.masksToBounds = true;
+        readFullArticleButton.layer.cornerRadius = 6.0;
         
+        
+        self.collectionView.dataSource = nil;
+        self.collectionView.delegate = nil;
+        
+        
+
+        
+        
+    }
+
+   
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.collectionView.dataSource = self;
+        self.collectionView.delegate = self;
+        self.collectionView.reloadData()
+        print("current index",currentindex!)
+        self.collectionView?.scrollToItemAtIndexPath(NSIndexPath(forItem: currentindex!, inSection: 0), atScrollPosition: .Right, animated: false)
+
+    }
+    
+    func reloadNavBarItems(artilceObj:ArticleObject) {
         let chatButton = UIButton()
         chatButton.setImage(UIImage(named: "chat_icon"), forState: .Normal)
         chatButton.frame = CGRectMake(0, 0, 28, 28)
-//        chatButton.backgroundColor = UIColor.redColor()
-       // btn1.addTarget(self, action: Selector("action1:"), forControlEvents: .TouchUpInside)
+        //        chatButton.backgroundColor = UIColor.redColor()
+        // btn1.addTarget(self, action: Selector("action1:"), forControlEvents: .TouchUpInside)
         let chatItem = UIBarButtonItem()
         chatItem.customView = chatButton
         
         let mailButton = UIButton()
         mailButton.setImage(UIImage(named: "mail_icon"), forState: .Normal)
         mailButton.frame = CGRectMake(0, 0, 28, 28)
-//        mailButton.backgroundColor = UIColor.redColor()
-       // btn2.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
+        //        mailButton.backgroundColor = UIColor.redColor()
+        mailButton.addTarget(self, action: #selector(DetailViewController.mailButtonClick), forControlEvents: .TouchUpInside)
         let mailItem = UIBarButtonItem()
         mailItem.customView = mailButton
-        
         
         let folderButton = UIButton()
         folderButton.setImage(UIImage(named: "folder_icon"), forState: .Normal)
         folderButton.frame = CGRectMake(0, 0, 30, 30)
-//        folderButton.backgroundColor = UIColor.redColor()
-       // btn3.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
+        //        folderButton.backgroundColor = UIColor.redColor()
+        // btn3.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
         let folderItem = UIBarButtonItem()
         folderItem.customView = folderButton
         
         let savedForLaterButton = UIButton()
         savedForLaterButton.setImage(UIImage(named: "bookmark-icon"), forState: .Normal)
+        savedForLaterButton.setImage(UIImage(named: "markedimportant_icon"), forState: .Selected)
         savedForLaterButton.frame = CGRectMake(0, 0, 30, 30)
-//        savedForLaterButton.backgroundColor = UIColor.redColor()
+        //        savedForLaterButton.backgroundColor = UIColor.redColor()
         //btn4.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
         let savedForLaterItem = UIBarButtonItem()
         savedForLaterItem.customView = savedForLaterButton
+        if(artilceObj.isSavedForLater == 1) {
+            savedForLaterButton.selected = true
+        } else {
+            savedForLaterButton.selected = false
+        }
+        
+        
         
         let markedImportantButton = UIButton()
         markedImportantButton.setImage(UIImage(named: "markedimportant_icon"), forState: .Normal)
+        markedImportantButton.setImage(UIImage(named: "bookmark-icon"), forState: .Selected)
         markedImportantButton.frame = CGRectMake(0, 0, 30, 30)
-//        markedImportantButton.backgroundColor = UIColor.redColor()
-       // btn5.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
+        //        markedImportantButton.backgroundColor = UIColor.redColor()
+        // btn5.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
         let markedImportantItem = UIBarButtonItem()
         markedImportantItem.customView = markedImportantButton
+        if(artilceObj.isMarkedImportant == 1) {
+            markedImportantButton.selected = true
+        } else {
+            markedImportantButton.selected = false
+        }
+        
+//         NSUserDefaults.standardUserDefaults().setObject(artilceObj, forKey: "articleObject")
         
         self.navigationItem.rightBarButtonItems = [markedImportantItem,savedForLaterItem,folderItem,mailItem,chatItem]
-        
-        self.updateDetailView()
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    func mailButtonClick() {
+//        let articleObj:ArticleObject = NSUserDefaults.standardUserDefaults().objectForKey("articleObject") as! ArticleObject
+//        print("article",articleObj)
+    }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         //#warning Incomplete method implementation -- Return the number of sections
@@ -87,75 +128,55 @@ class DetailViewController: UIViewController {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //#warning Incomplete method implementation -- Return the number of items in the section
-        return 5
+        return articleArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! DetailViewCell
+        //cell.scrollView.contentOffset = CGPointMake(0, 0)
+        let articleObject:ArticleObject = articleArray[indexPath.row]
+        dispatch_async(dispatch_get_main_queue(),{
+            self.reloadNavBarItems(articleObject)
+        })
         
-        // Configure the cell
+        if(articleObject.fieldsName.characters.count == 0) {
+            cell.fieldsNameHeightConstraint.constant = 0;
+        } else {
+            cell.fieldsNameHeightConstraint.constant = 21;
+            cell.articleFieldNamelabel.text = articleObject.fieldsName
+        }
+        cell.webviewHeightConstraint.constant = 20
+        cell.articleTitleLabel.text = articleObject.articleTitle
         
+        self.outletWithContactString = articleObject.outletName+" | "+articleObject.contactName
+        
+        cell.articleContactLabel.text = outletWithContactString
+        let dateString:String = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
+        cell.articlePublishedDateLabel.text = "Published: "+dateString
+        //        print("before removing",self.articleDetailDescription)
+        //        let removedLinkString = self.articleDetailDescription.stringByReplacingOccurrencesOfString("<span style=\"color:#000080\">Click here to read full article</span>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        //        print("after removing".removedLinkString)
+        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", articleObject.articleDetailedDescription)
+        
+        //        htmlString = [NSString stringWithFormat:@"<body style='color:#000000;font-family:Open Sans;line-height: 1.7;font-size: 16px;font-weight: 310;'>%@",[curatedNewsDetail valueForKey:@"article"]];
+        
+        cell.articleDetailWebView.loadHTMLString(aStr, baseURL: nil)
+
+    
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        print("flow layout delegate")
+        print("flow layout delegate",self.view.frame.size.width,self.view.frame.size.height)
         
         return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
         
         
     }
     
-//    - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    float cellWidth = (self.view.frame.size.width / 2) - 35;
-//    float cellHeight = cellWidth * 190.0f / 270.0f;
-//    return CGSizeMake(cellWidth, cellHeight);
-//    }
-    
-    func updateDetailView() {
-        
-//        if(self.articleFieldName.characters.count == 0) {
-//            self.fieldsNameHeightConstraint.constant = 0;
-//        } else {
-//            self.fieldsNameHeightConstraint.constant = 21;
-//            self.articleFieldNamelabel.text = self.articleFieldName
-//        }
-//        
-//        self.articleTitleLabel.text = self.articleTitle
-//        
-//        self.outletWithContactString = self.articleOutlet+" | "+self.articleContact
-//        
-//        self.articleContactLabel.text = outletWithContactString
-//        self.articlePublishedDateLabel.text = "Published: "+self.articlePublishedDate
-////        print("before removing",self.articleDetailDescription)
-////        let removedLinkString = self.articleDetailDescription.stringByReplacingOccurrencesOfString("<span style=\"color:#000080\">Click here to read full article</span>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-////        print("after removing".removedLinkString)
-//        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", self.articleDetailDescription)
-//        
-////        htmlString = [NSString stringWithFormat:@"<body style='color:#000000;font-family:Open Sans;line-height: 1.7;font-size: 16px;font-weight: 310;'>%@",[curatedNewsDetail valueForKey:@"article"]];
-//        
-//        self.articleDetailWebView.loadHTMLString(aStr, baseURL: nil)
-    }
 
-    func webViewDidStartLoad(webView : UIWebView) {
-        //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        print("AA")
-    }
+
     
-    func webViewDidFinishLoad(webView : UIWebView) {
-        //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        print("BB")
-//        webView.scrollView.scrollEnabled = false;
-//        webView.scrollView.bounces = false;
-//        let frame:CGRect = webView.frame
-//        var newBounds:CGRect = self.articleDetailWebView.bounds
-//        newBounds.size.height =  self.articleDetailWebView.scrollView.contentSize.height
-//        let pointOfWebview:CGFloat = newBounds.size.height
-//        print("webview height",pointOfWebview)
-//        print("webview y position",webView.frame.origin.y)
-//        self.webviewHeightConstraint.constant = pointOfWebview
-//        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,pointOfWebview+webView.frame.origin.y)
-    }
     
     /*
     // MARK: - Navigation

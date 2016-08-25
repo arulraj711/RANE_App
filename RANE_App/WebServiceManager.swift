@@ -86,7 +86,14 @@ class WebServiceManager: NSObject {
         
         var articleAPIFunctionName:String = ""
         if(searchString.characters.count == 0) {
-            articleAPIFunctionName = "articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+            
+            if(activityTypeId == 0) {
+                //for normal articles
+                articleAPIFunctionName = "articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+            } else {
+                //for marked important and saved for later articles
+                articleAPIFunctionName = "articles/"+String(activityTypeId)+"?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+            }
         } else {
             articleAPIFunctionName = "articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString
         }

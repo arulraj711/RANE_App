@@ -79,6 +79,12 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         let menu = self.menuItems![indexPath.row]
+        var activityTypeId:Int = 0
+        if(menu.menuId == 6) {
+            activityTypeId = 3
+        } else if(menu.menuId == 9) {
+            activityTypeId = 2
+        }
         if(menu.menuId == 101) {
             let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1-844-RUN-RANE")
             actionSheet.showInView(self.view)
@@ -100,6 +106,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
             vc.contentTypeId = menu.menuId
             vc.titleString = menu.menuName
+            vc.activityTypeId = activityTypeId
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

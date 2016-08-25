@@ -11,8 +11,6 @@
 		A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C5C6A1D5C580000FA6817 /* ListViewController.swift */; };
 		A05C5C6D1D5C844400FA6817 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */; };
 		A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */; };
-		A0A9F9E71D6DE09C003A6E30 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0A9F9E61D6DE09C003A6E30 /* View.xib */; };
-		A0A9F9E91D6DE113003A6E30 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9F9E81D6DE113003A6E30 /* TestView.swift */; };
 		A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */; };
 		A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463F1D5B378E001D8097 /* MenuViewController.swift */; };
 		A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */; };
@@ -62,8 +60,6 @@
 		A05C5C6A1D5C580000FA6817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
 		A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
-		A0A9F9E61D6DE09C003A6E30 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
-		A0A9F9E81D6DE113003A6E30 /* TestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A0CF463F1D5B378E001D8097 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenuCell.swift; sourceTree = "<group>"; };
@@ -259,8 +255,6 @@
 			children = (
 				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
 				BA49CA471D533FA9001DC190 /* Main.storyboard */,
-				A0A9F9E61D6DE09C003A6E30 /* View.xib */,
-				A0A9F9E81D6DE113003A6E30 /* TestView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -390,7 +384,6 @@
 				BAFECD071D62E6C60054A5CD /* OpenSans-Italic.ttf in Resources */,
 				BA49CA4E1D533FA9001DC190 /* Assets.xcassets in Resources */,
 				BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */,
-				A0A9F9E71D6DE09C003A6E30 /* View.xib in Resources */,
 				BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */,
 				BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */,
 				BAC9FA581D62AD6C00D95E82 /* OpenSans-Semibold.ttf in Resources */,
@@ -496,7 +489,6 @@
 				BA5EF53A1D66D35F004BE00E /* HRToast+UIView.swift in Sources */,
 				BAD5C7481D64B29100C4746D /* CommonViewController.swift in Sources */,
 				A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */,
-				A0A9F9E91D6DE113003A6E30 /* TestView.swift in Sources */,
 				BA5EC5401D67064700A52CB4 /* Reachability.swift in Sources */,
 				A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */,
 				A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */,

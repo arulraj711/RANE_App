@@ -8,14 +8,16 @@
 
 import UIKit
 import SwiftyJSON
+import MessageUI
 
-class ListViewController: UIViewController {
+
+class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var listNavigationBarItem: UINavigationItem!
     @IBOutlet var listTableView: UITableView!
     var articles = [ArticleObject]()
     let groupedArticleArrayList: NSMutableArray = NSMutableArray();
-    var contentTypeId:Int = 1
+    var contentTypeId:Int = 20 //for daily digest
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var titleString:String = ""
@@ -34,7 +36,7 @@ class ListViewController: UIViewController {
         
         print("company type id--->",self.contentTypeId)
         if(self.searchKeyword.characters.count == 0) {
-            if(self.contentTypeId == 1) {
+            if(self.contentTypeId == 20) {
                 //for daily digest
                 
                 let imageName = "nav_logo"
@@ -54,12 +56,17 @@ class ListViewController: UIViewController {
         } else {
             self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
         }
+        
+        //Mail button click notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(mailButtonClickAction),
+            name: "MailButtonClick",
+            object: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
-        
 
-        
     }
     
     
@@ -258,6 +265,7 @@ class ListViewController: UIViewController {
     
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
+        cell.cellArticleObject = articleObject
         if(articleObject.fieldsName.characters.count == 0) {
             cell.fieldNameLabelHeightConstraint.constant=0
         } else {
@@ -270,24 +278,95 @@ class ListViewController: UIViewController {
         )
         cell.articleDescription.text = articleObject.articleDescription
         cell.outletName.text = articleObject.outletName.uppercaseString
+        
+        //highlight marked important articles
+        if (articleObject.isMarkedImportant == 1) {
+            cell.markedImportantButton.selected = true
+        } else {
+            cell.markedImportantButton.selected = false
+        }
+        
+        //highlight saved for later articles
+        if (articleObject.isSavedForLater == 1) {
+            cell.savedForLaterButton.selected = true
+        } else {
+            cell.savedForLaterButton.selected = false
+        }
+
+        
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        var articleGroupArray = [ArticleObject]()
+        for dic in self.groupedArticleArrayList {
+            print("dic",dic)
+            for articleObject in (dic.objectForKey("articleList") as? NSArray)! {
+                articleGroupArray.append(articleObject as! ArticleObject)
+            }
+            print("article array",articleGroupArray)
+        }
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(indexPath.section) as! NSDictionary
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
         
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc:DetailViewController = storyboard.instantiateViewControllerWithIdentifier("detailView") as! DetailViewController
-        vc.articleFieldName = articleObject.fieldsName
-        vc.articleTitle = articleObject.articleTitle
-        vc.articleContact = articleObject.contactName
-        vc.articleOutlet = articleObject.outletName
-        vc.articlePublishedDate = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
-        vc.articleDetailDescription = articleObject.articleDetailedDescription
+        vc.articleArray = articleGroupArray
+        print("selected index",self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray))
+        vc.currentindex = self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray)
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    
+    
+    func mailButtonClickAction(notification: NSNotification) {
+        
+        // This method is invoked when the notification is sent
+        if let info = notification.userInfo as? Dictionary<String,String> {
+            print("notification info",info)
+            
+            let mailComposeViewController = configuredMailComposeViewController("arul.raj@capestart.com", title: info["title"]!, description: info["Description"]!)
+            if MFMailComposeViewController.canSendMail() {
+                self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+            } else {
+                self.showSendMailErrorAlert()
+            }
+        }
+        
+    }
+
+    func configuredMailComposeViewController(toAddress:String,title:String,description:String) -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+        mailComposerVC.setToRecipients([toAddress])
+        mailComposerVC.setSubject(title)
+        mailComposerVC.setMessageBody(description, isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertView(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", delegate: self, cancelButtonTitle: "OK")
+        sendMailErrorAlert.show()
+    }
+    
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func getSelectedArticlePostion(article:ArticleObject,articleArray:[ArticleObject]) -> Int {
+        for (index,articleObj) in articleArray.enumerate() {
+            if(articleObj.articleId == article.articleId) {
+                return index
+            }
+        }
+        return 0
     }
     
     
@@ -323,7 +402,7 @@ class ListViewController: UIViewController {
             
             
             if(self.searchKeyword.characters.count == 0) {
-                if(self.contentTypeId == 1) {
+                if(self.contentTypeId == 20) {
                     //for daily digest
                     self.dailyDigestAPICall(pageNo!)
                 } else {
