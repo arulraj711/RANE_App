@@ -92,6 +92,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             name: "updateSavedForLaterStatus",
             object: nil)
         
+        //handle session expired
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(handleSessionExpired),
+            name: "SessionExpired",
+            object: nil)
+        
+        
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -327,7 +336,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             NSCharacterSet.whitespaceAndNewlineCharacterSet()
         )
         cell.articleDescription.text = articleObject.articleDescription
-        cell.outletName.text = articleObject.outletName.uppercaseString
+        cell.outletName.text = articleObject.outletName
         
         //highlight marked important articles
         if (articleObject.isMarkedImportant == 1) {
@@ -361,6 +370,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
         
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "fromListPage")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc:DetailViewController = storyboard.instantiateViewControllerWithIdentifier("detailView") as! DetailViewController
@@ -368,6 +378,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         print("selected index",self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray))
         vc.currentindex = self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray)
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func handleSessionExpired(notification: NSNotification) {
+        NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     

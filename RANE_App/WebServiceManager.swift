@@ -114,5 +114,25 @@ class WebServiceManager: NSObject {
         })
     }
     
+    func callGetCommentsWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
+        //http://fullintel.com/2.0.0/services/mv01/sv00/appuser/useractivitiesonarticles
+        let loginAPIFunctionName = "services/mv01/sv00/appuser/useractivity/article/getcomment"
+        WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+            
+        })
+    }
+    
+    func callAddCommentsWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
+        //http://fullintel.com/2.0.0/services/mv01/sv00/appuser/useractivitiesonarticles
+        let loginAPIFunctionName = "services/mv01/sv00/appuser/useractivity/article/addcomment"
+        WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+            
+        })
+    }
+    
     
 }

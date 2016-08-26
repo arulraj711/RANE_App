@@ -49,12 +49,14 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.collectionView.dataSource = self;
-        self.collectionView.delegate = self;
-        self.collectionView.reloadData()
-        print("current index",currentindex!)
-        self.collectionView?.scrollToItemAtIndexPath(NSIndexPath(forItem: currentindex!, inSection: 0), atScrollPosition: .Right, animated: false)
-
+        let isFromListPage = NSUserDefaults.standardUserDefaults().boolForKey("fromListPage")
+        if(isFromListPage) {
+            self.collectionView.dataSource = self;
+            self.collectionView.delegate = self;
+            self.collectionView.reloadData()
+            print("current index",currentindex!)
+            self.collectionView?.scrollToItemAtIndexPath(NSIndexPath(forItem: currentindex!, inSection: 0), atScrollPosition: .Right, animated: false)
+        }
     }
     
     func reloadNavBarItems(artilceObj:ArticleObject) {
@@ -73,8 +75,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         let chatButton = UIButton()
         chatButton.setImage(UIImage(named: "chat_icon"), forState: .Normal)
         chatButton.frame = CGRectMake(0, 0, 28, 28)
-        //        chatButton.backgroundColor = UIColor.redColor()
-        // btn1.addTarget(self, action: Selector("action1:"), forControlEvents: .TouchUpInside)
+        chatButton.addTarget(self, action: #selector(DetailViewController.commentsButtonClick), forControlEvents: .TouchUpInside)
         let chatItem = UIBarButtonItem()
         chatItem.customView = chatButton
         
@@ -125,6 +126,17 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
 //         NSUserDefaults.standardUserDefaults().setObject(artilceObj, forKey: "articleObject")
         
         self.navigationItem.rightBarButtonItems = [markedImportantItem,savedForLaterItem,folderItem,mailItem,chatItem]
+    }
+    
+    func commentsButtonClick() {
+        if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:CommentsViewController = storyboard.instantiateViewControllerWithIdentifier("commentsView") as! CommentsViewController
+            print("selected article id",info["ArticleId"]!)
+            vc.articleId = info["ArticleId"]!
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func markedImportantButtonClick() {

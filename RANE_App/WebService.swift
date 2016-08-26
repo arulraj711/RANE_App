@@ -65,9 +65,13 @@ class WebService: NSObject {
                         //failure block
                         if let jsonData = data {
                             let json:JSON = JSON(data: jsonData)
+                            print("failure json",json)
                             if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
                                 dispatch_async(dispatch_get_main_queue(),{
                                     window.makeToast(message: json["message"].stringValue)
+                                    if(json["statusCode"].intValue == 401) {
+                                        NSNotificationCenter.defaultCenter().postNotificationName("SessionExpired", object: nil)
+                                    }
                                 })
                             }
                         }
@@ -106,6 +110,7 @@ class WebService: NSObject {
                             //success block
                             if let jsonData = data {
                                 let json:JSON = JSON(data: jsonData)
+                                print("error json",json)
                                 onCompletion(json, nil)
                             } else {
                                 onCompletion(nil, error)
@@ -114,9 +119,13 @@ class WebService: NSObject {
                             //failure block
                             if let jsonData = data {
                                 let json:JSON = JSON(data: jsonData)
+                                print("failure json",json)
                                 if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
                                     dispatch_async(dispatch_get_main_queue(),{
                                         window.makeToast(message: json["message"].stringValue)
+                                        if(json["statusCode"].intValue == 401) {
+                                            NSNotificationCenter.defaultCenter().postNotificationName("SessionExpired", object: nil)
+                                        }
                                     })
                                 }
                             }

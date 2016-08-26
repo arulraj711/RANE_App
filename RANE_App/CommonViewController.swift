@@ -14,8 +14,7 @@ class CommonViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        
+        print("common view didload")
         let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
                                            style: UIBarButtonItemStyle.Plain ,
                                            target: self, action: #selector(CommonViewController.OnMenuClicked))
@@ -45,6 +44,12 @@ class CommonViewController: UIViewController {
             self.navigationController?.addChildViewController(vc)
         }
         
+    }
+    override func viewDidAppear(animated: Bool) {
+        print("common view did appear")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
+        self.navigationController?.pushViewController(vc, animated: false)
     }
 
     func OnMenuClicked() {
