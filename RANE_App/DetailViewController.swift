@@ -9,8 +9,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate {
+class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,MFMailComposeViewControllerDelegate {
     var articleArray = [ArticleObject]()
     @IBOutlet var collectionView: UICollectionView!
      @IBOutlet var readFullArticleButton: UIButton!
@@ -56,6 +57,13 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func reloadNavBarItems(artilceObj:ArticleObject) {
+        
+        var selectedArticleDictionary = Dictionary<String, String>()
+        selectedArticleDictionary["title"] = artilceObj.articleTitle
+        selectedArticleDictionary["Description"] = artilceObj.articleDescription
+        
+        NSUserDefaults.standardUserDefaults().setObject(selectedArticleDictionary, forKey: "SelectedArticleDictionary")
+        
         let chatButton = UIButton()
         chatButton.setImage(UIImage(named: "chat_icon"), forState: .Normal)
         chatButton.frame = CGRectMake(0, 0, 28, 28)
@@ -116,8 +124,37 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func mailButtonClick() {
-//        let articleObj:ArticleObject = NSUserDefaults.standardUserDefaults().objectForKey("articleObject") as! ArticleObject
-//        print("article",articleObj)
+        if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+            print("notification info",info)
+            
+            let mailComposeViewController = configuredMailComposeViewController("arul.raj@capestart.com", title: info["title"]!, description: info["Description"]!)
+            if MFMailComposeViewController.canSendMail() {
+                self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+            } else {
+                self.showSendMailErrorAlert()
+            }
+        }
+    }
+    
+    func configuredMailComposeViewController(toAddress:String,title:String,description:String) -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+        mailComposerVC.setToRecipients([toAddress])
+        mailComposerVC.setSubject(title)
+        mailComposerVC.setMessageBody(description, isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertView(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", delegate: self, cancelButtonTitle: "OK")
+        sendMailErrorAlert.show()
+    }
+    
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -174,7 +211,11 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         
     }
     
-
+    @IBAction func readFullArticleButtonClick(sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc:ReadFullArticleViewController = storyboard.instantiateViewControllerWithIdentifier("readFullArticleView") as! ReadFullArticleViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 
     
     

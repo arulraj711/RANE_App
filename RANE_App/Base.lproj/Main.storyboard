@@ -708,6 +708,9 @@
                                 <state key="normal" title="READ FULL ARTICLE">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="readFullArticleButtonClick:" destination="noT-Nb-nc8" eventType="touchUpInside" id="Mp0-Uq-Cbx"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -729,6 +732,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7gH-Af-hjh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3304" y="-514"/>
+        </scene>
+        <!--Read Full Article View Controller-->
+        <scene sceneID="5db-SR-yz9">
+            <objects>
+                <viewController storyboardIdentifier="readFullArticleView" id="C9K-sh-IyU" customClass="ReadFullArticleViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cqI-34-lF3"/>
+                        <viewControllerLayoutGuide type="bottom" id="jqq-Mz-Vfg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0xS-NE-Zh4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yzx-IS-FFu">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yzx-IS-FFu" firstAttribute="bottom" secondItem="jqq-Mz-Vfg" secondAttribute="top" id="1NH-TS-cco"/>
+                            <constraint firstItem="yzx-IS-FFu" firstAttribute="top" secondItem="0xS-NE-Zh4" secondAttribute="top" id="GhQ-hO-G3S"/>
+                            <constraint firstAttribute="trailing" secondItem="yzx-IS-FFu" secondAttribute="trailing" id="PUo-Qh-WaR"/>
+                            <constraint firstItem="yzx-IS-FFu" firstAttribute="leading" secondItem="0xS-NE-Zh4" secondAttribute="leading" id="S7F-bU-B7r"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="yzx-IS-FFu" id="G33-ef-LOx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dCp-dO-PNk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4067" y="-849"/>
         </scene>
     </scenes>
     <resources>

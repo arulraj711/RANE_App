@@ -174,6 +174,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 if(groupedArticleArray.count != 0) {
                     let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
                     articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
+                    articleGroupDictionary.setValue(menu.menuId, forKey: "sectionId")
                     articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
                     self.groupedArticleArrayList.addObject(articleGroupDictionary)
                 }
@@ -209,23 +210,34 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let headerView:UIView = UIView()
         let label:UILabel = UILabel()
         let headerColorView:UIView = UIView()
-        var imageViewObject :UIImageView
+        let expandButton = UIButton()
+       
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(section) as! NSDictionary
         if(section == 0) {
             headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
             label.frame = CGRectMake(20, 21, tableView.bounds.size.width-60, 52)
             headerColorView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20)
-            imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 36, 8, 20));
             headerColorView.backgroundColor = UIColor.init(colorLiteralRed: 241/255, green: 241/255, blue: 245/255, alpha: 1)
             headerView.addSubview(headerColorView)
-            imageViewObject.image = UIImage(named:"expandbutton")
-            headerView.addSubview(imageViewObject)
+            if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
+                expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
+                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 36, 20, 20)
+                expandButton.tag = (singleDic.objectForKey("sectionId") as? Int)!
+                expandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
+                headerView.addSubview(expandButton)
+            }
+            
         } else {
             headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
             label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
-            imageViewObject = UIImageView(frame:CGRectMake(tableView.bounds.size.width-27, 16, 8, 20));
-            imageViewObject.image = UIImage(named:"expandbutton")
-            headerView.addSubview(imageViewObject)
+            
+            if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
+                expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
+                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
+                expandButton.tag = (singleDic.objectForKey("sectionId") as? Int)!
+                expandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
+                headerView.addSubview(expandButton)
+            }
         }
         print("section name",singleDic.objectForKey("sectionName"))
         print("after section name",singleDic.objectForKey("sectionName") as? String)
@@ -235,6 +247,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         label.textColor = UIColor.blackColor()
         headerView.addSubview(label)
         return headerView
+    }
+    
+    func expandButtonClick(sender:UIButton){
+        print("exapnd button tag",sender.tag)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+        vc.activityTypeId = 0
+        vc.contentTypeId = sender.tag
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     

@@ -30,6 +30,7 @@
 		BA49CA671D533FAA001DC190 /* RANE_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49CA661D533FAA001DC190 /* RANE_AppUITests.swift */; };
 		BA5EC5401D67064700A52CB4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC53F1D67064700A52CB4 /* Reachability.swift */; };
 		BA5EF53A1D66D35F004BE00E /* HRToast+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EF5391D66D35F004BE00E /* HRToast+UIView.swift */; };
+		BAC01FC61D6FE05300DB206C /* ReadFullArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC01FC51D6FE05300DB206C /* ReadFullArticleViewController.swift */; };
 		BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */; };
 		BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */; };
 		BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */; };
@@ -85,6 +86,7 @@
 		BA49CA681D533FAA001DC190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA5EC53F1D67064700A52CB4 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		BA5EF5391D66D35F004BE00E /* HRToast+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HRToast+UIView.swift"; sourceTree = "<group>"; };
+		BAC01FC51D6FE05300DB206C /* ReadFullArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadFullArticleViewController.swift; sourceTree = "<group>"; };
 		BAC9FA511D62AD6C00D95E82 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		BAC9FA521D62AD6C00D95E82 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		BAC9FA531D62AD6C00D95E82 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				BAD5C7471D64B29100C4746D /* CommonViewController.swift */,
 				A0CF463F1D5B378E001D8097 /* MenuViewController.swift */,
 				A0D921781D6C1E9A00180B45 /* DetailViewController.swift */,
+				BAC01FC51D6FE05300DB206C /* ReadFullArticleViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				BA2C79731D64549900851BAE /* UserObject.swift in Sources */,
 				BA2274EE1D65A3D5009E30BE /* ArticleObject.swift in Sources */,
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
+				BAC01FC61D6FE05300DB206C /* ReadFullArticleViewController.swift in Sources */,
 				A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */,
 				BA2274F01D65B6D4009E30BE /* MenuObject.swift in Sources */,
 				BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */,
@@ -588,7 +592,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -632,7 +636,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SDKROOT = iphoneos;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -658,7 +662,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranestage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
@@ -680,7 +684,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranenetwork.ranestage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2a1db2ff-3143-438e-b818-7c33c2f82d18";
+				PROVISIONING_PROFILE = "6d02b209-b853-4bd1-aa27-f0d492bc648f";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;

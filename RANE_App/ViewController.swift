@@ -104,6 +104,7 @@ class ViewController: UIViewController {
             print("login response-->",json);
             NSUserDefaults.standardUserDefaults().setObject(json["securityToken"].stringValue, forKey: "securityToken")
             NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
+           // NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "email")
             dispatch_async(dispatch_get_main_queue(),{
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
