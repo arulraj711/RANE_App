@@ -47,7 +47,7 @@ class WebService: NSObject {
         print("get request--->",request)
         let session = NSURLSession.sharedSession()
         if(Reachability.isConnectedToNetwork()) {
-            self.showProgressView() //show progressview
+           // self.showProgressView() //show progressview
             let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
                 
                 if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {

@@ -11,7 +11,7 @@ import SwiftyJSON
 import MessageUI
 
 
-class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate {
+class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,DetailViewControllerDelegate {
 
     @IBOutlet weak var listNavigationBarItem: UINavigationItem!
     @IBOutlet var listTableView: UITableView!
@@ -21,6 +21,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var titleString:String = ""
+    let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -101,8 +102,40 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         
         
+//        UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+//        [spinner startAnimating];
+//        spinner.frame = CGRectMake(0, 0, 320, 44);
+//        self.tableView.tableFooterView = spinner;
+        
+        
+        
+                    //myActivityIndicator.center = view.center
+       
+            myActivityIndicator.stopAnimating()
+        
+        
+        
     }
 
+    
+    func controller(controller: DetailViewController, articleArray:[ArticleObject]) {
+        print("delegate called",articleArray)
+        
+        for article in articleArray {
+            self.articles.append(article)
+        }
+        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
+        dispatch_async(dispatch_get_main_queue(),{
+            //self.tableView.reloadData()
+            self.listTableView.reloadData()
+//            let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+//            //myActivityIndicator.center = view.center
+//            myActivityIndicator.startAnimating()
+//            self.listTableView.tableFooterView = myActivityIndicator;
+        })
+
+    }
+    
     override func viewDidAppear(animated: Bool) {
 
     }
@@ -160,7 +193,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     
     func groupByModifiedDate(articleArray:[ArticleObject]) {
-        self.groupedArticleArrayList.removeAllObjects()
+//        self.groupedArticleArrayList.removeAllObjects()
         let articleModifiedDateList = self.getArticlePubslishedDateList(articleArray)
         print("published date array",articleModifiedDateList)
         for articleModifiedDate in articleModifiedDateList {
@@ -168,6 +201,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             let groupedArticleArray = self.groupArticlesBasedOnModofiedDate(articleModifiedDate as! String, articleArray: articleArray)
             if(groupedArticleArray.count != 0) {
                 let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                
+                
                 
                 articleGroupDictionary.setValue(articleModifiedDate, forKey: "sectionName")
                 articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
@@ -179,9 +214,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     func groupArticlesBasedOnModofiedDate(modifiedDate:String,articleArray:[ArticleObject]) -> [ArticleObject] {
         var tempArray = [ArticleObject]()
         for article in articleArray {
-            print("olddd")
-            print("old",Utils.convertTimeStampToDate(article.articleModifiedDate))
-            print("new",modifiedDate)
+//            print("olddd")
+//            print("old",Utils.convertTimeStampToDate(article.articleModifiedDate))
+//            print("new",modifiedDate)
             if(Utils.convertTimeStampToDate(article.articleModifiedDate) == modifiedDate) {
                 tempArray.append(article)
             } else {
@@ -206,7 +241,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     func groupByContentType(menuArray:[MenuObject],articleArray:[ArticleObject]) {
-        self.groupedArticleArrayList.removeAllObjects()
+        //self.groupedArticleArrayList.removeAllObjects()
         for menu in menuArray {
             let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId, articletypeId: menu.menuId, articleArray: articleArray)
                 if(groupedArticleArray.count != 0) {
@@ -242,6 +277,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.groupedArticleArrayList.count
     }
+    
+    
     
     func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView!
     {
@@ -375,8 +412,12 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc:DetailViewController = storyboard.instantiateViewControllerWithIdentifier("detailView") as! DetailViewController
         vc.articleArray = articleGroupArray
+        vc.delegate = self
         print("selected index",self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray))
         vc.currentindex = self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray)
+        vc.contentTypeId = self.contentTypeId
+        vc.activityTypeId = self.activityTypeId
+        vc.searchKeyword = self.searchKeyword
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -532,23 +573,18 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    
-    func scrollViewDidEndDragging(scrollView: UIScrollView!, willDecelerate decelerate: Bool) {
-        let offset:CGPoint = self.listTableView.contentOffset;
-        let bounds:CGRect = self.listTableView.bounds
-        let size:CGSize = self.listTableView.contentSize
-        let inset:UIEdgeInsets = self.listTableView.contentInset
-        var y,h,reload_distance:CGFloat?
-        var pageNo:Int?
-        let mod:Int = self.articles.count%10
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        print("current indexpath",indexPath.section,indexPath.row)
+        print("total items",self.articles.count)
+        let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(indexPath.section) as! NSDictionary
+        let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
+        let articleObject:ArticleObject = articleArray![indexPath.row] as! ArticleObject
+        let lastArticle:ArticleObject = self.articles.last!
         
-    
-        y = offset.y + bounds.size.height - inset.bottom;
-        h = size.height;
-        reload_distance = 50;
-        
-        if(y > h! + reload_distance!) {
-            //reached end of scroll
+        if(articleObject.articleId == lastArticle.articleId) {
+            print("reached end")
+            var pageNo:Int?
+            let mod:Int = self.articles.count%10
             if (mod == 0) {
                 pageNo  = self.articles.count/10;
                 
@@ -570,6 +606,69 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             } else {
                 self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
             }
+
+        }
+        
+    }
+    
+//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        let arr:Array = tableView.indexPathsForVisibleRows!
+//        let lastIndexPth:NSIndexPath = tableView.indexPathsForVisibleRows!.last as! NSIndexPath
+//        if([indexPath.row] == lastIndexPth.row){
+//            
+//        }
+//    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (self.listTableView.contentOffset.y >= (self.listTableView.contentSize.height - self.listTableView.bounds.size.height))
+        {
+            // Don't animate
+            print("end")
+        }
+    }
+    
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView!, willDecelerate decelerate: Bool) {
+        let offset:CGPoint = self.listTableView.contentOffset;
+        let bounds:CGRect = self.listTableView.bounds
+        let size:CGSize = self.listTableView.contentSize
+        let inset:UIEdgeInsets = self.listTableView.contentInset
+        var y,h,reload_distance:CGFloat?
+        var pageNo:Int?
+        let mod:Int = self.articles.count%10
+        
+    
+        y = offset.y + bounds.size.height - inset.bottom;
+        h = size.height;
+        reload_distance = 50;
+        
+        print("y value",y)
+        print("h value",h!)
+        print("reload distance",reload_distance!)
+        
+        if(y > h! + reload_distance!) {
+            //reached end of scroll
+            if (mod == 0) {
+                pageNo  = self.articles.count/10;
+                
+            } else {
+                let defaultValue:Int = 10-mod;
+                pageNo  = (self.articles.count+defaultValue)/10;
+                
+            }
+            
+            
+//            if(self.searchKeyword.characters.count == 0) {
+//                if(self.contentTypeId == 20) {
+//                    //for daily digest
+//                    self.dailyDigestAPICall(pageNo!)
+//                } else {
+//                    //for normal article list
+//                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+//                }
+//            } else {
+//                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+//            }
         } else {
             //top scrolling
         }
@@ -578,6 +677,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
    
     
     func dailyDigestAPICall(pageNo:Int) {
+        var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
@@ -585,17 +685,25 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     if(results.count != 0) {
                         for entry in results {
                             self.articles.append(ArticleObject(json: entry))
+                            nextSetOfArticles.append(ArticleObject(json: entry))
                         }
-                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
+                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: nextSetOfArticles)
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
+                            self.myActivityIndicator.startAnimating()
+                            self.listTableView.tableFooterView = self.myActivityIndicator;
+//                            let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+//                            //myActivityIndicator.center = view.center
+//                            myActivityIndicator.startAnimating()
+//                            self.listTableView.tableFooterView = myActivityIndicator;
                         })
 
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
                             self.view.makeToast(message: "No more articles to display")
+                             self.myActivityIndicator.stopAnimating()
                         })
                     }
                     
@@ -609,6 +717,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     
     func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int,searchString:String) {
+        var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
@@ -616,17 +725,25 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     if(results.count != 0) {
                         for entry in results {
                             self.articles.append(ArticleObject(json: entry))
+                            nextSetOfArticles.append(ArticleObject(json: entry))
                         }
                         //self.testGroup(self.articles)
-                        self.groupByModifiedDate(self.articles)
+                        self.groupByModifiedDate(nextSetOfArticles)
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
+                            self.myActivityIndicator.startAnimating()
+                            self.listTableView.tableFooterView = self.myActivityIndicator;
+//                            let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+//                            //myActivityIndicator.center = view.center
+//                            myActivityIndicator.startAnimating()
+//                            self.listTableView.tableFooterView = myActivityIndicator;
                         })
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
                             self.view.makeToast(message: "No more articles to display")
+                            self.myActivityIndicator.stopAnimating()
                         })
                     }
                     

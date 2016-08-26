@@ -12,8 +12,16 @@ import UIKit
 import MessageUI
 import SwiftyJSON
 
+protocol DetailViewControllerDelegate {
+    func controller(controller: DetailViewController, articleArray:[ArticleObject])
+}
+
 class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,MFMailComposeViewControllerDelegate {
+    var delegate: DetailViewControllerDelegate?
     var articleArray = [ArticleObject]()
+    var activityTypeId:Int = 0
+    var searchKeyword:String = ""
+    var contentTypeId:Int = 0
     @IBOutlet var collectionView: UICollectionView!
      @IBOutlet var readFullArticleButton: UIButton!
     var outletWithContactString:String = ""
@@ -30,8 +38,12 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         self.collectionView.dataSource = nil;
         self.collectionView.delegate = nil;
         
-        
-
+        //handle session expired
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(handleSessionExpired),
+            name: "SessionExpired",
+            object: nil)
         
         
     }
@@ -57,6 +69,11 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             print("current index",currentindex!)
             self.collectionView?.scrollToItemAtIndexPath(NSIndexPath(forItem: currentindex!, inSection: 0), atScrollPosition: .Right, animated: false)
         }
+    }
+    
+    func handleSessionExpired(notification: NSNotification) {
+        NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func reloadNavBarItems(artilceObj:ArticleObject) {
@@ -167,10 +184,11 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                                 } else if(info["isMarked"] == "0"){
                                     article.isMarkedImportant = 1
                                 }
-                                
+                                self.reloadNavBarItems(article)
+                            } else {
+                                continue
                             }
                         }
-                        self.collectionView.reloadData()
                         
                     })
                     
@@ -209,10 +227,12 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                                 } else if(info["isSaved"] == "0"){
                                     article.isSavedForLater = 1
                                 }
-                                
+                                self.reloadNavBarItems(article)
+                            } else {
+                                continue
                             }
                         }
-                        self.collectionView.reloadData()
+                        
                         
                     })
                     
@@ -289,10 +309,10 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         cell.articleContactLabel.text = outletWithContactString
         let dateString:String = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
         cell.articlePublishedDateLabel.text = "Published: "+dateString
-        //        print("before removing",self.articleDetailDescription)
-        //        let removedLinkString = self.articleDetailDescription.stringByReplacingOccurrencesOfString("<span style=\"color:#000080\">Click here to read full article</span>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        //        print("after removing".removedLinkString)
-        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", articleObject.articleDetailedDescription)
+                print("before removing",articleObject.articleDetailedDescription)
+                let removedLinkString = articleObject.articleDetailedDescription.stringByReplacingOccurrencesOfString("style=\"background:rgba(102, 110, 115, 0.1);color:#A3101C;font-family:open sans;font-weight:bold;margin:2px;padding:0px 3px;text-decoration:none;\">Click here to read full article", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                print("after removing",removedLinkString)
+        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", removedLinkString)
         
         //        htmlString = [NSString stringWithFormat:@"<body style='color:#000000;font-family:Open Sans;line-height: 1.7;font-size: 16px;font-weight: 310;'>%@",[curatedNewsDetail valueForKey:@"article"]];
         
@@ -320,7 +340,119 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         
     }
 
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let scrollOffset:CGFloat = self.collectionView.contentOffset.x
+        var pageNo:Int?
+        let mod:Int = self.articleArray.count%10
+        let lastCount:Int = self.articleArray.count-1
+        print("scroll offset",scrollOffset)
+        print("collection width",self.collectionView.frame.size.width*CGFloat(lastCount))
+        if(scrollOffset > self.collectionView.frame.size.width*CGFloat(lastCount)) {
+            if(self.articleArray.count != 0) {
+                if (mod == 0) {
+                    pageNo  = self.articleArray.count/10;
+                    
+                } else {
+                    let defaultValue:Int = 10-mod;
+                    pageNo  = (self.articleArray.count+defaultValue)/10;
+                    
+                }
+                print("api call")
+                
+                if(self.searchKeyword.characters.count == 0) {
+                    if(self.contentTypeId == 20) {
+                        //for daily digest
+                        self.dailyDigestAPICall(pageNo!)
+                    } else {
+                        //for normal article list
+                        self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+                    }
+                } else {
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+                }
+                
+            }
+        }
+    }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+//        let cell:DetailViewCell = self.collectionView.cellForItemAtIndexPath(<#T##indexPath: NSIndexPath##NSIndexPath#>)
+//        DetailViewCell *cell = (CorporateDetailCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
+//        // [cell resetCellWebviewHeight];
+//        [cell.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        
+    }
+    
+    
+    
+    
+    func dailyDigestAPICall(pageNo:Int) {
+        var nextSetOfArticles = [ArticleObject]()
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
+                if let results = json.array {
+                    if(results.count != 0) {
+                        for entry in results {
+                            self.articleArray.append(ArticleObject(json: entry))
+                            nextSetOfArticles.append(ArticleObject(json: entry))
+                        }
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.collectionView.reloadData()
+                            if let delegate = self.delegate {
+                                delegate.controller(self, articleArray: nextSetOfArticles)
+                            }
+//                            NSNotificationCenter.defaultCenter().postNotificationName("SavedForLaterButtonClick", object:self, userInfo:nextSetOfArticles as ArticleObject)
+                        })
+                        
+                    } else {
+                        //handle empty article list
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "No more articles to display")
+                        })
+                    }
+                    
+                } else {
+                    
+                }
+            }
+        }
+        
+    }
+    
+    
+    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int,searchString:String) {
+        var nextSetOfArticles = [ArticleObject]()
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
+                if let results = json.array {
+                    if(results.count != 0) {
+                        for entry in results {
+                            self.articleArray.append(ArticleObject(json: entry))
+                            nextSetOfArticles.append(ArticleObject(json: entry))
+                        }
+                        //self.testGroup(self.articles)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.collectionView.reloadData()
+                            if let delegate = self.delegate {
+                                delegate.controller(self, articleArray: nextSetOfArticles)
+                            }
+                        })
+                    } else {
+                        //handle empty article list
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "No more articles to display")
+                        })
+                    }
+                    
+                } else {
+                    
+                }
+            }
+            
+        }
+    }
     
     /*
     // MARK: - Navigation
