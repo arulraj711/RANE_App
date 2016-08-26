@@ -15,6 +15,8 @@ class ReadFullArticleViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        webView.loadRequest(NSURLRequest(URL: NSURL(string: articleUrl)!))
     }
 
     override func didReceiveMemoryWarning() {

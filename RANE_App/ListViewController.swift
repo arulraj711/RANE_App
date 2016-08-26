@@ -63,6 +63,35 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             selector: #selector(mailButtonClickAction),
             name: "MailButtonClick",
             object: nil)
+        
+        //MarkedImportant button click notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(markedImportantButtonClickAction),
+            name: "MarkedImportantButtonClick",
+            object: nil)
+        
+        //Saved for later button click notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(savedForLaterButtonClickAction),
+            name: "SavedForLaterButtonClick",
+            object: nil)
+        
+        //Update marked important status in list view
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(updateMarkedImportantStatusInList),
+            name: "updateMarkedImportantStatus",
+            object: nil)
+        
+        //Update saved for later status in list view
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(updateSavedForLaterStatusInList),
+            name: "updateSavedForLaterStatus",
+            object: nil)
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -343,6 +372,99 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     
     
+    func savedForLaterButtonClickAction(notification: NSNotification) {
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            if let info = notification.userInfo as? Dictionary<String,String> {
+                let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                userActivitiesInputDictionary.setValue("3", forKey: "status")
+                userActivitiesInputDictionary.setValue(info["articleId"], forKey: "selectedArticleId")
+                userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                if(info["isSaved"] == "1") {
+                    userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                } else if(info["isSaved"] == "0") {
+                    userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+                }
+                WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                    dispatch_async(dispatch_get_main_queue(),{
+                    
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isSaved"] = info["isSaved"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
+                        
+                    })
+                }
+            }
+        }
+    }
+    
+    func updateSavedForLaterStatusInList(notification: NSNotification) {
+        if let info = notification.userInfo as? Dictionary<String,String> {
+            for article in self.articles {
+                if(article.articleId == info["articleId"]) {
+                    if(info["isSaved"] == "1") {
+                        article.isSavedForLater = 0
+                    } else if(info["isSaved"] == "0"){
+                        article.isSavedForLater = 1
+                    }
+                    
+                }
+            }
+            self.listTableView.reloadData()
+        }
+        
+    }
+    
+    func updateMarkedImportantStatusInList(notification: NSNotification) {
+        if let info = notification.userInfo as? Dictionary<String,String> {
+            for article in self.articles {
+                if(article.articleId == info["articleId"]) {
+                    if(info["isMarked"] == "1") {
+                        article.isMarkedImportant = 0
+                    } else if(info["isMarked"] == "0"){
+                        article.isMarkedImportant = 1
+                    }
+                    
+                }
+            }
+            self.listTableView.reloadData()
+        }
+        
+    }
+    
+    
+    func markedImportantButtonClickAction(notification: NSNotification) {
+        
+        // This method is invoked when the notification is sent
+        
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            if let info = notification.userInfo as? Dictionary<String,String> {
+                let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                userActivitiesInputDictionary.setValue("2", forKey: "status")
+                userActivitiesInputDictionary.setValue(info["articleId"], forKey: "selectedArticleId")
+                userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                if(info["isMarked"] == "1") {
+                    userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                } else if(info["isMarked"] == "0") {
+                    userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+                }
+                    WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                    dispatch_async(dispatch_get_main_queue(),{
+                        
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isMarked"] = info["isMarked"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                        
+                    })
+
+                    
+                }
+            }
+        }
+    }
     
     func mailButtonClickAction(notification: NSNotification) {
         

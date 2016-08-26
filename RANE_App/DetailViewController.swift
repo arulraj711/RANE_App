@@ -10,6 +10,7 @@
 
 import UIKit
 import MessageUI
+import SwiftyJSON
 
 class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,MFMailComposeViewControllerDelegate {
     var articleArray = [ArticleObject]()
@@ -61,6 +62,11 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         var selectedArticleDictionary = Dictionary<String, String>()
         selectedArticleDictionary["title"] = artilceObj.articleTitle
         selectedArticleDictionary["Description"] = artilceObj.articleDescription
+        selectedArticleDictionary["ArticleURL"] = artilceObj.articleURL
+        selectedArticleDictionary["ArticleId"] = artilceObj.articleId
+        selectedArticleDictionary["isMarked"] = String(artilceObj.isMarkedImportant)
+        selectedArticleDictionary["isSaved"] = String(artilceObj.isSavedForLater)
+        
         
         NSUserDefaults.standardUserDefaults().setObject(selectedArticleDictionary, forKey: "SelectedArticleDictionary")
         
@@ -90,10 +96,9 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         
         let savedForLaterButton = UIButton()
         savedForLaterButton.setImage(UIImage(named: "bookmark-icon"), forState: .Normal)
-        savedForLaterButton.setImage(UIImage(named: "markedimportant_icon"), forState: .Selected)
+        savedForLaterButton.setImage(UIImage(named: "bookmarkFilled-icon"), forState: .Selected)
         savedForLaterButton.frame = CGRectMake(0, 0, 30, 30)
-        //        savedForLaterButton.backgroundColor = UIColor.redColor()
-        //btn4.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
+        savedForLaterButton.addTarget(self, action: #selector(DetailViewController.savedForLaterButtonClick), forControlEvents: .TouchUpInside)
         let savedForLaterItem = UIBarButtonItem()
         savedForLaterItem.customView = savedForLaterButton
         if(artilceObj.isSavedForLater == 1) {
@@ -106,10 +111,9 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         
         let markedImportantButton = UIButton()
         markedImportantButton.setImage(UIImage(named: "markedimportant_icon"), forState: .Normal)
-        markedImportantButton.setImage(UIImage(named: "bookmark-icon"), forState: .Selected)
+        markedImportantButton.setImage(UIImage(named: "markedimportantFilled_icon"), forState: .Selected)
         markedImportantButton.frame = CGRectMake(0, 0, 30, 30)
-        //        markedImportantButton.backgroundColor = UIColor.redColor()
-        // btn5.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
+        markedImportantButton.addTarget(self, action: #selector(DetailViewController.markedImportantButtonClick), forControlEvents: .TouchUpInside)
         let markedImportantItem = UIBarButtonItem()
         markedImportantItem.customView = markedImportantButton
         if(artilceObj.isMarkedImportant == 1) {
@@ -121,6 +125,89 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
 //         NSUserDefaults.standardUserDefaults().setObject(artilceObj, forKey: "articleObject")
         
         self.navigationItem.rightBarButtonItems = [markedImportantItem,savedForLaterItem,folderItem,mailItem,chatItem]
+    }
+    
+    func markedImportantButtonClick() {
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+                let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                userActivitiesInputDictionary.setValue("2", forKey: "status")
+                userActivitiesInputDictionary.setValue(info["ArticleId"], forKey: "selectedArticleId")
+                userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                if(info["isMarked"] == "1") {
+                    userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                } else if(info["isMarked"] == "0") {
+                    userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+                }
+                WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                    dispatch_async(dispatch_get_main_queue(),{
+                        
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isMarked"] = info["isMarked"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                        
+                        for article in self.articleArray {
+                            if(article.articleId == info["ArticleId"]) {
+                                if(info["isMarked"] == "1") {
+                                    article.isMarkedImportant = 0
+                                } else if(info["isMarked"] == "0"){
+                                    article.isMarkedImportant = 1
+                                }
+                                
+                            }
+                        }
+                        self.collectionView.reloadData()
+                        
+                    })
+                    
+                    
+                }
+            }
+        }
+        
+    }
+    
+    func savedForLaterButtonClick() {
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+                let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                userActivitiesInputDictionary.setValue("3", forKey: "status")
+                userActivitiesInputDictionary.setValue(info["ArticleId"], forKey: "selectedArticleId")
+                userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                if(info["isSaved"] == "1") {
+                    userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                } else if(info["isSaved"] == "0") {
+                    userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+                }
+                WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                    dispatch_async(dispatch_get_main_queue(),{
+                        
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isSaved"] = info["isSaved"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
+                        
+                        for article in self.articleArray {
+                            if(article.articleId == info["ArticleId"]) {
+                                if(info["isSaved"] == "1") {
+                                    article.isSavedForLater = 0
+                                } else if(info["isSaved"] == "0"){
+                                    article.isSavedForLater = 1
+                                }
+                                
+                            }
+                        }
+                        self.collectionView.reloadData()
+                        
+                    })
+                    
+                    
+                }
+            }
+        }
     }
     
     func mailButtonClick() {
@@ -212,9 +299,13 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     @IBAction func readFullArticleButtonClick(sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc:ReadFullArticleViewController = storyboard.instantiateViewControllerWithIdentifier("readFullArticleView") as! ReadFullArticleViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:ReadFullArticleViewController = storyboard.instantiateViewControllerWithIdentifier("readFullArticleView") as! ReadFullArticleViewController
+            vc.articleUrl = info["ArticleURL"]!
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 
     
