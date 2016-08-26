@@ -21,7 +21,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var titleString:String = ""
+    var dailyDigestId:Int = 0
     let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    let listActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -46,7 +48,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 imageView.contentMode = UIViewContentMode.ScaleAspectFit;
                 self.navigationItem.titleView = imageView
                 
-                self.dailyDigestAPICall(0)
+                self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
             } else {
                 //for normal article list
                 
@@ -112,6 +114,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     //myActivityIndicator.center = view.center
        
             myActivityIndicator.stopAnimating()
+        listActivityIndicator.center = self.view.center
+        listActivityIndicator.startAnimating()
+        self.view.addSubview(listActivityIndicator)
         
         
         
@@ -286,6 +291,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let label:UILabel = UILabel()
         let headerColorView:UIView = UIView()
         let expandButton = UIButton()
+        let fullExpandButton = UIButton()
        
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(section) as! NSDictionary
         if(section == 0) {
@@ -297,8 +303,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 36, 20, 20)
+                fullExpandButton.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
                 expandButton.tag = (singleDic.objectForKey("sectionId") as? Int)!
-                expandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
+                fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
+                headerView.addSubview(fullExpandButton)
                 headerView.addSubview(expandButton)
             }
             
@@ -310,7 +318,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
                 expandButton.tag = (singleDic.objectForKey("sectionId") as? Int)!
-                expandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
+                fullExpandButton.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
+                fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
+                headerView.addSubview(fullExpandButton)
                 headerView.addSubview(expandButton)
             }
         }
@@ -467,6 +477,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     
                 }
             }
+            self.groupedArticleArrayList.removeAllObjects()
+            self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
             self.listTableView.reloadData()
         }
         
@@ -484,6 +496,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     
                 }
             }
+            self.groupedArticleArrayList.removeAllObjects()
+            self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
             self.listTableView.reloadData()
         }
         
@@ -506,6 +520,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 } else if(info["isMarked"] == "0") {
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                 }
+                print("marked important userdic",userActivitiesInputDictionary)
                     WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
                     dispatch_async(dispatch_get_main_queue(),{
                         
@@ -528,7 +543,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         if let info = notification.userInfo as? Dictionary<String,String> {
             print("notification info",info)
             
-            let mailComposeViewController = configuredMailComposeViewController("arul.raj@capestart.com", title: info["title"]!, description: info["Description"]!)
+            let mailComposeViewController = configuredMailComposeViewController((NSUserDefaults.standardUserDefaults().objectForKey("email")?.stringValue)!, title: info["title"]!, description: info["Description"]!)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
@@ -598,7 +613,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             if(self.searchKeyword.characters.count == 0) {
                 if(self.contentTypeId == 20) {
                     //for daily digest
-                    self.dailyDigestAPICall(pageNo!)
+                    self.dailyDigestAPICall(pageNo!,dailyDigestId: dailyDigestId)
                 } else {
                     //for normal article list
                     self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
@@ -610,24 +625,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         }
         
     }
-    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        let arr:Array = tableView.indexPathsForVisibleRows!
-//        let lastIndexPth:NSIndexPath = tableView.indexPathsForVisibleRows!.last as! NSIndexPath
-//        if([indexPath.row] == lastIndexPth.row){
-//            
-//        }
-//    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (self.listTableView.contentOffset.y >= (self.listTableView.contentSize.height - self.listTableView.bounds.size.height))
-        {
-            // Don't animate
-            print("end")
-        }
-    }
-    
-    
+
     func scrollViewDidEndDragging(scrollView: UIScrollView!, willDecelerate decelerate: Bool) {
         let offset:CGPoint = self.listTableView.contentOffset;
         let bounds:CGRect = self.listTableView.bounds
@@ -676,11 +674,12 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 
    
     
-    func dailyDigestAPICall(pageNo:Int) {
+    func dailyDigestAPICall(pageNo:Int,dailyDigestId:Int) {
         var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
+            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(dailyDigestId, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
+                
                 if let results = json.array {
                     if(results.count != 0) {
                         for entry in results {
@@ -693,10 +692,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             self.listTableView.reloadData()
                             self.myActivityIndicator.startAnimating()
                             self.listTableView.tableFooterView = self.myActivityIndicator;
-//                            let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-//                            //myActivityIndicator.center = view.center
-//                            myActivityIndicator.startAnimating()
-//                            self.listTableView.tableFooterView = myActivityIndicator;
+                            self.listActivityIndicator.stopAnimating()
+                            self.listActivityIndicator.removeFromSuperview()
+
                         })
 
                     } else {
@@ -704,6 +702,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                         dispatch_async(dispatch_get_main_queue(),{
                             self.view.makeToast(message: "No more articles to display")
                              self.myActivityIndicator.stopAnimating()
+                            self.listActivityIndicator.stopAnimating()
+                            self.listActivityIndicator.removeFromSuperview()
                         })
                     }
                     
@@ -721,6 +721,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
+                
                 if let results = json.array {
                     if(results.count != 0) {
                         for entry in results {
@@ -734,16 +735,16 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             self.listTableView.reloadData()
                             self.myActivityIndicator.startAnimating()
                             self.listTableView.tableFooterView = self.myActivityIndicator;
-//                            let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-//                            //myActivityIndicator.center = view.center
-//                            myActivityIndicator.startAnimating()
-//                            self.listTableView.tableFooterView = myActivityIndicator;
+                            self.listActivityIndicator.stopAnimating()
+                            self.listActivityIndicator.removeFromSuperview()
                         })
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
                             self.view.makeToast(message: "No more articles to display")
                             self.myActivityIndicator.stopAnimating()
+                            self.listActivityIndicator.stopAnimating()
+                            self.listActivityIndicator.removeFromSuperview()
                         })
                     }
                     

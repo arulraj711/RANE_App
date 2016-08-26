@@ -12,7 +12,7 @@ public class Utils {
     class func convertTimeStampToDate(timestamp:Double) -> String {
         let date = NSDate(timeIntervalSince1970:timestamp/1000)
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MMM dd, yyyy"
+        dateFormatter.dateFormat = "MMM d, yyyy"
         //        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         let dateString = dateFormatter.stringFromDate(date)
         
@@ -22,7 +22,7 @@ public class Utils {
     class func convertTimeStampToDrillDateModel(timestamp:Double) -> String {
         let date = NSDate(timeIntervalSince1970:timestamp/1000)
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.dateFormat = "d MMMM yyyy"
         //        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         let dateString = dateFormatter.stringFromDate(date)
         

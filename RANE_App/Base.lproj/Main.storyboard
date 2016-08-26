@@ -25,6 +25,10 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
@@ -871,7 +875,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                         <state key="normal" title="Post">
-                                            <color key="titleColor" red="0.78039215689999997" green="0.78039215689999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="postCommentButtonClick:" destination="NjU-m1-NH4" eventType="touchUpInside" id="lP1-9F-CLZ"/>
@@ -910,6 +914,132 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rdF-No-SWM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4577" y="-514"/>
+        </scene>
+        <!--News Letter View Controller-->
+        <scene sceneID="ubI-sL-sGX">
+            <objects>
+                <viewController storyboardIdentifier="newsLetterView" id="bLE-mw-Uqj" customClass="NewsLetterViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fmu-5L-7fK"/>
+                        <viewControllerLayoutGuide type="bottom" id="EQP-uT-buP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7xc-7V-NUA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VJT-xw-n7S">
+                                <rect key="frame" x="-4" y="64" width="383" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQd-eL-kS0">
+                                        <rect key="frame" x="32" y="9" width="33" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="33" id="Pfg-QP-7cB"/>
+                                            <constraint firstAttribute="height" constant="21" id="pte-sS-7sx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="13" y="16" width="28" height="17"/>
+                                        </variation>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# Articles" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tw3-Ne-qk6">
+                                        <rect key="frame" x="302" y="0.0" width="60" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="MRS-3g-sJt"/>
+                                            <constraint firstAttribute="width" constant="60" id="uck-DF-RC9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="244" y="16" width="122" height="17"/>
+                                        </variation>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.92941176469999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Tw3-Ne-qk6" secondAttribute="trailing" constant="21" id="1eG-FT-csg"/>
+                                    <constraint firstItem="EQd-eL-kS0" firstAttribute="leading" secondItem="VJT-xw-n7S" secondAttribute="leading" constant="32" id="EWR-pr-puz"/>
+                                    <constraint firstItem="Tw3-Ne-qk6" firstAttribute="top" secondItem="VJT-xw-n7S" secondAttribute="top" id="Hco-kp-BWq"/>
+                                    <constraint firstAttribute="height" constant="40" id="K2t-7u-mZ3"/>
+                                    <constraint firstItem="EQd-eL-kS0" firstAttribute="top" secondItem="VJT-xw-n7S" secondAttribute="top" constant="9" id="jEu-V5-lxo"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="2zc-In-Fxm">
+                                <rect key="frame" x="0.0" y="104" width="375" height="496"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="Etg-Y3-DCf" customClass="CustomNewsLetterCell" customModule="RANE_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="1" width="375" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Etg-Y3-DCf" id="jZ4-aH-PCG">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boston Reach" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HD3-jf-33b">
+                                                    <rect key="frame" x="23" y="9" width="250" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="AS2-Sv-csI"/>
+                                                        <constraint firstAttribute="width" constant="250" id="bZe-Zr-xrl"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dsr-kl-rIx">
+                                                    <rect key="frame" x="305" y="9" width="47" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="47" id="64c-7a-50u"/>
+                                                        <constraint firstAttribute="height" constant="21" id="6sP-M4-nIb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="263" y="17" width="82" height="21"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Dsr-kl-rIx" firstAttribute="top" secondItem="jZ4-aH-PCG" secondAttribute="topMargin" constant="1" id="1sW-5V-d40"/>
+                                                <constraint firstItem="HD3-jf-33b" firstAttribute="leading" secondItem="jZ4-aH-PCG" secondAttribute="leadingMargin" constant="15" id="BsA-Ll-e1a"/>
+                                                <constraint firstItem="HD3-jf-33b" firstAttribute="top" secondItem="jZ4-aH-PCG" secondAttribute="topMargin" constant="1" id="TBq-eY-z21"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Dsr-kl-rIx" secondAttribute="trailing" constant="15" id="s7k-NB-iKU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="articleCountLabel" destination="Dsr-kl-rIx" id="SZF-ol-lIr"/>
+                                            <outlet property="newsletterName" destination="HD3-jf-33b" id="gen-wu-mcY"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bLE-mw-Uqj" id="0uc-bV-JiO"/>
+                                    <outlet property="delegate" destination="bLE-mw-Uqj" id="IDy-Su-ydW"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2zc-In-Fxm" firstAttribute="leading" secondItem="7xc-7V-NUA" secondAttribute="leadingMargin" constant="-16" id="3ni-Lg-hWc"/>
+                            <constraint firstItem="VJT-xw-n7S" firstAttribute="leading" secondItem="7xc-7V-NUA" secondAttribute="leadingMargin" constant="-20" id="RTb-V8-rq2"/>
+                            <constraint firstItem="VJT-xw-n7S" firstAttribute="top" secondItem="7xc-7V-NUA" secondAttribute="top" constant="64" id="Rs7-en-IxA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VJT-xw-n7S" secondAttribute="trailing" constant="-20" id="VsZ-Lo-HTe"/>
+                            <constraint firstItem="EQP-uT-buP" firstAttribute="top" secondItem="2zc-In-Fxm" secondAttribute="bottom" id="g27-ye-pvU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2zc-In-Fxm" secondAttribute="trailing" constant="-16" id="uHe-CB-yxl"/>
+                            <constraint firstItem="2zc-In-Fxm" firstAttribute="top" secondItem="VJT-xw-n7S" secondAttribute="bottom" id="xir-fE-9s3"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="600"/>
+                    <connections>
+                        <outlet property="newsletterListView" destination="2zc-In-Fxm" id="oo8-NW-KVv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tad-DJ-PbT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5726.5" y="-3786"/>
         </scene>
     </scenes>
     <resources>

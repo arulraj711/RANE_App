@@ -134,5 +134,15 @@ class WebServiceManager: NSObject {
         })
     }
     
+    // For newsletter list API call
+    func callDailyDigestListWebService(securityToken:String,onCompletion: (JSON) -> Void) {
+        //http://fullintel.com/2.0.0/api/v1/client/newsletters?security_token=bae2c2521aeed73cb9428ae52114529f3643350b
+        let dailyDigestAPIFunctionName = "api/v1/client/newsletters?security_token="+securityToken
+        WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+        })
+    }
+    
     
 }

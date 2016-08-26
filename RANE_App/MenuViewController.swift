@@ -85,7 +85,12 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 101) {
+        if(menu.menuId == 2){
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        } else if(menu.menuId == 101) {
             let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1-844-RUN-RANE")
             actionSheet.showInView(self.view)
             
@@ -148,6 +153,9 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
             vc.searchKeyword = searchBar.text!
+                .stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet()
+            )
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

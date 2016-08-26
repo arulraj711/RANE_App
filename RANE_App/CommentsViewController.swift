@@ -60,7 +60,7 @@ class CommentsViewController: UIViewController {
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
-                            self.view.makeToast(message: "No more comments to display")
+                            self.view.makeToast(message: "No comments to display")
                         })
                     }
                     
@@ -137,7 +137,11 @@ class CommentsViewController: UIViewController {
             getCommentInputDictionary.setValue("-1", forKey: "parentId")
             getCommentInputDictionary.setValue(self.commentTextField.text, forKey: "comment")
              WebServiceManager.sharedInstance.callAddCommentsWebService(getCommentInputDictionary) { (json:JSON) in
-                self.getComment()
+                dispatch_async(dispatch_get_main_queue(),{
+                    self.commentTextField.text = ""
+                    self.getComment()
+                    })
+                
             }
         }
         

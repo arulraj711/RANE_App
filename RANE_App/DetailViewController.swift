@@ -245,8 +245,8 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     func mailButtonClick() {
         if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
             print("notification info",info)
-            
-            let mailComposeViewController = configuredMailComposeViewController("arul.raj@capestart.com", title: info["title"]!, description: info["Description"]!)
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
+            let mailComposeViewController = configuredMailComposeViewController((NSUserDefaults.standardUserDefaults().objectForKey("email")?.stringValue)!, title: info["title"]!, description: info["Description"]!)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
@@ -310,9 +310,10 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         let dateString:String = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
         cell.articlePublishedDateLabel.text = "Published: "+dateString
                 print("before removing",articleObject.articleDetailedDescription)
-                let removedLinkString = articleObject.articleDetailedDescription.stringByReplacingOccurrencesOfString("style=\"background:rgba(102, 110, 115, 0.1);color:#A3101C;font-family:open sans;font-weight:bold;margin:2px;padding:0px 3px;text-decoration:none;\">Click here to read full article", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                print("after removing",removedLinkString)
-        let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", removedLinkString)
+                let removedStyleTagString = articleObject.articleDetailedDescription.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                print("after removing",removedStyleTagString)
+                let removeClickText = removedStyleTagString.stringByReplacingOccurrencesOfString("Click here to read full article", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", removeClickText)
         
         //        htmlString = [NSString stringWithFormat:@"<body style='color:#000000;font-family:Open Sans;line-height: 1.7;font-size: 16px;font-weight: 310;'>%@",[curatedNewsDetail valueForKey:@"article"]];
         
@@ -332,6 +333,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     @IBAction func readFullArticleButtonClick(sender: UIButton) {
         if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ReadFullArticleViewController = storyboard.instantiateViewControllerWithIdentifier("readFullArticleView") as! ReadFullArticleViewController
             vc.articleUrl = info["ArticleURL"]!
