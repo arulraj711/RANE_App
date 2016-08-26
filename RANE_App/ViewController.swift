@@ -10,6 +10,7 @@ import UIKit
 //import WebService
 import SwiftyJSON
 class ViewController: UIViewController {
+    
     @IBOutlet var emailAddressField: UITextField!
     @IBOutlet var userInfoView: UIView!
     @IBOutlet var loginButton: UIButton!
@@ -39,6 +40,9 @@ class ViewController: UIViewController {
 //  
 //        emailAddressField.text = "kavin.xavier@capestart.com"
 //        passwordField.text = "start"
+        
+        
+
         
     }
 
@@ -120,6 +124,14 @@ class ViewController: UIViewController {
             
         }
     }
+    
+    @IBAction func forgotPasswordButtonClick(sender: UIButton) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:ReadFullArticleViewController = storyboard.instantiateViewControllerWithIdentifier("readFullArticleView") as! ReadFullArticleViewController
+                vc.articleUrl = "https://ranenetwork.com/app/cms/users/password/new"
+                self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
     /* Code for draw path over the view
     func configureEmailField(textfield: UITextField) {
