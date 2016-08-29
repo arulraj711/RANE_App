@@ -13,12 +13,12 @@ import MessageUI
 import SwiftyJSON
 
 protocol DetailViewControllerDelegate {
-    func controller(controller: DetailViewController, articleArray:[ArticleObject])
+    func controller(controller: DetailViewController,contentType:Int ,articleArray:[Article])
 }
 
 class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,MFMailComposeViewControllerDelegate {
     var delegate: DetailViewControllerDelegate?
-    var articleArray = [ArticleObject]()
+    var articleArray = [Article]()
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var contentTypeId:Int = 0
@@ -76,7 +76,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
-    func reloadNavBarItems(artilceObj:ArticleObject) {
+    func reloadNavBarItems(artilceObj:Article) {
         
         var selectedArticleDictionary = Dictionary<String, String>()
         selectedArticleDictionary["title"] = artilceObj.articleTitle
@@ -180,9 +180,12 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         for article in self.articleArray {
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isMarked"] == "1") {
-                                    article.isMarkedImportant = 0
+//                                    article.isMarkedImportant = 0
+                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, isMarked: 0)
                                 } else if(info["isMarked"] == "0"){
-                                    article.isMarkedImportant = 1
+//                                    article.isMarkedImportant = 1
+                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, isMarked: 1)
+
                                 }
                                 self.reloadNavBarItems(article)
                             } else {
@@ -223,9 +226,11 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         for article in self.articleArray {
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isSaved"] == "1") {
-                                    article.isSavedForLater = 0
+//                                    article.isSavedForLater = 0
+                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, isSaved: 0)
                                 } else if(info["isSaved"] == "0"){
-                                    article.isSavedForLater = 1
+//                                    article.isSavedForLater = 1
+                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, isSaved: 1)
                                 }
                                 self.reloadNavBarItems(article)
                             } else {
@@ -290,27 +295,27 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! DetailViewCell
         //cell.scrollView.contentOffset = CGPointMake(0, 0)
-        let articleObject:ArticleObject = articleArray[indexPath.row]
+        let articleObject:Article = articleArray[indexPath.row]
         dispatch_async(dispatch_get_main_queue(),{
             self.reloadNavBarItems(articleObject)
         })
         
-        if(articleObject.fieldsName.characters.count == 0) {
-            cell.fieldsNameHeightConstraint.constant = 0;
-        } else {
-            cell.fieldsNameHeightConstraint.constant = 21;
-            cell.articleFieldNamelabel.text = articleObject.fieldsName
-        }
+//        if(articleObject.fieldsName.characters.count == 0) {
+//            cell.fieldsNameHeightConstraint.constant = 0;
+//        } else {
+//            cell.fieldsNameHeightConstraint.constant = 21;
+//            cell.articleFieldNamelabel.text = articleObject.fieldsName
+//        }
         cell.webviewHeightConstraint.constant = 20
         cell.articleTitleLabel.text = articleObject.articleTitle
         
-        self.outletWithContactString = articleObject.outletName+" | "+articleObject.contactName
+        //self.outletWithContactString = articleObject.outletName+" | "+articleObject.contactName
         
         cell.articleContactLabel.text = outletWithContactString
         let dateString:String = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
         cell.articlePublishedDateLabel.text = "Published: "+dateString
                 print("before removing",articleObject.articleDetailedDescription)
-                let removedStyleTagString = articleObject.articleDetailedDescription.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                let removedStyleTagString = articleObject.articleDetailedDescription!.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 print("after removing",removedStyleTagString)
                 let removeClickText = removedStyleTagString.stringByReplacingOccurrencesOfString("Click here to read full article", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", removeClickText)
@@ -389,20 +394,27 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     
     func dailyDigestAPICall(pageNo:Int) {
-        var nextSetOfArticles = [ArticleObject]()
+        var nextSetOfArticles = [Article]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
                 if let results = json.array {
                     if(results.count != 0) {
-                        for entry in results {
-                            self.articleArray.append(ArticleObject(json: entry))
-                            nextSetOfArticles.append(ArticleObject(json: entry))
+                        
+//                        self.articles = CoreDataController().getArticleListForContentTypeId(20, pageNo: 0, entityName: "Article")
+//                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article"))
+                        
+                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article") as [Article]
+                        
+                        
+                        for article in nextSetArticles {
+                            self.articleArray.append(article)
+                            nextSetOfArticles.append(article)
                         }
                         dispatch_async(dispatch_get_main_queue(),{
                             self.collectionView.reloadData()
                             if let delegate = self.delegate {
-                                delegate.controller(self, articleArray: nextSetOfArticles)
+                                delegate.controller(self,contentType:20,articleArray: nextSetOfArticles)
                             }
 //                            NSNotificationCenter.defaultCenter().postNotificationName("SavedForLaterButtonClick", object:self, userInfo:nextSetOfArticles as ArticleObject)
                         })
@@ -424,21 +436,22 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     
     func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int,searchString:String) {
-        var nextSetOfArticles = [ArticleObject]()
+        var nextSetOfArticles = [Article]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
                 if let results = json.array {
                     if(results.count != 0) {
-                        for entry in results {
-                            self.articleArray.append(ArticleObject(json: entry))
-                            nextSetOfArticles.append(ArticleObject(json: entry))
+                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article") as [Article]
+                        for article in nextSetArticles {
+                            self.articleArray.append(article)
+                            nextSetOfArticles.append(article)
                         }
                         //self.testGroup(self.articles)
                         dispatch_async(dispatch_get_main_queue(),{
                             self.collectionView.reloadData()
                             if let delegate = self.delegate {
-                                delegate.controller(self, articleArray: nextSetOfArticles)
+                                delegate.controller(self,contentType: contentTypeId,articleArray: nextSetOfArticles)
                             }
                         })
                     } else {

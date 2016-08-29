@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import WebService
+import CoreData
 import SwiftyJSON
 class ViewController: UIViewController {
     
@@ -38,8 +38,8 @@ class ViewController: UIViewController {
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
 //  
-//        emailAddressField.text = "kavin.xavier@capestart.com"
-//        passwordField.text = "start"
+        emailAddressField.text = "kavin.xavier@capestart.com"
+        passwordField.text = "start"
         
         
 
@@ -111,6 +111,7 @@ class ViewController: UIViewController {
             NSUserDefaults.standardUserDefaults().setObject(json["id"].intValue, forKey: "userId")
             NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
             NSUserDefaults.standardUserDefaults().setObject(json["email"].stringValue, forKey: "email")
+            
             dispatch_async(dispatch_get_main_queue(),{
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
@@ -124,6 +125,10 @@ class ViewController: UIViewController {
             
         }
     }
+    
+    
+    
+    
     
     @IBAction func forgotPasswordButtonClick(sender: UIButton) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -8,9 +8,11 @@
 
 import UIKit
 import SwiftyJSON
+import CoreData
 
 class WebServiceManager: NSObject {
-    var menuItems = [MenuObject]()
+    var menuItems = [Menu]()
+    
     static let sharedInstance = WebServiceManager()
     
     
@@ -39,6 +41,7 @@ class WebServiceManager: NSObject {
             self.menuItems.removeAll()
             if let results = json.array {
                 for entry in results {
+                    print("single entry",entry)
                     if(entry["subscribed"].boolValue == true) {
                         
 //                        if(entry["id"].intValue == 9) {
@@ -48,20 +51,31 @@ class WebServiceManager: NSObject {
 //                            //saved for later
 //                            continue
 //                        } else {
-                            self.menuItems.append(MenuObject(json: entry))
+                        
+                       //CoreDataController().updateMenuInfoInCoreData(entry)
+                        
+                        CoreDataController().addMenu(entry)
+                        
                         //}
                     }
                     
                     //self.loginInputDictionary.setValue(self.items, forKey: "email")
                 }
                 
+                
                 let contactDictionary = ["id": "101", "name": "Contact RiskDesk"]
                 let contactJSONObj = JSON(contactDictionary)
-                self.menuItems.append(MenuObject(json: contactJSONObj))
-                
+                CoreDataController().addMenu(contactJSONObj)
+//                CoreDataController().updateMenuInfoInCoreData(contactJSONObj)
+//                //self.menuItems.append(MenuObject(json: contactJSONObj))
+//                
+//                
                 let logoutDictionary = ["id": "102", "name": "Logout"]
                 let logoutJSONObj = JSON(logoutDictionary)
-                self.menuItems.append(MenuObject(json: logoutJSONObj))
+                CoreDataController().addMenu(logoutJSONObj)
+//                CoreDataController().updateMenuInfoInCoreData(logoutJSONObj)
+//               // self.menuItems.append(MenuObject(json: logoutJSONObj))
+                self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
             }
             
             onCompletion(json as JSON)
@@ -72,8 +86,15 @@ class WebServiceManager: NSObject {
     func callDailyDigestArticleListWebService(dailyDigestId:Int,securityToken:String,page:Int,size:Int,onCompletion: (JSON) -> Void) {
         let dailyDigestAPIFunctionName = "api/v1/client/newsletter/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
         WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
-            onCompletion(json as JSON)
             
+                if let results = json.array {
+                    for entry in results {
+                        CoreDataController().addArticle(entry, contentTypeId: 20, pageNo: page)
+                        
+                    }
+                }
+            
+            onCompletion(json as JSON)
         })
     }
     
@@ -98,8 +119,15 @@ class WebServiceManager: NSObject {
             articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString
         }
         WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
+            if(searchString.characters.count == 0) {
+                if let results = json.array {
+                    for entry in results {
+                        CoreDataController().addArticle(entry, contentTypeId: contentTypeId, pageNo: page)
+                        
+                    }
+                }
+            }
             onCompletion(json as JSON)
-            
         })
     }
     

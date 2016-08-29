@@ -25,7 +25,7 @@ class CustomListCell: UITableViewCell {
     @IBOutlet var fieldName: UILabel!
     @IBOutlet weak var articleDescription: UILabel!
     @IBOutlet weak var outletName: UILabel!
-    var cellArticleObject:ArticleObject!
+    var cellArticleObject:Article!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

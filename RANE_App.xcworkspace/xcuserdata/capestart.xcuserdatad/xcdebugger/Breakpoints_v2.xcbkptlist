@@ -9,13 +9,41 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RANE_App/CommentsViewController.swift"
-            timestampString = "493908661.459024"
+            filePath = "RANE_App/Menu.swift"
+            timestampString = "494149183.882325"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "keyboardWillShow(_:)"
+            startingLineNumber = "20"
+            endingLineNumber = "20">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RANE_App/Menu.swift"
+            timestampString = "494149819.149093"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RANE_App/CoreDataController.swift"
+            timestampString = "494175102.555626"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "updateMenuInfoInCoreData(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,45 +54,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RANE_App/ListViewController.swift"
-            timestampString = "493926194.210795"
+            timestampString = "494175598.215763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "controller(_:articleArray:)"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "controller(_:contentType:articleArray:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RANE_App.ListViewController.controller (RANE_App.DetailViewController, articleArray : Swift.Array&lt;RANE_App.ArticleObject&gt;) -&gt; ()"
-                  moduleName = "RANE_App"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/capestart/Documents/RANE_App/RANE_App/ListViewController.swift"
-                  timestampString = "493933070.111659"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "127"
-                  endingLineNumber = "127"
-                  offsetFromSymbolStart = "28">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "protocol witness for RANE_App.DetailViewControllerDelegate.controller (RANE_App.DetailViewController, articleArray : Swift.Array&lt;RANE_App.ArticleObject&gt;) -&gt; () in conformance RANE_App.ListViewController : RANE_App.DetailViewControllerDelegate in RANE_App"
-                  moduleName = "RANE_App"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/capestart/Documents/RANE_App/RANE_App/ListViewController.swift"
-                  timestampString = "493933070.112036"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "126"
-                  endingLineNumber = "126"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -73,13 +69,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RANE_App/ListViewController.swift"
-            timestampString = "493926194.210795"
+            filePath = "RANE_App/DetailViewController.swift"
+            timestampString = "494175621.669766"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
-            landmarkName = "groupByModifiedDate(_:)"
+            startingLineNumber = "445"
+            endingLineNumber = "445"
+            landmarkName = "articleAPICall(_:contentTypeId:pagenNo:searchString:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,29 +86,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RANE_App/ListViewController.swift"
-            timestampString = "493933069.711558"
+            timestampString = "494175699.788842"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "389"
-            endingLineNumber = "389"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "controller(_:contentType:articleArray:)"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RANE_App/ListViewController.swift"
-            timestampString = "493933163.250675"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
-            landmarkName = "ListViewController"
-            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

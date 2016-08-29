@@ -10,6 +10,11 @@
 		3FA6C9CD61B2A2D4EA98258B /* Pods_RANE_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DB8BDE0A65C6A91A98A886 /* Pods_RANE_App.framework */; };
 		A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C5C6A1D5C580000FA6817 /* ListViewController.swift */; };
 		A05C5C6D1D5C844400FA6817 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */; };
+		A077655E1D73FF44007A81C7 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A077655D1D73FF44007A81C7 /* CoreDataController.swift */; };
+		A07765741D742ADE007A81C7 /* Menu+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07765721D742ADE007A81C7 /* Menu+CoreDataProperties.swift */; };
+		A07765751D742ADE007A81C7 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07765731D742ADE007A81C7 /* Menu.swift */; };
+		A07765781D745626007A81C7 /* Article+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07765761D745626007A81C7 /* Article+CoreDataProperties.swift */; };
+		A07765791D745626007A81C7 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07765771D745626007A81C7 /* Article.swift */; };
 		A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */; };
 		A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */; };
 		A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463F1D5B378E001D8097 /* MenuViewController.swift */; };
@@ -66,6 +71,11 @@
 /* Begin PBXFileReference section */
 		A05C5C6A1D5C580000FA6817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
+		A077655D1D73FF44007A81C7 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
+		A07765721D742ADE007A81C7 /* Menu+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Menu+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A07765731D742ADE007A81C7 /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		A07765761D745626007A81C7 /* Article+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Article+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A07765771D745626007A81C7 /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
 		A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A0CF463F1D5B378E001D8097 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +164,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A07765711D742AC1007A81C7 /* CoreDataObject */ = {
+			isa = PBXGroup;
+			children = (
+				A07765761D745626007A81C7 /* Article+CoreDataProperties.swift */,
+				A07765771D745626007A81C7 /* Article.swift */,
+				A07765721D742ADE007A81C7 /* Menu+CoreDataProperties.swift */,
+				A07765731D742ADE007A81C7 /* Menu.swift */,
+			);
+			name = CoreDataObject;
+			sourceTree = "<group>";
+		};
 		BA49CA371D533FA9001DC190 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +200,7 @@
 		BA49CA421D533FA9001DC190 /* RANE_App */ = {
 			isa = PBXGroup;
 			children = (
+				A07765711D742AC1007A81C7 /* CoreDataObject */,
 				BA5EC5461D673E8D00A52CB4 /* Views */,
 				BA5EC5411D673C3E00A52CB4 /* ViewController */,
 				BA5EC5451D673E1900A52CB4 /* Helpers */,
@@ -244,6 +266,7 @@
 			children = (
 				BACA474B1D54B9F600D772ED /* WebService.swift */,
 				A0F1D1C61D5DDB99000B032B /* WebServiceManager.swift */,
+				A077655D1D73FF44007A81C7 /* CoreDataController.swift */,
 			);
 			name = WebService;
 			sourceTree = "<group>";
@@ -494,11 +517,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A07765741D742ADE007A81C7 /* Menu+CoreDataProperties.swift in Sources */,
 				A0F1D1C71D5DDB99000B032B /* WebServiceManager.swift in Sources */,
 				BA2C79731D64549900851BAE /* UserObject.swift in Sources */,
 				A0EFF3AA1D7055B100BFBA91 /* CommentObject.swift in Sources */,
 				A0EFF3B01D70AE5200BFBA91 /* NewsLetterObject.swift in Sources */,
 				A0EFF3A61D702ED400BFBA91 /* CommentsViewController.swift in Sources */,
+				A077655E1D73FF44007A81C7 /* CoreDataController.swift in Sources */,
 				BA2274EE1D65A3D5009E30BE /* ArticleObject.swift in Sources */,
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
 				BAC01FC61D6FE05300DB206C /* ReadFullArticleViewController.swift in Sources */,
@@ -510,6 +535,7 @@
 				A0D921791D6C1E9A00180B45 /* DetailViewController.swift in Sources */,
 				A0EFF3AC1D70AD3600BFBA91 /* NewsLetterViewController.swift in Sources */,
 				A0EFF3A81D70558100BFBA91 /* CustomCommentCell.swift in Sources */,
+				A07765751D742ADE007A81C7 /* Menu.swift in Sources */,
 				A0D921731D6AFAC300180B45 /* Utils.swift in Sources */,
 				A05C5C6D1D5C844400FA6817 /* CustomListCell.swift in Sources */,
 				A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */,
@@ -517,6 +543,8 @@
 				BAD5C7481D64B29100C4746D /* CommonViewController.swift in Sources */,
 				A0EFF3AE1D70ADDB00BFBA91 /* CustomNewsLetterCell.swift in Sources */,
 				A05C5C6B1D5C580000FA6817 /* ListViewController.swift in Sources */,
+				A07765791D745626007A81C7 /* Article.swift in Sources */,
+				A07765781D745626007A81C7 /* Article+CoreDataProperties.swift in Sources */,
 				BA5EC5401D67064700A52CB4 /* Reachability.swift in Sources */,
 				A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */,
 				A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */,

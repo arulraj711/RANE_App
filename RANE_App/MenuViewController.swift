@@ -9,13 +9,14 @@
 import UIKit
 import Kingfisher
 import SwiftyJSON
+import CoreData
 
 class MenuViewController: UIViewController,UIActionSheetDelegate {
 
     @IBOutlet weak var menuNavigationBarItem: UINavigationItem!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var menuTableView: UITableView!
-    var menuItems: [MenuObject]?
+    var menuItems: [Menu]?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -31,7 +32,8 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
         searchBar.enablesReturnKeyAutomatically = false
-        menuItems = WebServiceManager.sharedInstance.menuItems
+        self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
+        self.menuTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,19 +52,19 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomMenuCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
-        let menu = self.menuItems![indexPath.row]
-        
+        let menu = self.menuItems![indexPath.row] 
+        print("menu object",menu.menuName,menu.menuId)
 //        if let url = NSURL(string: menu.menuIconURL) {
 //            if let data = NSData(contentsOfURL: url) {
 //                cell.menuIconImage.image = UIImage(data: data)
 //            }
 //        }
-        if(menu.menuId == 101) {
+        if(menu.menuId.integerValue == 101) {
             cell.menuIconImage.kf_setImageWithURL(NSURL(string:"http://www.3daspect.com.au/here/wp-content/themes/gds3daspect/images/contact-icon-black-phone-90x90.png")!, placeholderImage: nil)
-        } else if(menu.menuId == 102) {
+        } else if(menu.menuId.integerValue == 102) {
             cell.menuIconImage.image = UIImage(named: "Logout")
         } else {
-            cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
+            cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL!)!, placeholderImage: nil)
         }
         
         
@@ -109,8 +111,8 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-            vc.contentTypeId = menu.menuId
-            vc.titleString = menu.menuName
+            vc.contentTypeId = menu.menuId.integerValue
+            vc.titleString = menu.menuName!
             vc.activityTypeId = activityTypeId
             self.navigationController?.pushViewController(vc, animated: true)
         }
