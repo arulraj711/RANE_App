@@ -46,6 +46,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if(NSUserDefaults.standardUserDefaults().stringForKey("securityToken") != nil) {
             let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
             if(securityToken!.characters.count != 0){
+                // Handle marked important unsync articles
+                let unSyncMarkedArticle:[Article] = CoreDataController().getMarkedUnSyncArticle()
+                print("un sync article",unSyncMarkedArticle.count)
+                for article in unSyncMarkedArticle {
+                    let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                    userActivitiesInputDictionary.setValue("2", forKey: "status")
+                    userActivitiesInputDictionary.setValue(article.articleId, forKey: "selectedArticleId")
+                    userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                    if(article.isMarkedImportant == 0) {
+                        userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                    } else if(article.isMarkedImportant == 1) {
+                        userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+                    }
+                    WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                        CoreDataController().setMarkedUnSyncToSync()
+                    }
+                }
+                
+                // Handle saved for later unsync articles
+                let unSyncSavedArticle:[Article] = CoreDataController().getSavedUnSyncArticle()
+                print("un sync article",unSyncSavedArticle.count)
+                for article in unSyncSavedArticle {
+                    let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                    userActivitiesInputDictionary.setValue("3", forKey: "status")
+                    userActivitiesInputDictionary.setValue(article.articleId, forKey: "selectedArticleId")
+                    userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                    if(article.isSavedForLater == 0) {
+                        userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                    } else if(article.isSavedForLater == 1) {
+                        userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+                    }
+                    WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                        CoreDataController().setSavedUnSyncToSync()
+                    }
+                }
+                
                 WebServiceManager.sharedInstance.callMenuWebService(securityToken!) { (json:JSON) in }
             }
         } else {

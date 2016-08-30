@@ -136,7 +136,7 @@ class CoreDataController {
     }
     
     
-    func updateMarkedImportantStatusInArticle(artilceId:String,contentTypeId:Int,isMarked:Int) {
+    func updateMarkedImportantStatusInArticle(artilceId:String,contentTypeId:Int,isMarked:Int,isMarkedImpSync:Bool) {
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
@@ -151,6 +151,7 @@ class CoreDataController {
             if results.count != 0{
                 let article = results[0] as Article
                 article.setValue(isMarked, forKey: "isMarkedImportant")
+                article.setValue(isMarkedImpSync, forKey: "isMarkedImportantSync")
                 try article.managedObjectContext?.save()
             }
         } catch {
@@ -159,7 +160,7 @@ class CoreDataController {
         }
     }
 
-    func updateSavedForLaterStatusInArticle(artilceId:String,contentTypeId:Int,isSaved:Int) {
+    func updateSavedForLaterStatusInArticle(artilceId:String,contentTypeId:Int,isSaved:Int,isSavedSync:Bool) {
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
@@ -174,6 +175,7 @@ class CoreDataController {
             if results.count != 0{
                 let article = results[0] as Article
                 article.setValue(isSaved, forKey: "isSavedForLater")
+                article.setValue(isSavedSync, forKey: "isSavedForLaterSync")
                 try article.managedObjectContext?.save()
             }
         } catch {
@@ -270,23 +272,99 @@ class CoreDataController {
         return entityResult
     }
     
-//    func deleteExistingData() {
-//        
-//        let appDelegate =
-//            UIApplication.sharedApplication().delegate as! AppDelegate
-//        let managedContext = appDelegate.managedObjectContext
-//        
-//        do {
-//            
-//            let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
-//            try managedContext.persistentStoreCoordinator?.destroyPersistentStoreAtURL(url, withType: NSSQLiteStoreType, options: nil)
-//            
-//        } catch {
-//            
-//        }
-//        
-//    }
+    func getMarkedUnSyncArticle()-> [Article]{
+        var entityResult = [Article]()
+        //1
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.predicate = NSPredicate(format: "isMarkedImportantSync == %@",false)
+        
+        
+        //3
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            entityResult = results
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return entityResult
+    }
     
+    func setMarkedUnSyncToSync() {
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.predicate = NSPredicate(format: "isMarkedImportantSync == %@",false)
+        
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            if results.count != 0 {
+                let article = results[0] as Article
+                article.setValue(true, forKey: "isMarkedImportantSync")
+                try article.managedObjectContext?.save()
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
+    func getSavedUnSyncArticle()-> [Article]{
+        var entityResult = [Article]()
+        //1
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.predicate = NSPredicate(format: "isSavedForLaterSync == %@",false)
+        
+        
+        //3
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            entityResult = results
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return entityResult
+    }
+    
+    func setSavedUnSyncToSync() {
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.predicate = NSPredicate(format: "isSavedForLaterSync == %@",false)
+        
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            if results.count != 0 {
+                let article = results[0] as Article
+                article.setValue(true, forKey: "isSavedForLaterSync")
+                try article.managedObjectContext?.save()
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
     
     func deleteAndResetStack() {
        // var error: NSError?

@@ -479,10 +479,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 if(article.articleId == info["articleId"]) {
                     if(info["isSaved"] == "1") {
 //                        article.isSavedForLater = 0
-                        CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId ,isSaved: 0)
+                        CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId ,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
                     } else if(info["isSaved"] == "0"){
 //                        article.isSavedForLater = 1
-                        CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isSaved: 1)
+                        CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
                     }
                     
                 }
@@ -498,12 +498,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         if let info = notification.userInfo as? Dictionary<String,String> {
             for article in self.articles {
                 if(article.articleId == info["articleId"]) {
+                    print("Reachability",Reachability.isConnectedToNetwork())
                     if(info["isMarked"] == "1") {
 //                        article.isMarkedImportant = 0
-                        CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId, isMarked: 0)
+                        CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
                     } else if(info["isMarked"] == "0"){
 //                        article.isMarkedImportant = 1
-                        CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isMarked: 1)
+                        CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
                     }
                     
                 }
