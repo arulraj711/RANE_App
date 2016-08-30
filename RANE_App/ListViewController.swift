@@ -378,19 +378,19 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:Article = articleArray![indexPath.row] as! Article
         cell.cellArticleObject = articleObject
-//        if(articleObject.fieldsName.characters.count == 0) {
-//            cell.fieldNameLabelHeightConstraint.constant=0
-//        } else {
-//            cell.fieldNameLabelHeightConstraint.constant=20
-//            cell.fieldName.text = articleObject.fieldsName
-//        }
+        if(articleObject.fieldsName!.characters.count == 0) {
+            cell.fieldNameLabelHeightConstraint.constant=0
+        } else {
+            cell.fieldNameLabelHeightConstraint.constant=20
+            cell.fieldName.text = articleObject.fieldsName
+        }
         print("one")
         cell.articleTitle.text = articleObject.articleTitle!.stringByTrimmingCharactersInSet(
             NSCharacterSet.whitespaceAndNewlineCharacterSet()
         )
         print("two")
         cell.articleDescription.text = articleObject.articleDescription!
-        //cell.outletName.text = articleObject.outletName
+        cell.outletName.text = articleObject.outletName!
         
         //highlight marked important articles
         if (articleObject.isMarkedImportant == 1) {

@@ -1,22 +1,21 @@
 //
-//  NewsLetterViewController.swift
+//  FolderViewController.swift
 //  RANE_App
 //
-//  Created by cape start on 26/08/16.
+//  Created by cape start on 30/08/16.
 //  Copyright © 2016 capestart. All rights reserved.
 //
 
 import UIKit
 import SwiftyJSON
 
-class NewsLetterViewController: UIViewController {
-    @IBOutlet var newsletterListView: UITableView!
-    var newsletterArray = [NewsLetterObject]()
+class FolderViewController: UIViewController {
+    @IBOutlet var folderListView: UITableView!
+    var folderArray = [FolderObject]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.getFolderList()
         // Do any additional setup after loading the view.
-        self.getNewsLetterList()
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,23 +23,22 @@ class NewsLetterViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func getNewsLetterList() {
+    func getFolderList() {
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             
-            WebServiceManager.sharedInstance.callDailyDigestListWebService(securityToken!) { (json:JSON) in
-                print("newsletter response",json)
+            WebServiceManager.sharedInstance.callFolderListWebService(securityToken!) { (json:JSON) in
+                print("folder response",json)
                 if let results = json.array {
-                    self.newsletterArray.removeAll()
+                    self.folderArray.removeAll()
                     if(results.count != 0) {
                         for entry in results {
-                            self.newsletterArray.append(NewsLetterObject(json: entry))
+                            self.folderArray.append(FolderObject(json: entry))
                         }
                         //self.testGroup(self.articles)
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
-                            self.newsletterListView.reloadData()
+                            self.folderListView.reloadData()
                         })
                     } else {
                         //handle empty article list
@@ -58,28 +56,30 @@ class NewsLetterViewController: UIViewController {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return newsletterArray.count
+        return folderArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CustomNewsLetterCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CustomFolderCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        let newsletterObject = self.newsletterArray[indexPath.row]
-        cell.newsletterName.text = newsletterObject.newsletterName
-        cell.articleCountLabel.text = String(newsletterObject.newsletterarticleCount)
+        let folderObject = self.folderArray[indexPath.row]
+        cell.folderTitle.text = folderObject.folderName
+        
+        //        cell.newsletterName.text = newsletterObject.newsletterName
+        //        cell.articleCountLabel.text = String(newsletterObject.newsletterarticleCount)
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let newsletterObject = self.newsletterArray[indexPath.row]
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-        vc.contentTypeId = 20
-        vc.dailyDigestId = newsletterObject.newsletterId
-        vc.activityTypeId = 0
-        self.navigationController?.pushViewController(vc, animated: true)
+        //        let newsletterObject = self.newsletterArray[indexPath.row]
+        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+        //        vc.contentTypeId = 20
+        //        vc.dailyDigestId = newsletterObject.newsletterId
+        //        vc.activityTypeId = 0
+        //        self.navigationController?.pushViewController(vc, animated: true)
     }
-
+    
     /*
     // MARK: - Navigation
 

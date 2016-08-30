@@ -15,8 +15,8 @@ class CustomListCell: UITableViewCell {
     @IBAction func mailButtonClick(sender: UIButton) {
         
         var dataDict = Dictionary<String, String>()
-        dataDict["title"] = cellArticleObject.articleTitle
-        dataDict["Description"] = cellArticleObject.articleDescription
+        dataDict["title"] = cellArticleObject.articleTitle!
+        dataDict["Description"] = cellArticleObject.articleDescription!
          NSNotificationCenter.defaultCenter().postNotificationName("MailButtonClick", object:self, userInfo:dataDict)
     }
     @IBOutlet var mailButton: UIButton!
@@ -39,14 +39,14 @@ class CustomListCell: UITableViewCell {
 
     @IBAction func savedForLaterButtonClick(sender: UIButton) {
         var dataDict = Dictionary<String, String>()
-        dataDict["title"] = cellArticleObject.articleTitle
+        dataDict["title"] = cellArticleObject.articleTitle!
         dataDict["articleId"] = cellArticleObject.articleId
         dataDict["isSaved"] = String(cellArticleObject.isSavedForLater)
         NSNotificationCenter.defaultCenter().postNotificationName("SavedForLaterButtonClick", object:self, userInfo:dataDict)
     }
     @IBAction func markedImportantButtonClick(sender: UIButton) {
         var dataDict = Dictionary<String, String>()
-        dataDict["title"] = cellArticleObject.articleTitle
+        dataDict["title"] = cellArticleObject.articleTitle!
         dataDict["articleId"] = cellArticleObject.articleId
         dataDict["isMarked"] = String(cellArticleObject.isMarkedImportant)
         NSNotificationCenter.defaultCenter().postNotificationName("MarkedImportantButtonClick", object:self, userInfo:dataDict)

@@ -88,9 +88,19 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             activityTypeId = 2
         }
         if(menu.menuId == 2){
+            //Newsletter list
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
             self.navigationController?.pushViewController(vc, animated: true)
+            
+        } else if(menu.menuId == 19) {
+            //Folder list
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:FolderListViewController = storyboard.instantiateViewControllerWithIdentifier("folderListView") as! FolderListViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        } else if(menu.menuId == 21) {
+            //Media analysis
             
         } else if(menu.menuId == 101) {
             let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1-844-RUN-RANE")

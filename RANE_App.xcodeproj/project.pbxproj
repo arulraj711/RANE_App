@@ -16,6 +16,10 @@
 		A07765781D745626007A81C7 /* Article+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07765761D745626007A81C7 /* Article+CoreDataProperties.swift */; };
 		A07765791D745626007A81C7 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07765771D745626007A81C7 /* Article.swift */; };
 		A0A9F9E51D6D9047003A6E30 /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */; };
+		A0C779121D75819E009D88B1 /* FolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C779111D75819E009D88B1 /* FolderListViewController.swift */; };
+		A0C779141D75826E009D88B1 /* FolderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C779131D75826E009D88B1 /* FolderObject.swift */; };
+		A0C779161D7589FC009D88B1 /* CustomFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C779151D7589FC009D88B1 /* CustomFolderCell.swift */; };
+		A0C779181D75BC59009D88B1 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C779171D75BC59009D88B1 /* FolderViewController.swift */; };
 		A0CF463E1D5B2FF0001D8097 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */; };
 		A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF463F1D5B378E001D8097 /* MenuViewController.swift */; };
 		A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */; };
@@ -77,6 +81,10 @@
 		A07765761D745626007A81C7 /* Article+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Article+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A07765771D745626007A81C7 /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
+		A0C779111D75819E009D88B1 /* FolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderListViewController.swift; sourceTree = "<group>"; };
+		A0C779131D75826E009D88B1 /* FolderObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderObject.swift; sourceTree = "<group>"; };
+		A0C779151D7589FC009D88B1 /* CustomFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFolderCell.swift; sourceTree = "<group>"; };
+		A0C779171D75BC59009D88B1 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		A0CF463D1D5B2FF0001D8097 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A0CF463F1D5B378E001D8097 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenuCell.swift; sourceTree = "<group>"; };
@@ -245,6 +253,8 @@
 				BAC01FC51D6FE05300DB206C /* ReadFullArticleViewController.swift */,
 				A0EFF3A51D702ED300BFBA91 /* CommentsViewController.swift */,
 				A0EFF3AB1D70AD3500BFBA91 /* NewsLetterViewController.swift */,
+				A0C779111D75819E009D88B1 /* FolderListViewController.swift */,
+				A0C779171D75BC59009D88B1 /* FolderViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -257,6 +267,7 @@
 				BA2274EF1D65B6D4009E30BE /* MenuObject.swift */,
 				A0EFF3A91D7055B100BFBA91 /* CommentObject.swift */,
 				A0EFF3AF1D70AE5200BFBA91 /* NewsLetterObject.swift */,
+				A0C779131D75826E009D88B1 /* FolderObject.swift */,
 			);
 			name = CustomObject;
 			sourceTree = "<group>";
@@ -279,6 +290,7 @@
 				A0A9F9E41D6D9047003A6E30 /* DetailViewCell.swift */,
 				A0EFF3A71D70558100BFBA91 /* CustomCommentCell.swift */,
 				A0EFF3AD1D70ADDB00BFBA91 /* CustomNewsLetterCell.swift */,
+				A0C779151D7589FC009D88B1 /* CustomFolderCell.swift */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -518,6 +530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A07765741D742ADE007A81C7 /* Menu+CoreDataProperties.swift in Sources */,
+				A0C779181D75BC59009D88B1 /* FolderViewController.swift in Sources */,
 				A0F1D1C71D5DDB99000B032B /* WebServiceManager.swift in Sources */,
 				BA2C79731D64549900851BAE /* UserObject.swift in Sources */,
 				A0EFF3AA1D7055B100BFBA91 /* CommentObject.swift in Sources */,
@@ -525,14 +538,17 @@
 				A0EFF3A61D702ED400BFBA91 /* CommentsViewController.swift in Sources */,
 				A077655E1D73FF44007A81C7 /* CoreDataController.swift in Sources */,
 				BA2274EE1D65A3D5009E30BE /* ArticleObject.swift in Sources */,
+				A0C779141D75826E009D88B1 /* FolderObject.swift in Sources */,
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,
 				BAC01FC61D6FE05300DB206C /* ReadFullArticleViewController.swift in Sources */,
 				A0CF46401D5B378E001D8097 /* MenuViewController.swift in Sources */,
+				A0C779161D7589FC009D88B1 /* CustomFolderCell.swift in Sources */,
 				BA2274F01D65B6D4009E30BE /* MenuObject.swift in Sources */,
 				BA49CA441D533FA9001DC190 /* AppDelegate.swift in Sources */,
 				BACA474C1D54B9F600D772ED /* WebService.swift in Sources */,
 				BA49CA4C1D533FA9001DC190 /* RANE_App.xcdatamodeld in Sources */,
 				A0D921791D6C1E9A00180B45 /* DetailViewController.swift in Sources */,
+				A0C779121D75819E009D88B1 /* FolderListViewController.swift in Sources */,
 				A0EFF3AC1D70AD3600BFBA91 /* NewsLetterViewController.swift in Sources */,
 				A0EFF3A81D70558100BFBA91 /* CustomCommentCell.swift in Sources */,
 				A07765751D742ADE007A81C7 /* Menu.swift in Sources */,

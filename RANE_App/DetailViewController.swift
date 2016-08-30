@@ -107,8 +107,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         let folderButton = UIButton()
         folderButton.setImage(UIImage(named: "folder_icon"), forState: .Normal)
         folderButton.frame = CGRectMake(0, 0, 30, 30)
-        //        folderButton.backgroundColor = UIColor.redColor()
-        // btn3.addTarget(self, action: Selector("action2:"), forControlEvents: .TouchUpInside)
+        folderButton.addTarget(self, action: #selector(DetailViewController.folderButtonClick), forControlEvents: .TouchUpInside)
         let folderItem = UIBarButtonItem()
         folderItem.customView = folderButton
         
@@ -152,6 +151,17 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             let vc:CommentsViewController = storyboard.instantiateViewControllerWithIdentifier("commentsView") as! CommentsViewController
             print("selected article id",info["ArticleId"]!)
             vc.articleId = info["ArticleId"]!
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func folderButtonClick() {
+        if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:FolderViewController = storyboard.instantiateViewControllerWithIdentifier("folderView") as! FolderViewController
+            print("selected article id",info["ArticleId"]!)
+            //vc.articleId = info["ArticleId"]!
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -308,16 +318,16 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             self.reloadNavBarItems(articleObject)
         })
         
-//        if(articleObject.fieldsName.characters.count == 0) {
-//            cell.fieldsNameHeightConstraint.constant = 0;
-//        } else {
-//            cell.fieldsNameHeightConstraint.constant = 21;
-//            cell.articleFieldNamelabel.text = articleObject.fieldsName
-//        }
+        if(articleObject.fieldsName!.characters.count == 0) {
+            cell.fieldsNameHeightConstraint.constant = 0;
+        } else {
+            cell.fieldsNameHeightConstraint.constant = 21;
+            cell.articleFieldNamelabel.text = articleObject.fieldsName
+        }
         cell.webviewHeightConstraint.constant = 20
         cell.articleTitleLabel.text = articleObject.articleTitle
         
-        //self.outletWithContactString = articleObject.outletName+" | "+articleObject.contactName
+        self.outletWithContactString = articleObject.outletName!+" | "+articleObject.contactName!
         
         cell.articleContactLabel.text = outletWithContactString
         let dateString:String = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)

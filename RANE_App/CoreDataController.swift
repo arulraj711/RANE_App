@@ -99,6 +99,48 @@ class CoreDataController {
                 article.setValue(contentTypeId, forKey: "contentTypeId")
                 article.setValue(pageNo, forKey: "pageNo")
                 
+                /* fields name configuration */
+                if let fieldsArray = articleJSON["fields"].array {
+                    var fieldsName:String = ""
+                    for fields in fieldsArray {
+                        if(fieldsName.characters.count == 0) {
+                            fieldsName = fieldsName.uppercaseString+fields["name"].stringValue.uppercaseString
+                        } else {
+                            fieldsName = fieldsName.uppercaseString+" & "+fields["name"].stringValue.uppercaseString
+                        }
+                        
+                    }
+                    article.setValue(fieldsName, forKey: "fieldsName")
+                }
+                
+                /* outlet name configuration */
+                if let outletArray = articleJSON["outlet"].array {
+                    var outletName:String = ""
+                    for outlet in outletArray {
+                        if(outletName.characters.count == 0) {
+                            outletName = outletName+outlet["name"].stringValue
+                        } else {
+                            outletName = outletName+" & "+outlet["name"].stringValue
+                        }
+                        
+                    }
+                    article.setValue(outletName, forKey: "outletName")
+                }
+                
+                /* contact name configuration */
+                if let contactArray = articleJSON["contact"].array {
+                    var contactName:String = ""
+                    for contact in contactArray {
+                        if(contactName.characters.count == 0) {
+                            contactName = contactName+contact["name"].stringValue
+                        } else {
+                            contactName = contactName+","+contact["name"].stringValue
+                        }
+                        
+                    }
+                    article.setValue(contactName, forKey: "contactName")
+                }
+                
                 try article.managedObjectContext?.save()
                 
             } else {
@@ -122,6 +164,49 @@ class CoreDataController {
                 article.setValue(articleJSON["markAsImportant"].intValue, forKey: "isMarkedImportant")
                 article.setValue(contentTypeId, forKey: "contentTypeId")
                 article.setValue(pageNo, forKey: "pageNo")
+                
+                /* fields name configuration */
+                if let fieldsArray = articleJSON["fields"].array {
+                    var fieldsName:String = ""
+                    for fields in fieldsArray {
+                        if(fieldsName.characters.count == 0) {
+                            fieldsName = fieldsName.uppercaseString+fields["name"].stringValue.uppercaseString
+                        } else {
+                            fieldsName = fieldsName.uppercaseString+" & "+fields["name"].stringValue.uppercaseString
+                        }
+                        
+                    }
+                    article.setValue(fieldsName, forKey: "fieldsName")
+                }
+                
+                /* outlet name configuration */
+                if let outletArray = articleJSON["outlet"].array {
+                    var outletName:String = ""
+                    for outlet in outletArray {
+                        if(outletName.characters.count == 0) {
+                            outletName = outletName+outlet["name"].stringValue
+                        } else {
+                            outletName = outletName+" & "+outlet["name"].stringValue
+                        }
+                        
+                    }
+                    article.setValue(outletName, forKey: "outletName")
+                }
+                
+                /* contact name configuration */
+                if let contactArray = articleJSON["contact"].array {
+                    var contactName:String = ""
+                    for contact in contactArray {
+                        if(contactName.characters.count == 0) {
+                            contactName = contactName+contact["name"].stringValue
+                        } else {
+                            contactName = contactName+","+contact["name"].stringValue
+                        }
+                        
+                    }
+                    article.setValue(contactName, forKey: "contactName")
+                }
+                
                 try article.managedObjectContext?.save()
             }
             

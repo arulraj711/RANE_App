@@ -172,5 +172,23 @@ class WebServiceManager: NSObject {
         })
     }
     
+    // For folder list API call
+    func callFolderListWebService(securityToken:String,onCompletion: (JSON) -> Void) {
+        //http://fullintel.com/2.0.0/api/v1/client/newsletters?security_token=bae2c2521aeed73cb9428ae52114529f3643350b
+        let dailyDigestAPIFunctionName = "api/v1/folders?security_token="+securityToken
+        WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+        })
+    }
+    
+    // For folder rename API
+    func callRenameFolderWebService(folderId:Int,securityToken:String,parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
+        //api/v1/folders/191?security_token=1b8e7e2e1bb9ca1b74273c3b9a859baa053ab703
+        let folderRenameAPIFunctionName = "api/v1/folders/"+String(folderId)+"?security_token="+securityToken
+        WebService().makeHTTPPutRequest(folderRenameAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+        })
+    }
     
 }

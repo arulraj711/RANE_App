@@ -10,11 +10,14 @@
         <attribute name="articleTypeId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="articleURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="companyId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="contactName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contentTypeId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="fieldsName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isMarkedImportant" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="isMarkedImportantSync" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isSavedForLater" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="isSavedForLaterSync" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="outletName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pageNo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Menu" representedClassName=".Menu" syncable="YES">
@@ -31,7 +34,7 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Article" positionX="-36" positionY="54" width="128" height="270"/>
+        <element name="Article" positionX="-36" positionY="54" width="128" height="315"/>
         <element name="Menu" positionX="-54" positionY="27" width="128" height="105"/>
         <element name="User" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
