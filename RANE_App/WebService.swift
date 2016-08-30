@@ -110,7 +110,7 @@ class WebService: NSObject {
                             //success block
                             if let jsonData = data {
                                 let json:JSON = JSON(data: jsonData)
-                                print("error json",json)
+                                //print("error json",json)
                                 onCompletion(json, nil)
                             } else {
                                 onCompletion(nil, error)

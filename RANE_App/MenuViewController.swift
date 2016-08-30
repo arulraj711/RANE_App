@@ -98,7 +98,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             
         } else if(menu.menuId == 102) {
             //logout action
-            
+            CoreDataController().deleteAndResetStack()
             for viewCtlr in (self.navigationController?.viewControllers)! {
                 if(viewCtlr.isKindOfClass(ViewController) == true) {
                     self.navigationController?.popToViewController(viewCtlr as! ViewController, animated: true)

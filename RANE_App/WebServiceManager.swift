@@ -41,7 +41,7 @@ class WebServiceManager: NSObject {
             self.menuItems.removeAll()
             if let results = json.array {
                 for entry in results {
-                    print("single entry",entry)
+//                    print("single entry",entry)
                     if(entry["subscribed"].boolValue == true) {
                         
 //                        if(entry["id"].intValue == 9) {

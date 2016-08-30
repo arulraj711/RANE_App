@@ -169,22 +169,27 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                 } else if(info["isMarked"] == "0") {
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                 }
+                
+                dispatch_async(dispatch_get_main_queue(),{
+                    
+                    var dataDict = Dictionary<String, String>()
+                    dataDict["articleId"] = info["articleId"]
+                    dataDict["isMarked"] = info["isMarked"]
+                    NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                    
+                })
+                
                 WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
                     dispatch_async(dispatch_get_main_queue(),{
-                        
-                        var dataDict = Dictionary<String, String>()
-                        dataDict["articleId"] = info["articleId"]
-                        dataDict["isMarked"] = info["isMarked"]
-                        NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
                         
                         for article in self.articleArray {
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isMarked"] == "1") {
 //                                    article.isMarkedImportant = 0
-                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, isMarked: 0)
+                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0)
                                 } else if(info["isMarked"] == "0"){
 //                                    article.isMarkedImportant = 1
-                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, isMarked: 1)
+                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1)
 
                                 }
                                 self.reloadNavBarItems(article)
@@ -215,22 +220,25 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                 } else if(info["isSaved"] == "0") {
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                 }
+                
+                dispatch_async(dispatch_get_main_queue(),{
+                    
+                    var dataDict = Dictionary<String, String>()
+                    dataDict["articleId"] = info["articleId"]
+                    dataDict["isSaved"] = info["isSaved"]
+                    NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
+                })
+                
                 WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
                     dispatch_async(dispatch_get_main_queue(),{
-                        
-                        var dataDict = Dictionary<String, String>()
-                        dataDict["articleId"] = info["articleId"]
-                        dataDict["isSaved"] = info["isSaved"]
-                        NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
-                        
                         for article in self.articleArray {
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isSaved"] == "1") {
 //                                    article.isSavedForLater = 0
-                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, isSaved: 0)
+                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 0)
                                 } else if(info["isSaved"] == "0"){
 //                                    article.isSavedForLater = 1
-                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, isSaved: 1)
+                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 1)
                                 }
                                 self.reloadNavBarItems(article)
                             } else {

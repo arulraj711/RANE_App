@@ -24,7 +24,7 @@ class CoreDataController {
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Menu")
         fetchRequest.predicate = NSPredicate(format: "menuId == %@",menuJSON["id"].stringValue)
-        print("predicate",fetchRequest)
+//        print("predicate",fetchRequest)
         
         do {
         
@@ -47,8 +47,8 @@ class CoreDataController {
                 let record = Menu(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 //let record = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 
-                print("menu json",menuJSON)
-                print("menu name",menuJSON["name"].stringValue)
+//                print("menu json",menuJSON)
+//                print("menu name",menuJSON["name"].stringValue)
                 
                 // Populate Record
                 record.setValue(menuJSON["id"].intValue, forKey: "menuId")
@@ -136,14 +136,14 @@ class CoreDataController {
     }
     
     
-    func updateMarkedImportantStatusInArticle(artilceId:String,isMarked:Int) {
+    func updateMarkedImportantStatusInArticle(artilceId:String,contentTypeId:Int,isMarked:Int) {
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Article")
-        fetchRequest.predicate = NSPredicate(format: "articleId == %@",artilceId)
+        fetchRequest.predicate = NSPredicate(format: "articleId == %@ AND contentTypeId == %@",artilceId,String(contentTypeId))
         do {
             
             let results =
@@ -159,21 +159,21 @@ class CoreDataController {
         }
     }
 
-    func updateSavedForLaterStatusInArticle(artilceId:String,isSaved:Int) {
+    func updateSavedForLaterStatusInArticle(artilceId:String,contentTypeId:Int,isSaved:Int) {
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Article")
-        fetchRequest.predicate = NSPredicate(format: "articleId == %@",artilceId)
+        fetchRequest.predicate = NSPredicate(format: "articleId == %@ AND contentTypeId == %@",artilceId,String(contentTypeId))
         do {
             
             let results =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Article]
             if results.count != 0{
                 let article = results[0] as Article
-                article.setValue(isSaved, forKey: "isMarkedImportant")
+                article.setValue(isSaved, forKey: "isSavedForLater")
                 try article.managedObjectContext?.save()
             }
         } catch {
@@ -269,6 +269,82 @@ class CoreDataController {
         }
         return entityResult
     }
+    
+//    func deleteExistingData() {
+//        
+//        let appDelegate =
+//            UIApplication.sharedApplication().delegate as! AppDelegate
+//        let managedContext = appDelegate.managedObjectContext
+//        
+//        do {
+//            
+//            let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+//            try managedContext.persistentStoreCoordinator?.destroyPersistentStoreAtURL(url, withType: NSSQLiteStoreType, options: nil)
+//            
+//        } catch {
+//            
+//        }
+//        
+//    }
+    
+    
+    func deleteAndResetStack() {
+       // var error: NSError?
+        
+        let appDelegate =
+                    UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        
+        let coordinator = managedContext.persistentStoreCoordinator
+        if let store = coordinator!.persistentStoreForURL(url) {
+            managedContext.reset()
+            
+            do {
+                let removedStore = try coordinator!.removePersistentStore(store)
+//                print("removed store",removedStore)
+//                if (removedStore) {
+//                    print("Unable to remove store: \(error)")
+//                    return
+//                }
+                
+                let fm = NSFileManager.defaultManager()
+                let deleted = try fm.removeItemAtURL(url)
+//                print("deleted",deleted)
+            } catch {
+                
+            }
+            
+//            let fm = NSFileManager.defaultManager()
+//            let deleted = fm.removeItemAtURL(url, error: &error)
+//            if !deleted {
+//                print("Unable to remove Core Data DB at \(url): \(error)")
+//            }
+            addStoreToCoordinator(coordinator!)
+        }
+        
+    }
+    
+    private func addStoreToCoordinator(coordinator: NSPersistentStoreCoordinator) {
+        var error: NSError?
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        //let managedContext = appDelegate.managedObjectContext
+        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        do {
+            let store = try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+//            print("store",store)
+//            if store == nil {
+//                println("Could not open store at \(storeURL): \(error)")
+//            }
+        } catch {
+            
+        }
+        
+        
+    }
+    
     
 }
 
