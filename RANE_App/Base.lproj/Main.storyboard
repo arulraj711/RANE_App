@@ -875,17 +875,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NhP-Eh-ai8">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="43g-r3-Zqi">
-                                        <rect key="frame" x="15" y="15" width="505" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="IrO-a3-J76"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="NjU-m1-NH4" id="wUX-xr-z0Y"/>
-                                        </connections>
-                                    </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IVM-aq-rLV">
                                         <rect key="frame" x="535" y="15" width="50" height="30"/>
                                         <constraints>
@@ -900,14 +889,23 @@
                                             <action selector="postCommentButtonClick:" destination="NjU-m1-NH4" eventType="touchUpInside" id="lP1-9F-CLZ"/>
                                         </connections>
                                     </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xWs-8f-f0f">
+                                        <rect key="frame" x="15" y="15" width="505" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="IMy-Lv-ATg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="1CL-1a-mHq"/>
-                                    <constraint firstItem="43g-r3-Zqi" firstAttribute="top" secondItem="NhP-Eh-ai8" secondAttribute="top" constant="15" id="1Kq-Xw-mMH"/>
+                                    <constraint firstItem="xWs-8f-f0f" firstAttribute="top" secondItem="NhP-Eh-ai8" secondAttribute="top" constant="15" id="4rS-Bh-Kt9"/>
                                     <constraint firstItem="IVM-aq-rLV" firstAttribute="top" secondItem="NhP-Eh-ai8" secondAttribute="top" constant="15" id="96K-kk-L3a"/>
-                                    <constraint firstItem="43g-r3-Zqi" firstAttribute="leading" secondItem="NhP-Eh-ai8" secondAttribute="leading" constant="15" id="Y1J-9h-gMY"/>
-                                    <constraint firstItem="IVM-aq-rLV" firstAttribute="leading" secondItem="43g-r3-Zqi" secondAttribute="trailing" constant="15" id="lSi-4j-7Ve"/>
+                                    <constraint firstItem="IVM-aq-rLV" firstAttribute="leading" secondItem="xWs-8f-f0f" secondAttribute="trailing" constant="15" id="Pkj-Ws-tB5"/>
+                                    <constraint firstItem="xWs-8f-f0f" firstAttribute="leading" secondItem="NhP-Eh-ai8" secondAttribute="leading" constant="15" id="TNJ-mu-UK1"/>
                                     <constraint firstAttribute="trailing" secondItem="IVM-aq-rLV" secondAttribute="trailing" constant="15" id="mFY-vL-c2H"/>
                                 </constraints>
                             </view>
@@ -924,10 +922,11 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="commentTextField" destination="43g-r3-Zqi" id="O2J-lY-HVe"/>
                         <outlet property="commentsBottomViewConstraint" destination="gbc-xK-c1o" id="hmE-oW-2jX"/>
                         <outlet property="commentsOuterView" destination="NhP-Eh-ai8" id="lcn-pM-ztJ"/>
+                        <outlet property="commentsOuterViewHeightConstraint" destination="1CL-1a-mHq" id="C8T-CN-kGe"/>
                         <outlet property="commentsTableView" destination="D1x-BP-y2M" id="DPT-nv-GJV"/>
+                        <outlet property="commentsTextView" destination="xWs-8f-f0f" id="7ER-JI-VXB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rdF-No-SWM" userLabel="First Responder" sceneMemberID="firstResponder"/>

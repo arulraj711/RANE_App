@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class FolderListViewController: UIViewController,UIAlertViewDelegate {
+    var titleString:String = ""
    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     @IBOutlet var folderListView: UITableView!
     var folderArray = [FolderObject]()
@@ -22,7 +23,7 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
         activityIndicator.startAnimating()
         self.view.addSubview(activityIndicator)
         
-        self.title = "Folders"
+        self.title = titleString
         
         self.getFolderList()
     }

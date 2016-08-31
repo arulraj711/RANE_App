@@ -26,6 +26,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
      @IBOutlet var readFullArticleButton: UIButton!
     var outletWithContactString:String = ""
     var currentindex:Int?
+    var selectedIndexPath:NSIndexPath?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -403,7 +404,8 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-//        let cell:DetailViewCell = self.collectionView.cellForItemAtIndexPath(<#T##indexPath: NSIndexPath##NSIndexPath#>)
+//        let cell:DetailViewCell = self.collectionView.cellForItemAtIndexPath(self.selectedIndexPath!) as! DetailViewCell
+//        cell.scrollView.setContentOffset(CGPointMake(0, 0), animated: false)
 //        DetailViewCell *cell = (CorporateDetailCell *)[self.collectionView cellForItemAtIndexPath:self.selectedIndexPath];
 //        // [cell resetCellWebviewHeight];
 //        [cell.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];

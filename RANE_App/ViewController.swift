@@ -38,8 +38,8 @@ class ViewController: UIViewController {
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
 //  
-        emailAddressField.text = "testingrane@capestart.com"
-        passwordField.text = "start"
+        emailAddressField.text = "facebook@fullintel.com"
+        passwordField.text = "firanefacebook"
         
         
 

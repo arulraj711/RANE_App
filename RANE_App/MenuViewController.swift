@@ -87,16 +87,18 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 2){
-            //Newsletter list
+        if(menu.menuId == 36){
+            //Newsletter list #2-stage #36-live
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
+            vc.titleString = menu.menuName!
             self.navigationController?.pushViewController(vc, animated: true)
             
-        } else if(menu.menuId == 19) {
-            //Folder list
+        } else if(menu.menuId == 35) {
+            //Folder list #19-stage #35-live
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:FolderListViewController = storyboard.instantiateViewControllerWithIdentifier("folderListView") as! FolderListViewController
+            vc.titleString = menu.menuName!
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else if(menu.menuId == 21) {

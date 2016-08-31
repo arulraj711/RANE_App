@@ -34,7 +34,7 @@ class CoreDataController {
                 let menu = results[0] as Menu
                 
                 menu.setValue(menuJSON["id"].intValue, forKey: "menuId")
-                menu.setValue(menuJSON["name"].stringValue, forKey: "menuName")
+                menu.setValue(menuJSON["name"].stringValue.capitalizedString, forKey: "menuName")
                 menu.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 menu.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
                 try menu.managedObjectContext?.save()
@@ -52,7 +52,7 @@ class CoreDataController {
                 
                 // Populate Record
                 record.setValue(menuJSON["id"].intValue, forKey: "menuId")
-                record.setValue(menuJSON["name"].stringValue, forKey: "menuName")
+                record.setValue(menuJSON["name"].stringValue.capitalizedString, forKey: "menuName")
                 record.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 record.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
                 // Save Record

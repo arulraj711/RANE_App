@@ -13,11 +13,12 @@ class NewsLetterObject {
     var newsletterId:Int!
     var newsletterName:String!
     var newsletterarticleCount:Int!
+    var newsletterCreatedDate:Double!
     
     required init(json: JSON) {
         newsletterId = json["id"].intValue
         newsletterName = json["newsLetterSubject"].stringValue
-        
+        newsletterCreatedDate = json["createdAt"].doubleValue
         if let newsletterArticleArray = json["newsletterArticles"].array {
             newsletterarticleCount = newsletterArticleArray.count
         }

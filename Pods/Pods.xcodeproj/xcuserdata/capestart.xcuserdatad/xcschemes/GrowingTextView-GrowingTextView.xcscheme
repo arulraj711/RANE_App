@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '79C040AFDDCE1BCBF6D8B5EB0B85887F'
-               BlueprintName = 'Alamofire'
+               BlueprintIdentifier = '62CB4A53E53AA477BFD9B082EF16EF5F'
+               BlueprintName = 'GrowingTextView-GrowingTextView'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Alamofire.framework'>
+               BuildableName = 'GrowingTextView.bundle'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

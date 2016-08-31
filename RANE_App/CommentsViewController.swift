@@ -9,15 +9,18 @@
 import UIKit
 import SwiftyJSON
 import CoreData
+import GrowingTextView
 
-class CommentsViewController: UIViewController {
-   
+class CommentsViewController: UIViewController,GrowingTextViewDelegate {
+    @IBOutlet var commentsOuterViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var commentsTextView: UITextView!
+
     @IBOutlet var commentsOuterView: UIView!
     @IBOutlet var commentsTableView: UITableView!
     @IBOutlet var commentsBottomViewConstraint: NSLayoutConstraint!
-    @IBOutlet var commentTextField: UITextField!
     var articleId:String=""
     var commentsArray = [CommentObject]()
+    let textView = GrowingTextView()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +35,19 @@ class CommentsViewController: UIViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommentsViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommentsViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil);
+        
+        print("textview frame",self.commentsTextView.frame)
+        textView.frame = CGRectMake(self.commentsTextView.frame.origin.x, self.commentsTextView.frame.origin.y, self.view.frame.size.width-95, 100)
+        textView.maxLength = 256
+        textView.trimWhiteSpaceWhenEndEditing = false
+        textView.placeHolder = "Please enter your comments"
+        textView.font = UIFont(name:"OpenSans", size: 14)
+        textView.placeHolderColor = UIColor(white: 0.8, alpha: 1.0)
+        textView.maxHeight = 100.0
+        textView.delegate = self
+        self.commentsOuterView.addSubview(textView)
+        commentsTextView.backgroundColor = UIColor.whiteColor()
+        commentsTextView.layer.cornerRadius = 4.0
         
         
         self.getComment()
@@ -82,9 +98,19 @@ class CommentsViewController: UIViewController {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.commentTextField.resignFirstResponder()
+        //self.commentTextField.resignFirstResponder()
         return false
     }
+    
+    func textViewDidChangeHeight(height: CGFloat) {
+        print("new line height",height)
+        UIView.animateWithDuration(0.2) { () -> Void in
+            self.commentsOuterViewHeightConstraint.constant = height+16
+            self.commentsOuterView.layoutIfNeeded()
+        }
+    }
+    
+    
     
     func keyboardWillShow(notification: NSNotification) {
         let info = notification.userInfo!
@@ -130,7 +156,7 @@ class CommentsViewController: UIViewController {
     }
     
     @IBAction func postCommentButtonClick(sender: UIButton) {
-        if(self.commentTextField.text?.characters.count != 0) {
+        if(textView.text?.characters.count != 0) {
             let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
             if(securityToken?.characters.count != 0)  {
                 let getCommentInputDictionary: NSMutableDictionary = NSMutableDictionary()
@@ -140,10 +166,10 @@ class CommentsViewController: UIViewController {
                 getCommentInputDictionary.setValue(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), forKey: "customerId")
                 getCommentInputDictionary.setValue("1", forKey: "version")
                 getCommentInputDictionary.setValue("-1", forKey: "parentId")
-                getCommentInputDictionary.setValue(self.commentTextField.text, forKey: "comment")
+                getCommentInputDictionary.setValue(textView.text, forKey: "comment")
                 WebServiceManager.sharedInstance.callAddCommentsWebService(getCommentInputDictionary) { (json:JSON) in
                     dispatch_async(dispatch_get_main_queue(),{
-                        self.commentTextField.text = ""
+                        self.textView.text = ""
                         self.getComment()
                     })
                     
@@ -154,9 +180,7 @@ class CommentsViewController: UIViewController {
                 self.view.makeToast(message: "Please enter a comment.")
             })
         }
-        
-        
-        
+    
     }
     
     /*

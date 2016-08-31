@@ -38,7 +38,7 @@ class WebService: NSObject {
     
     static let sharedInstance = WebService()
     
-    let baseURL = "http://stageapi.fullintel.com/3.5.0/"
+    let baseURL = "http://fullintel.com/3.4.0/"
     
     // MARK: Perform a GET Request
     func makeHTTPGetRequest(functionName: String, onCompletion: ServiceResponse) {

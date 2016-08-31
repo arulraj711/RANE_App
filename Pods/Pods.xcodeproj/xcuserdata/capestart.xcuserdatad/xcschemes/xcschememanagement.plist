@@ -4,49 +4,50 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Alamofire.xcscheme</key>
+		<key>GrowingTextView-GrowingTextView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
+		</dict>
+		<key>GrowingTextView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Kingfisher.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-RANE_App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>25E91FEA8B6642696EF2EB3423C7040C</key>
+		<key>62CB4A53E53AA477BFD9B082EF16EF5F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>59A85FFF5497CF0FF979329743E77D95</key>
+		<key>63FB3FBF765C1F3013D3F2C22A8D231E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<key>A2D295E54DC33949987E277CC84B7A77</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>88A42ACCB9B25DC6A3602091FF48DA5F</key>
+		<key>D73ED96A8D0073BAB3C61DB8A0F3592D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

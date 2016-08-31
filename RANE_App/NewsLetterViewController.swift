@@ -12,6 +12,7 @@ import SwiftyJSON
 class NewsLetterViewController: UIViewController {
     @IBOutlet var newsletterListView: UITableView!
     var newsletterArray = [NewsLetterObject]()
+    var titleString:String = ""
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,7 @@ class NewsLetterViewController: UIViewController {
         activityIndicator.startAnimating()
         self.view.addSubview(activityIndicator)
         
-        self.title = "Daily Digest Archive"
+        self.title = titleString
         
         self.getNewsLetterList()
     }
@@ -74,7 +75,7 @@ class NewsLetterViewController: UIViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CustomNewsLetterCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         let newsletterObject = self.newsletterArray[indexPath.row]
-        cell.newsletterName.text = newsletterObject.newsletterName
+        cell.newsletterName.text = Utils.convertTimeStampToDate(newsletterObject.newsletterCreatedDate)
         return cell
     }
     
