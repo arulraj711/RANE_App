@@ -25,6 +25,8 @@ class FolderViewController: UIViewController,UIAlertViewDelegate {
         
         cancelButton.layer.masksToBounds = true;
         cancelButton.layer.cornerRadius = 6.0;
+        cancelButton.layer.borderWidth=0.5
+        cancelButton.layer.borderColor = UIColor.init(colorLiteralRed: 44/255, green: 173/255, blue: 215/255, alpha: 1.0).CGColor
         
         saveButton.layer.masksToBounds = true;
         saveButton.layer.cornerRadius = 6.0;

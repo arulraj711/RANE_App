@@ -158,6 +158,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
 //    }
 //    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        
         searchBar.resignFirstResponder()
     }
     
@@ -175,10 +176,13 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         }
     }
 //
-//    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-//        
-//        print("searchBar")
-//    }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        print("searchBar")
+        if(searchBar.text?.characters.count == 0) {
+            CoreDataController().deleteSearchedArtilces()
+        }
+    }
     
     
     

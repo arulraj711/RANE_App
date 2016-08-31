@@ -89,7 +89,7 @@ class WebServiceManager: NSObject {
             
                 if let results = json.array {
                     for entry in results {
-                        CoreDataController().addArticle(entry, contentTypeId: 20, pageNo: page)
+                        CoreDataController().addArticle(entry, contentTypeId: 20, pageNo: page,searchText: "")
                         
                     }
                 }
@@ -119,14 +119,15 @@ class WebServiceManager: NSObject {
             articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString
         }
         WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
-            if(searchString.characters.count == 0) {
+            //if(searchString.characters.count == 0) {
                 if let results = json.array {
+                    print("results count",results.count)
                     for entry in results {
-                        CoreDataController().addArticle(entry, contentTypeId: contentTypeId, pageNo: page)
+                        CoreDataController().addArticle(entry, contentTypeId: contentTypeId, pageNo: page,searchText: searchString)
                         
                     }
                 }
-            }
+            //}
             onCompletion(json as JSON)
         })
     }

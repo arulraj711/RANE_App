@@ -459,12 +459,18 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int,searchString:String) {
         var nextSetOfArticles = [Article]()
+        var nextSetArticles = [Article]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
                 if let results = json.array {
                     if(results.count != 0) {
-                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article") as [Article]
+                        if(searchString.characters.count != 0) {
+                            nextSetArticles = CoreDataController().getSearchArticleList(pagenNo, entityName: "Article")
+                        } else {
+                            nextSetArticles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article") as [Article]
+                        }
+                        
                         for article in nextSetArticles {
                             self.articleArray.append(article)
                             nextSetOfArticles.append(article)

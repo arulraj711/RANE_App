@@ -56,7 +56,21 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 
                 self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
             }
+            self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+            if(contentTypeId == 20) {
+                self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
+            } else {
+                self.groupByModifiedDate(self.articles)
+            }
+            dispatch_async(dispatch_get_main_queue(),{
+                self.listTableView.reloadData()
+            })
         } else {
+            self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
+            self.groupByModifiedDate(self.articles)
+            dispatch_async(dispatch_get_main_queue(),{
+                self.listTableView.reloadData()
+            })
             self.title = titleString
             self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
         }
@@ -119,15 +133,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         listActivityIndicator.startAnimating()
         self.view.addSubview(listActivityIndicator)
         
-        self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
-        if(contentTypeId == 20) {
-            self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
-        } else {
-            self.groupByModifiedDate(self.articles)
-        }
-        dispatch_async(dispatch_get_main_queue(),{
-            self.listTableView.reloadData()
-        })
+        
         
     }
 
@@ -740,8 +746,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 
                 if let results = json.array {
                     if(results.count != 0) {
-                        self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
-                        self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article"))
+                        if(searchString.characters.count != 0) {
+                            self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
+                            print("db article",self.articles.count)
+                            self.groupByModifiedDate(CoreDataController().getSearchArticleList(pagenNo, entityName: "Article"))
+                        } else {
+                            self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+                            self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article"))
+                        }
+                        
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
@@ -763,7 +776,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     }
                     
                 } else {
-                    
+                    if(searchString.characters.count == 0) {
+                        self.articles.removeAll()
+                        self.groupByModifiedDate(self.articles)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.listTableView.reloadData()
+                        })
+                    }
                 }
             }
 

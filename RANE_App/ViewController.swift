@@ -33,6 +33,8 @@ class ViewController: UIViewController {
         loginButton.layer.masksToBounds = true;
         loginButton.layer.cornerRadius = 6.0;
         
+        
+        
         userInfoView.layer.masksToBounds = true;
         userInfoView.layer.cornerRadius = 6.0;
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;

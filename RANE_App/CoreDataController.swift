@@ -68,7 +68,7 @@ class CoreDataController {
         }
     }
     
-    func addArticle(articleJSON:JSON,contentTypeId:Int,pageNo:Int) {
+    func addArticle(articleJSON:JSON,contentTypeId:Int,pageNo:Int,searchText:String) {
         //1 get managedcontext from appdelegate Object
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
@@ -98,7 +98,12 @@ class CoreDataController {
                 article.setValue(articleJSON["markAsImportant"].intValue, forKey: "isMarkedImportant")
                 article.setValue(contentTypeId, forKey: "contentTypeId")
                 article.setValue(pageNo, forKey: "pageNo")
-                
+                if(searchText.characters.count == 0) {
+                    article.setValue(false, forKey: "isSearch")
+                    
+                } else {
+                    article.setValue(true, forKey: "isSearch")
+                }
                 /* fields name configuration */
                 if let fieldsArray = articleJSON["fields"].array {
                     var fieldsName:String = ""
@@ -164,7 +169,12 @@ class CoreDataController {
                 article.setValue(articleJSON["markAsImportant"].intValue, forKey: "isMarkedImportant")
                 article.setValue(contentTypeId, forKey: "contentTypeId")
                 article.setValue(pageNo, forKey: "pageNo")
-                
+                if(searchText.characters.count == 0) {
+                    article.setValue(false, forKey: "isSearch")
+                    
+                } else {
+                    article.setValue(true, forKey: "isSearch")
+                }
                 /* fields name configuration */
                 if let fieldsArray = articleJSON["fields"].array {
                     var fieldsName:String = ""
@@ -357,6 +367,37 @@ class CoreDataController {
         return entityResult
     }
     
+    
+    func getSearchArticleList(pageNo:NSNumber,entityName:String) -> [Article] {
+        var entityResult = [Article]()
+        //1
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: entityName)
+        if((pageNo.isEqualToNumber(0))) {
+            fetchRequest.predicate = NSPredicate(format: "isSearch == %@",true)
+        } else {
+            fetchRequest.predicate = NSPredicate(format: "isSearch == %@ AND pageNo == %@",true,pageNo)
+        }
+        
+       
+        
+        //3
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            entityResult = results
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return entityResult
+    }
+    
+    
     func getMarkedUnSyncArticle()-> [Article]{
         var entityResult = [Article]()
         //1
@@ -450,6 +491,28 @@ class CoreDataController {
             print("Could not fetch \(error), \(error.userInfo)")
         }
     }
+    
+    func deleteSearchedArtilces() {
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.predicate = NSPredicate(format: "isSearch == %@",true)
+        
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            for entity in results {
+                managedContext.deleteObject(entity)
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
     
     func deleteAndResetStack() {
        // var error: NSError?

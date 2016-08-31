@@ -49,7 +49,7 @@ let HRToastShadowOpacity  : CGFloat   = 0.8
 let HRToastShadowRadius   : CGFloat   = 6.0
 let HRToastShadowOffset   : CGSize    = CGSizeMake(CGFloat(4.0), CGFloat(4.0))
 
-let HRToastOpacity        : CGFloat   = 0.9
+let HRToastOpacity        : CGFloat   = 0.7
 let HRToastCornerRadius   : CGFloat   = 10.0
 
 var HRToastActivityView: UnsafePointer<UIView>    =   nil
