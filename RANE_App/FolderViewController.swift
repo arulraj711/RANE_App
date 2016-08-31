@@ -135,7 +135,7 @@ class FolderViewController: UIViewController,UIAlertViewDelegate {
     }
     
     @IBAction func cancelButtonClick(sender: UIButton) {
-        
+        self.navigationController?.popViewControllerAnimated(true)
     }
     @IBAction func saveButtonClick(sender: UIButton) {
         let selectedFolderArray:NSMutableArray = NSMutableArray()

@@ -27,6 +27,9 @@ class CommentsViewController: UIViewController {
         self.commentsOuterView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
         
         
+        self.commentsTableView.rowHeight = UITableViewAutomaticDimension
+        self.commentsTableView.estimatedRowHeight = 80
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommentsViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommentsViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil);
         
@@ -120,31 +123,38 @@ class CommentsViewController: UIViewController {
         cell.comment.sizeToFit()
         cell.comment.text = commentObject.comment
         cell.userImage.layer.masksToBounds = true;
-        cell.userImage.layer.cornerRadius = 24.0;
+        cell.userImage.layer.cornerRadius = 22.0;
         cell.userImage.kf_setImageWithURL(NSURL(string:commentObject.photoUrl)!, placeholderImage: UIImage(named: "person_placeholder"))
         
         return cell
     }
     
     @IBAction func postCommentButtonClick(sender: UIButton) {
-        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
-        if(securityToken?.characters.count != 0)  {
-            let getCommentInputDictionary: NSMutableDictionary = NSMutableDictionary()
-            getCommentInputDictionary.setValue(self.articleId, forKey: "articleId")
-            getCommentInputDictionary.setValue(NSUserDefaults.standardUserDefaults().integerForKey("userId"), forKey: "userId")
-            getCommentInputDictionary.setValue(securityToken, forKey: "securityToken")
-            getCommentInputDictionary.setValue(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), forKey: "customerId")
-            getCommentInputDictionary.setValue("1", forKey: "version")
-            getCommentInputDictionary.setValue("-1", forKey: "parentId")
-            getCommentInputDictionary.setValue(self.commentTextField.text, forKey: "comment")
-             WebServiceManager.sharedInstance.callAddCommentsWebService(getCommentInputDictionary) { (json:JSON) in
-                dispatch_async(dispatch_get_main_queue(),{
-                    self.commentTextField.text = ""
-                    self.getComment()
+        if(self.commentTextField.text?.characters.count != 0) {
+            let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+            if(securityToken?.characters.count != 0)  {
+                let getCommentInputDictionary: NSMutableDictionary = NSMutableDictionary()
+                getCommentInputDictionary.setValue(self.articleId, forKey: "articleId")
+                getCommentInputDictionary.setValue(NSUserDefaults.standardUserDefaults().integerForKey("userId"), forKey: "userId")
+                getCommentInputDictionary.setValue(securityToken, forKey: "securityToken")
+                getCommentInputDictionary.setValue(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), forKey: "customerId")
+                getCommentInputDictionary.setValue("1", forKey: "version")
+                getCommentInputDictionary.setValue("-1", forKey: "parentId")
+                getCommentInputDictionary.setValue(self.commentTextField.text, forKey: "comment")
+                WebServiceManager.sharedInstance.callAddCommentsWebService(getCommentInputDictionary) { (json:JSON) in
+                    dispatch_async(dispatch_get_main_queue(),{
+                        self.commentTextField.text = ""
+                        self.getComment()
                     })
-                
+                    
+                }
             }
+        } else {
+            dispatch_async(dispatch_get_main_queue(),{
+                self.view.makeToast(message: "Please enter a comment.")
+            })
         }
+        
         
         
     }

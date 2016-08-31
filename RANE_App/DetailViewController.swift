@@ -163,6 +163,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             print("selected article id",info["ArticleId"]!)
             vc.selectedArticleId = info["ArticleId"]!
             self.navigationController?.pushViewController(vc, animated: true)
+            
         }
     }
     

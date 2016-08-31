@@ -90,7 +90,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Twx-Fs-5Ly">
                                         <rect key="frame" x="20" y="296" width="335" height="100"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Email Address" clearsOnBeginEditing="YES" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VM2-Sk-q2Q" customClass="CustomTextField" customModule="RANE_App" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Email Address" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VM2-Sk-q2Q" customClass="CustomTextField" customModule="RANE_App" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="18" width="324" height="17"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -109,7 +109,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="1dL-Vf-r9i"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4Bd-FJ-gnE" customClass="CustomTextField" customModule="RANE_App" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4Bd-FJ-gnE" customClass="CustomTextField" customModule="RANE_App" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="65" width="324" height="17"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -334,7 +334,7 @@
                                                     <color key="textColor" red="0.7803921568627451" green="0.7803921568627451" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="China's 'Left Field' Buyers Shake Up Global M&amp;A" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vk-9f-Nyq">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="China's 'Left Field' Buyers Shake Up Global M&amp;A" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vk-9f-Nyq">
                                                     <rect key="frame" x="20" y="40" width="335" height="52"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="19"/>
@@ -642,7 +642,7 @@
                                                                     <color key="textColor" red="0.78039215689999997" green="0.78039215689999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Las Vegas-Based Diamond Resorts Being Sold for $2.2B" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnR-EF-pn9">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Las Vegas-Based Diamond Resorts Being Sold for $2.2B" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnR-EF-pn9">
                                                                     <rect key="frame" x="20" y="51" width="560" height="26"/>
                                                                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="19"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -811,28 +811,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="D1x-BP-y2M">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="D1x-BP-y2M">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="G4J-8l-uTZ" customClass="CustomCommentCell" customModule="RANE_App" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="1" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="1" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G4J-8l-uTZ" id="Jju-U2-WZN">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R33-TV-6bZ">
-                                                    <rect key="frame" x="10" y="5" width="50" height="50"/>
+                                                    <rect key="frame" x="10" y="5" width="45" height="45"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="Kxj-oe-tga"/>
-                                                        <constraint firstAttribute="width" constant="50" id="mwz-33-Fkx"/>
+                                                        <constraint firstAttribute="height" constant="45" id="Kxj-oe-tga"/>
+                                                        <constraint firstAttribute="width" constant="45" id="mwz-33-Fkx"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stephen Leacock" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4P1-8w-IP7">
-                                                    <rect key="frame" x="80" y="5" width="510" height="21"/>
+                                                    <rect key="frame" x="75" y="5" width="515" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="kIO-KM-0ji"/>
@@ -841,10 +842,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Kt-ay-njZ">
-                                                    <rect key="frame" x="80" y="28" width="510" height="23"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="23" id="ORe-Fa-eoT"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="75" y="28" width="515" height="43"/>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                     <color key="textColor" red="0.78039215689999997" green="0.78039215689999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -854,10 +852,11 @@
                                                 <constraint firstItem="R33-TV-6bZ" firstAttribute="top" secondItem="Jju-U2-WZN" secondAttribute="topMargin" constant="-3" id="0vN-l2-lA5"/>
                                                 <constraint firstItem="R33-TV-6bZ" firstAttribute="leading" secondItem="Jju-U2-WZN" secondAttribute="leadingMargin" constant="2" id="94f-YH-Oa4"/>
                                                 <constraint firstItem="4P1-8w-IP7" firstAttribute="leading" secondItem="R33-TV-6bZ" secondAttribute="trailing" constant="20" id="K92-Kt-fJb"/>
-                                                <constraint firstItem="0Kt-ay-njZ" firstAttribute="top" secondItem="4P1-8w-IP7" secondAttribute="bottom" constant="2" id="UKk-QT-VEA"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="0Kt-ay-njZ" secondAttribute="trailing" constant="2" id="VAm-6Y-0Na"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="0Kt-ay-njZ" secondAttribute="trailing" constant="2" id="PIR-52-EFr"/>
+                                                <constraint firstItem="0Kt-ay-njZ" firstAttribute="top" secondItem="4P1-8w-IP7" secondAttribute="bottom" constant="2" id="PwI-uQ-3Oh"/>
                                                 <constraint firstItem="4P1-8w-IP7" firstAttribute="top" secondItem="Jju-U2-WZN" secondAttribute="topMargin" constant="-3" id="Zql-tq-buJ"/>
-                                                <constraint firstItem="0Kt-ay-njZ" firstAttribute="leading" secondItem="R33-TV-6bZ" secondAttribute="trailing" constant="20" id="of8-0j-XNh"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0Kt-ay-njZ" secondAttribute="bottom" id="kON-WT-ADA"/>
+                                                <constraint firstItem="0Kt-ay-njZ" firstAttribute="leading" secondItem="R33-TV-6bZ" secondAttribute="trailing" constant="20" id="q1K-uK-7dH"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="4P1-8w-IP7" secondAttribute="trailing" constant="2" id="tjA-0j-7Dq"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -950,6 +949,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="2zc-In-Fxm">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="Etg-Y3-DCf" customClass="CustomNewsLetterCell" customModule="RANE_App" customModuleProvider="target">
@@ -1044,6 +1044,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="zaO-Hz-LPl">
                                 <rect key="frame" x="0.0" y="104" width="375" height="496"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="wZY-Zy-dIP" customClass="CustomFolderCell" customModule="RANE_App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1" width="375" height="40"/>
@@ -1168,6 +1169,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7Xq-AC-jLR">
                                 <rect key="frame" x="-4" y="0.0" width="383" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="UCv-ca-ce8" customClass="CustomFolderCell" customModule="RANE_App" customModuleProvider="target">
