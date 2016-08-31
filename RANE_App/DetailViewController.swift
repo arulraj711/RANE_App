@@ -161,7 +161,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:FolderViewController = storyboard.instantiateViewControllerWithIdentifier("folderView") as! FolderViewController
             print("selected article id",info["ArticleId"]!)
-            //vc.articleId = info["ArticleId"]!
+            vc.selectedArticleId = info["ArticleId"]!
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -269,7 +269,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
             print("notification info",info)
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
-            let mailComposeViewController = configuredMailComposeViewController((NSUserDefaults.standardUserDefaults().objectForKey("email")?.stringValue)!, title: info["title"]!, description: info["Description"]!)
+            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: info["Description"]!)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
@@ -325,12 +325,13 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             cell.articleFieldNamelabel.text = articleObject.fieldsName
         }
         cell.webviewHeightConstraint.constant = 20
-        cell.articleTitleLabel.text = articleObject.articleTitle
+        cell.articleTitleLabel.text = articleObject.articleTitle!.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
         self.outletWithContactString = articleObject.outletName!+" | "+articleObject.contactName!
         
         cell.articleContactLabel.text = outletWithContactString
-        let dateString:String = Utils.convertTimeStampToDrillDateModel(articleObject.articlepublishedDate)
+        let dateString:String = Utils.convertTimeStampToDate(articleObject.articlepublishedDate)
         cell.articlePublishedDateLabel.text = "Published: "+dateString
                 print("before removing",articleObject.articleDetailedDescription)
                 let removedStyleTagString = articleObject.articleDetailedDescription!.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -439,9 +440,9 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         
                     } else {
                         //handle empty article list
-                        dispatch_async(dispatch_get_main_queue(),{
-                            self.view.makeToast(message: "No more articles to display")
-                        })
+//                        dispatch_async(dispatch_get_main_queue(),{
+//                            self.view.makeToast(message: "No more articles to display")
+//                        })
                     }
                     
                 } else {
@@ -474,9 +475,9 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         })
                     } else {
                         //handle empty article list
-                        dispatch_async(dispatch_get_main_queue(),{
-                            self.view.makeToast(message: "No more articles to display")
-                        })
+//                        dispatch_async(dispatch_get_main_queue(),{
+//                            self.view.makeToast(message: "No more articles to display")
+//                        })
                     }
                     
                 } else {

@@ -12,7 +12,7 @@ public class Utils {
     class func convertTimeStampToDate(timestamp:Double) -> String {
         let date = NSDate(timeIntervalSince1970:timestamp/1000)
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
+        dateFormatter.dateFormat = "MMMM d, yyyy"
         //        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         let dateString = dateFormatter.stringFromDate(date)
         

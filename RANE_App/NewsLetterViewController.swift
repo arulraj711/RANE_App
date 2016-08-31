@@ -12,10 +12,17 @@ import SwiftyJSON
 class NewsLetterViewController: UIViewController {
     @IBOutlet var newsletterListView: UITableView!
     var newsletterArray = [NewsLetterObject]()
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
+        
+        self.title = "Daily Digest Archive"
+        
         self.getNewsLetterList()
     }
 
@@ -40,6 +47,8 @@ class NewsLetterViewController: UIViewController {
                         //self.testGroup(self.articles)
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
+                            self.activityIndicator.stopAnimating()
+                            self.activityIndicator.removeFromSuperview()
                             self.newsletterListView.reloadData()
                         })
                     } else {
@@ -66,7 +75,6 @@ class NewsLetterViewController: UIViewController {
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         let newsletterObject = self.newsletterArray[indexPath.row]
         cell.newsletterName.text = newsletterObject.newsletterName
-        cell.articleCountLabel.text = String(newsletterObject.newsletterarticleCount)
         return cell
     }
     

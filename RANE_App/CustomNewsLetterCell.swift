@@ -9,8 +9,6 @@
 import UIKit
 
 class CustomNewsLetterCell: UITableViewCell {
-
-    @IBOutlet var articleCountLabel: UILabel!
     @IBOutlet var newsletterName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()

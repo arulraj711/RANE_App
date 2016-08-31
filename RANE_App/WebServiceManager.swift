@@ -191,4 +191,31 @@ class WebServiceManager: NSObject {
         })
     }
     
+    //Add article to folder
+    func callAddArticleToFolderWebService(articleId:String,securityToken:String,parameter: NSMutableArray,onCompletion: (JSON) -> Void) {
+        //api/v1/article/4019eb2b-5046-4ef0-9b9d-dc656b5b2a5a/folders?security_token=1b8e7e2e1bb9ca1b74273c3b9a859baa053ab703
+        let loginAPIFunctionName = "api/v1/articles/"+articleId+"/folders?security_token="+securityToken
+        WebService().makeHTTPPostForFolderRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+        })
+    }
+    
+    //Remove article from folder
+    func callRemoveArticleFromFolderWebService(articleId:String,securityToken:String,parameter: NSMutableArray,onCompletion: (JSON) -> Void) {
+        //api/v1/article/4019eb2b-5046-4ef0-9b9d-dc656b5b2a5a/folders?security_token=1b8e7e2e1bb9ca1b74273c3b9a859baa053ab703
+        let loginAPIFunctionName = "api/v1/articles/"+articleId+"/folders?security_token="+securityToken
+        WebService().makeHTTPDeleteRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+        })
+    }
+    func callCreateFolderWebService(securityToken:String,parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
+        //http://stageapi.fullintel.com/3.5.0/api/v1/folders?isArray=false&security_token=1b8e7e2e1bb9ca1b74273c3b9a859baa053ab703
+        let loginAPIFunctionName = "api/v1/folders?isArray=false&security_token="+securityToken
+        WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+            
+        })
+    }
+    
 }

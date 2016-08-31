@@ -14,12 +14,22 @@ class FolderObject {
     var folderName:String!
     var defaultFlag:Bool
     var rssFeedURL:String!
+    var folderArticleIdArray:NSMutableArray = NSMutableArray()
     
     required init(json: JSON) {
         folderId = json["id"].intValue
         folderName = json["folderName"].stringValue
         defaultFlag = json["default"].boolValue
         rssFeedURL = json["rssFeedUrl"].stringValue
+        
+        /* fields name configuration */
+        if let folderArticleArray = json["folderArticles"].array {
+            self.folderArticleIdArray.removeAllObjects()
+            for folderArticle in folderArticleArray {
+                self.folderArticleIdArray.addObject(folderArticle["articleId"].stringValue)
+            }
+        }
+        
     }
     
 }

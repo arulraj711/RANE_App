@@ -10,14 +10,20 @@ import UIKit
 import SwiftyJSON
 
 class FolderListViewController: UIViewController,UIAlertViewDelegate {
-   
+   let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     @IBOutlet var folderListView: UITableView!
     var folderArray = [FolderObject]()
     var isDeleteFolder:Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
+        
+        self.title = "Folders"
+        
         self.getFolderList()
     }
 

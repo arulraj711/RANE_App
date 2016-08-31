@@ -57,6 +57,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
             }
         } else {
+            self.title = titleString
             self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
         }
         
@@ -113,7 +114,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
                     //myActivityIndicator.center = view.center
        
-            myActivityIndicator.stopAnimating()
+        myActivityIndicator.stopAnimating()
         listActivityIndicator.center = self.view.center
         listActivityIndicator.startAnimating()
         self.view.addSubview(listActivityIndicator)
@@ -310,7 +311,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 36, 20, 20)
                 fullExpandButton.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
-                expandButton.tag = (singleDic.objectForKey("sectionId") as? Int)!
+                fullExpandButton.tag = section
                 fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
                 headerView.addSubview(fullExpandButton)
                 headerView.addSubview(expandButton)
@@ -323,8 +324,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
-                expandButton.tag = (singleDic.objectForKey("sectionId") as? Int)!
                 fullExpandButton.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
+                fullExpandButton.tag = section
                 fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
                 headerView.addSubview(fullExpandButton)
                 headerView.addSubview(expandButton)
@@ -342,10 +343,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func expandButtonClick(sender:UIButton){
         print("exapnd button tag",sender.tag)
+        let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(sender.tag) as! NSDictionary
+        print("singel dic",singleDic)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
         vc.activityTypeId = 0
-        vc.contentTypeId = sender.tag
+        vc.contentTypeId = (singleDic.objectForKey("sectionId") as? Int)!
+        vc.titleString = (singleDic.objectForKey("sectionName") as? String)!
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -556,9 +560,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         // This method is invoked when the notification is sent
         if let info = notification.userInfo as? Dictionary<String,String> {
-            print("notification info",info)
-            
-            let mailComposeViewController = configuredMailComposeViewController((NSUserDefaults.standardUserDefaults().objectForKey("email")?.stringValue)!, title: info["title"]!, description: info["Description"]!)
+            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: info["Description"]!)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
@@ -712,7 +714,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
-                            self.view.makeToast(message: "No more articles to display")
+                            if(pageNo == 0) {
+                                self.view.makeToast(message: "No articles to display")
+                            }
                              self.myActivityIndicator.stopAnimating()
                             self.listActivityIndicator.stopAnimating()
                             self.listActivityIndicator.removeFromSuperview()
@@ -749,7 +753,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
-                            self.view.makeToast(message: "No more articles to display")
+                            if(pagenNo == 0) {
+                                self.view.makeToast(message: "No articles to display")
+                            }
                             self.myActivityIndicator.stopAnimating()
                             self.listActivityIndicator.stopAnimating()
                             self.listActivityIndicator.removeFromSuperview()

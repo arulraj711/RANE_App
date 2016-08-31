@@ -164,6 +164,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         if(searchBar.text?.characters.count != 0) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+            vc.titleString = searchBar.text!
             vc.searchKeyword = searchBar.text!
                 .stringByTrimmingCharactersInSet(
                 NSCharacterSet.whitespaceAndNewlineCharacterSet()
