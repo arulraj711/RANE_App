@@ -22,6 +22,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var contentTypeId:Int = 0
+    var isFromDailyDigest:Bool = true
     @IBOutlet var collectionView: UICollectionView!
      @IBOutlet var readFullArticleButton: UIButton!
     var outletWithContactString:String = ""
@@ -388,7 +389,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                 print("api call")
                 
                 if(self.searchKeyword.characters.count == 0) {
-                    if(self.contentTypeId == 20) {
+                    if(isFromDailyDigest) {
                         //for daily digest
                         self.dailyDigestAPICall(pageNo!)
                     } else {

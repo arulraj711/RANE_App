@@ -22,6 +22,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     var searchKeyword:String = ""
     var titleString:String = ""
     var dailyDigestId:Int = 0
+    var isFromDailyDigest:Bool = true
     let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     let listActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     override func viewDidLoad() {
@@ -40,7 +41,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         print("company type id--->",self.contentTypeId)
         if(self.searchKeyword.characters.count == 0) {
             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
-            if(contentTypeId == 20) {
+            if(isFromDailyDigest) {
                 self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
             } else {
                 self.groupByModifiedDate(self.articles)
@@ -48,15 +49,22 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             dispatch_async(dispatch_get_main_queue(),{
                 self.listTableView.reloadData()
             })
-            if(self.contentTypeId == 20) {
+            if(isFromDailyDigest) {
                 //for daily digest
+                if(self.dailyDigestId == 0) {
+                    let imageName = "nav_logo"
+                    let image = UIImage(named: imageName)
+                    let imageView = UIImageView(image: image!)
+                    imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+                    self.navigationItem.titleView = imageView
+                } else {
+                    self.title = titleString
+                }
                 
-                let imageName = "nav_logo"
-                let image = UIImage(named: imageName)
-                let imageView = UIImageView(image: image!)
-                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
-                self.navigationItem.titleView = imageView
                 if(self.articles.count == 0) {
+                    listActivityIndicator.center = self.view.center
+                    listActivityIndicator.startAnimating()
+                    self.view.addSubview(listActivityIndicator)
                     self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
                 }
             } else {
@@ -64,6 +72,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 
                 self.title = titleString
                 if(self.articles.count == 0) {
+                    listActivityIndicator.center = self.view.center
+                    listActivityIndicator.startAnimating()
+                    self.view.addSubview(listActivityIndicator)
                     self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
                 }
                 
@@ -76,6 +87,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             })
             self.title = titleString
             if(self.articles.count == 0) {
+                listActivityIndicator.center = self.view.center
+                listActivityIndicator.startAnimating()
+                self.view.addSubview(listActivityIndicator)
                 self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
             }
             
@@ -135,9 +149,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     //myActivityIndicator.center = view.center
        
         myActivityIndicator.stopAnimating()
-        listActivityIndicator.center = self.view.center
-        listActivityIndicator.startAnimating()
-        self.view.addSubview(listActivityIndicator)
+        
         
         
         
@@ -152,7 +164,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //        }
         
         
-        if(contentTypeId == 20) {
+        if(isFromDailyDigest) {
             self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: articleArray)
         } else {
             self.groupByModifiedDate(articleArray)
@@ -433,6 +445,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.activityTypeId = 0
         vc.contentTypeId = (singleDic.objectForKey("sectionId") as? Int)!
         vc.titleString = (singleDic.objectForKey("sectionName") as? String)!
+        vc.isFromDailyDigest = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -520,6 +533,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.contentTypeId = self.contentTypeId
         vc.activityTypeId = self.activityTypeId
         vc.searchKeyword = self.searchKeyword
+        vc.isFromDailyDigest = self.isFromDailyDigest
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -711,7 +725,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             
             
             if(self.searchKeyword.characters.count == 0) {
-                if(self.contentTypeId == 20) {
+                if(isFromDailyDigest) {
                     //for daily digest
                     self.dailyDigestAPICall(pageNo!,dailyDigestId: dailyDigestId)
                 } else {
@@ -782,8 +796,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 
                 if let results = json.array {
                     if(results.count != 0) {
-                        self.articles = CoreDataController().getArticleListForContentTypeId(20, pageNo: 0, entityName: "Article")
-                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article"))
+                        self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: 0, entityName: "Article")
+                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()

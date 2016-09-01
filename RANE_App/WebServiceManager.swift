@@ -90,7 +90,7 @@ class WebServiceManager: NSObject {
             
                 if let results = json.array {
                     for entry in results {
-                        CoreDataController().addArticle(entry, contentTypeId: 20, pageNo: page,searchText: "")
+                        CoreDataController().addArticle(entry, contentTypeId: dailyDigestId, pageNo: page,searchText: "")
                         
                     }
                 }

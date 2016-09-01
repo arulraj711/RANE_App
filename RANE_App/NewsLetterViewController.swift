@@ -83,9 +83,11 @@ class NewsLetterViewController: UIViewController {
         let newsletterObject = self.newsletterArray[indexPath.row]
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-        vc.contentTypeId = 20
+        vc.isFromDailyDigest = true
+        vc.contentTypeId = newsletterObject.newsletterId
         vc.dailyDigestId = newsletterObject.newsletterId
         vc.activityTypeId = 0
+        vc.titleString = Utils.convertTimeStampToDate(newsletterObject.newsletterCreatedDate)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

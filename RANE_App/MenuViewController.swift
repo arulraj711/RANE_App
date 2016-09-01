@@ -126,6 +126,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             vc.contentTypeId = menu.menuId.integerValue
             vc.titleString = menu.menuName!
             vc.activityTypeId = activityTypeId
+            vc.isFromDailyDigest = false
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -169,6 +170,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
             vc.titleString = searchBar.text!
             vc.contentTypeId = -200 //handle duplicate article list while searching
+            vc.isFromDailyDigest = false
             vc.searchKeyword = searchBar.text!
                 .stringByTrimmingCharactersInSet(
                 NSCharacterSet.whitespaceAndNewlineCharacterSet()
