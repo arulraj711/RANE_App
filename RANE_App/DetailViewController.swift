@@ -427,7 +427,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
 //                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article"))
                         
                         let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article") as [Article]
-                        
+                        print("next set of articles",nextSetArticles.count)
                         
                         for article in nextSetArticles {
                             self.articleArray.append(article)

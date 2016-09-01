@@ -168,6 +168,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
             vc.titleString = searchBar.text!
+            vc.contentTypeId = -200 //handle duplicate article list while searching
             vc.searchKeyword = searchBar.text!
                 .stringByTrimmingCharactersInSet(
                 NSCharacterSet.whitespaceAndNewlineCharacterSet()

@@ -39,23 +39,6 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         print("company type id--->",self.contentTypeId)
         if(self.searchKeyword.characters.count == 0) {
-            if(self.contentTypeId == 20) {
-                //for daily digest
-                
-                let imageName = "nav_logo"
-                let image = UIImage(named: imageName)
-                let imageView = UIImageView(image: image!)
-                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
-                self.navigationItem.titleView = imageView
-                
-                self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
-            } else {
-                //for normal article list
-                
-                self.title = titleString
-                
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
-            }
             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
             if(contentTypeId == 20) {
                 self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
@@ -65,6 +48,26 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             dispatch_async(dispatch_get_main_queue(),{
                 self.listTableView.reloadData()
             })
+            if(self.contentTypeId == 20) {
+                //for daily digest
+                
+                let imageName = "nav_logo"
+                let image = UIImage(named: imageName)
+                let imageView = UIImageView(image: image!)
+                imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+                self.navigationItem.titleView = imageView
+                if(self.articles.count == 0) {
+                    self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
+                }
+            } else {
+                //for normal article list
+                
+                self.title = titleString
+                if(self.articles.count == 0) {
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                }
+                
+            }
         } else {
             self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
             self.groupByModifiedDate(self.articles)
@@ -72,7 +75,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 self.listTableView.reloadData()
             })
             self.title = titleString
-            self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+            if(self.articles.count == 0) {
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+            }
+            
         }
         
         //Mail button click notification observer
@@ -139,7 +145,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 
     
     func controller(controller: DetailViewController,contentType:Int ,articleArray:[Article]) {
-        print("delegate called",articleArray)
+        print("delegate called",articleArray.count)
         
 //        for article in articleArray {
 //            self.articles.append(article)
@@ -151,6 +157,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         } else {
             self.groupByModifiedDate(articleArray)
         }
+        
+        if(self.searchKeyword.characters.count == 0) {
+            self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+        } else {
+            self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
+        }
+        
         dispatch_async(dispatch_get_main_queue(),{
             //self.tableView.reloadData()
             self.listTableView.reloadData()
@@ -217,23 +230,70 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //        print("final values",dic.allValues)
 //    }
     
+    func getExistingGroupNamesList() -> NSMutableArray {
+        let existingGroupNameArray:NSMutableArray = NSMutableArray()
+        for dic in self.groupedArticleArrayList {
+            existingGroupNameArray.addObject(dic.objectForKey("sectionName")!)
+        }
+        return existingGroupNameArray
+    }
+    
+    
+    func getExistingGroupedArticle(sectionName:String) -> [Article]{
+        var existingGroupedArticle = [Article]()
+        for dic in self.groupedArticleArrayList {
+            if(String(dic.objectForKey("sectionName")!) == sectionName) {
+                existingGroupedArticle = dic.objectForKey("articleList") as! [Article]
+            } else {
+                continue
+            }
+        }
+        return existingGroupedArticle
+    }
+    
+    func getGroupedArticleIndex(sectionName:String) -> Int {
+        var index:Int = 0
+        for dic in self.groupedArticleArrayList {
+            if(String(dic.objectForKey("sectionName")!) == sectionName) {
+                index = self.groupedArticleArrayList.indexOfObject(dic)
+            } else {
+                continue
+            }
+        }
+        return index
+    }
     
     func groupByModifiedDate(articleArray:[Article]) {
-//        self.groupedArticleArrayList.removeAllObjects()
         let articleModifiedDateList = self.getArticlePubslishedDateList(articleArray)
         for articleModifiedDate in articleModifiedDateList {
-            let groupedArticleArray = self.groupArticlesBasedOnModofiedDate(articleModifiedDate as! String, articleArray: articleArray)
-            if(groupedArticleArray.count != 0) {
-                let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
-                articleGroupDictionary.setValue(articleModifiedDate, forKey: "sectionName")
-                articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
-                self.groupedArticleArrayList.addObject(articleGroupDictionary)
+            let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
+            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(String(articleModifiedDate))
+            let groupedArticleArray = self.groupArticlesBasedOnModofiedDate(articleModifiedDate as! String, articleArray: articleArray,existingGroupedArticle: existingGroupArticles)
+
+            if(existingGroupNameList.containsObject(articleModifiedDate as! String)) {
+                let index:Int = self.getGroupedArticleIndex(String(articleModifiedDate))
+                    self.groupedArticleArrayList.removeObjectAtIndex(index)
+                    let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                    articleGroupDictionary.setValue(String(articleModifiedDate), forKey: "sectionName")
+                    articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+                    self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: index)
+              //  }
+            } else {
+                if(groupedArticleArray.count != 0) {
+                    let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                    articleGroupDictionary.setValue(String(articleModifiedDate), forKey: "sectionName")
+                    articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+                    self.groupedArticleArrayList.addObject(articleGroupDictionary)
+//                    self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: self.groupedArticleArrayList.count)
+                }
             }
+            
         }
     }
     
-    func groupArticlesBasedOnModofiedDate(modifiedDate:String,articleArray:[Article]) -> [Article] {
+    func groupArticlesBasedOnModofiedDate(modifiedDate:String,articleArray:[Article],existingGroupedArticle:[Article]) -> [Article] {
         var tempArray = [Article]()
+        tempArray = existingGroupedArticle
         for article in articleArray {
             if(Utils.convertTimeStampToDate(article.articleModifiedDate) == modifiedDate) {
                 tempArray.append(article)
@@ -246,6 +306,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func getArticlePubslishedDateList(articleArray:[Article]) -> NSMutableArray {
         let articlePublishedDateArray: NSMutableArray = NSMutableArray()
+//        articlePublishedDateArray = self.getExistingGroupNamesList()
         for article in articleArray {
            
             
@@ -261,7 +322,18 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     func groupByContentType(menuArray:[Menu],articleArray:[Article]) {
         //self.groupedArticleArrayList.removeAllObjects()
         for menu in menuArray {
-            let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId.integerValue, articletypeId: menu.menuId.integerValue, articleArray: articleArray)
+            let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
+            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(menu.menuName!)
+            let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId.integerValue, articletypeId: menu.menuId.integerValue, articleArray: articleArray,existingGroupedAricles: existingGroupArticles)
+            if(existingGroupNameList.containsObject(menu.menuName!)) {
+                let index:Int = self.getGroupedArticleIndex(String(menu.menuName))
+                self.groupedArticleArrayList.removeObjectAtIndex(index)
+                let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
+                articleGroupDictionary.setValue(menu.menuId, forKey: "sectionId")
+                articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+                self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: index)
+            } else {
                 if(groupedArticleArray.count != 0) {
                     let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
                     articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
@@ -269,11 +341,16 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
                     self.groupedArticleArrayList.addObject(articleGroupDictionary)
                 }
+
+            }
+            
+            
         }
     }
     
-    func groupArticlesBasedOnContentType(companyId:Int,articletypeId:Int,articleArray:[Article])-> [Article]{
+    func groupArticlesBasedOnContentType(companyId:Int,articletypeId:Int,articleArray:[Article],existingGroupedAricles:[Article])-> [Article]{
         var tempArray = [Article]()
+        tempArray = existingGroupedAricles
         for article in articleArray {
             if(article.articleTypeId == articletypeId && article.companyId == companyId) {
                 tempArray.append(article)
@@ -394,11 +471,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             cell.fieldNameLabelHeightConstraint.constant=20
             cell.fieldName.text = articleObject.fieldsName
         }
-        print("one")
+       // print("one")
         cell.articleTitle.text = articleObject.articleTitle!.stringByTrimmingCharactersInSet(
             NSCharacterSet.whitespaceAndNewlineCharacterSet()
         )
-        print("two")
+        //print("two")
         cell.articleDescription.text = articleObject.articleDescription!
         cell.outletName.text = articleObject.outletName!
         
@@ -612,15 +689,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        print("current indexpath",indexPath.section,indexPath.row)
+       // print("current indexpath",indexPath.section,indexPath.row)
         print("total items",self.articles.count)
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(indexPath.section) as! NSDictionary
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:Article = articleArray![indexPath.row] as! Article
         let lastArticle:Article = self.articles.last!
-        print("before will")
+        //print("before will")
         if(articleObject.articleId == lastArticle.articleId) {
-            print("reached end")
+           // print("reached end")
             var pageNo:Int?
             let mod:Int = self.articles.count%10
             if (mod == 0) {
@@ -663,9 +740,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         h = size.height;
         reload_distance = 50;
         
-        print("y value",y)
-        print("h value",h!)
-        print("reload distance",reload_distance!)
+//        print("y value",y)
+//        print("h value",h!)
+//        print("reload distance",reload_distance!)
         
         if(y > h! + reload_distance!) {
             //reached end of scroll
