@@ -361,6 +361,7 @@ class CoreDataController {
             let results =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Article]
             entityResult = results
+            print("webservice results",entityResult.count)
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }

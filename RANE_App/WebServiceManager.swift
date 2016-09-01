@@ -95,6 +95,7 @@ class WebServiceManager: NSObject {
                     }
                 }
             
+            print("newsletter results count",json.array?.count)
             onCompletion(json as JSON)
         })
     }

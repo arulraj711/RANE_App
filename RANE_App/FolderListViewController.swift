@@ -15,17 +15,34 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
     @IBOutlet var folderListView: UITableView!
     var folderArray = [FolderObject]()
     var isDeleteFolder:Bool = false
+    let netWorkView = UIView()
+    var retryButtonClickCount:Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating()
-        self.view.addSubview(activityIndicator)
+        
         
         self.title = titleString
         
         self.getFolderList()
+        
+        //handle retry button click
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(retryButtonClick),
+            name: "RetryButtonClick",
+            object: nil)
+        
+        if(!Reachability.isConnectedToNetwork()) {
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+            let noNetworkView = NoNetworkView.instanceFromNib()
+            netWorkView.frame = CGRectMake((self.view.frame.size.width-noNetworkView.frame.size.width)/2, (self.view.frame.size.height-noNetworkView.frame.size.height)/2, noNetworkView.frame.size.width, noNetworkView.frame.size.height)
+            netWorkView.addSubview(noNetworkView)
+            self.view.addSubview(netWorkView)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,11 +52,14 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
     
     
     func getFolderList() {
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             
             WebServiceManager.sharedInstance.callFolderListWebService(securityToken!) { (json:JSON) in
-                print("folder response",json)
+//                print("folder response",json)
                 if let results = json.array {
                     self.folderArray.removeAll()
                     if(results.count != 0) {
@@ -67,6 +87,21 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
         }
     }
 
+    func retryButtonClick() {
+        self.retryButtonClickCount += 1
+        if(Reachability.isConnectedToNetwork()) {
+            netWorkView.removeFromSuperview()
+            self.getFolderList()
+        } else {
+            if(self.retryButtonClickCount == 5) {
+                self.retryButtonClickCount = 0
+                dispatch_async(dispatch_get_main_queue(),{
+                    self.view.makeToast(message: "Please check your network connection")
+                })
+            }
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return folderArray.count

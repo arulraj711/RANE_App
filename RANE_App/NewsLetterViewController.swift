@@ -14,17 +14,33 @@ class NewsLetterViewController: UIViewController {
     var newsletterArray = [NewsLetterObject]()
     var titleString:String = ""
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    let netWorkView = UIView()
+    var retryButtonClickCount:Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating()
-        self.view.addSubview(activityIndicator)
+        
         
         self.title = titleString
         
         self.getNewsLetterList()
+        
+        //handle retry button click
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(retryButtonClick),
+            name: "RetryButtonClick",
+            object: nil)
+        
+        if(!Reachability.isConnectedToNetwork()) {
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+            let noNetworkView = NoNetworkView.instanceFromNib()
+            netWorkView.frame = CGRectMake((self.view.frame.size.width-noNetworkView.frame.size.width)/2, (self.view.frame.size.height-noNetworkView.frame.size.height)/2, noNetworkView.frame.size.width, noNetworkView.frame.size.height)
+            netWorkView.addSubview(noNetworkView)
+            self.view.addSubview(netWorkView)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,11 +50,14 @@ class NewsLetterViewController: UIViewController {
     
     
     func getNewsLetterList() {
+        activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             
             WebServiceManager.sharedInstance.callDailyDigestListWebService(securityToken!) { (json:JSON) in
-                print("newsletter response",json)
+//                print("newsletter response",json)
                 if let results = json.array {
                     self.newsletterArray.removeAll()
                     if(results.count != 0) {
@@ -62,6 +81,21 @@ class NewsLetterViewController: UIViewController {
                 } else {
                     
                 }
+            }
+        }
+    }
+    
+    func retryButtonClick() {
+        self.retryButtonClickCount += 1
+        if(Reachability.isConnectedToNetwork()) {
+            netWorkView.removeFromSuperview()
+            self.getNewsLetterList()
+        } else {
+            if(self.retryButtonClickCount == 5) {
+                self.retryButtonClickCount = 0
+                dispatch_async(dispatch_get_main_queue(),{
+                    self.view.makeToast(message: "Please check your network connection")
+                })
             }
         }
     }

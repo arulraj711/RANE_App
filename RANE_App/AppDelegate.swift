@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if(securityToken!.characters.count != 0){
                 // Handle marked important unsync articles
                 let unSyncMarkedArticle:[Article] = CoreDataController().getMarkedUnSyncArticle()
-                print("un sync article",unSyncMarkedArticle.count)
+//                print("un sync article",unSyncMarkedArticle.count)
                 for article in unSyncMarkedArticle {
                     let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
                     userActivitiesInputDictionary.setValue("2", forKey: "status")
@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Handle saved for later unsync articles
                 let unSyncSavedArticle:[Article] = CoreDataController().getSavedUnSyncArticle()
-                print("un sync article",unSyncSavedArticle.count)
+//                print("un sync article",unSyncSavedArticle.count)
                 for article in unSyncSavedArticle {
                     let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
                     userActivitiesInputDictionary.setValue("3", forKey: "status")

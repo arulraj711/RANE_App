@@ -25,6 +25,8 @@
 		A0CF46421D5B481A001D8097 /* CustomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */; };
 		A0D921731D6AFAC300180B45 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D921721D6AFAC300180B45 /* Utils.swift */; };
 		A0D921791D6C1E9A00180B45 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D921781D6C1E9A00180B45 /* DetailViewController.swift */; };
+		A0E13BA51D78532700D06D78 /* NoNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E13BA41D78532700D06D78 /* NoNetworkView.swift */; };
+		A0E13BA71D78534C00D06D78 /* NoNetworkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0E13BA61D78534C00D06D78 /* NoNetworkView.xib */; };
 		A0EFF3A61D702ED400BFBA91 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFF3A51D702ED300BFBA91 /* CommentsViewController.swift */; };
 		A0EFF3A81D70558100BFBA91 /* CustomCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFF3A71D70558100BFBA91 /* CustomCommentCell.swift */; };
 		A0EFF3AA1D7055B100BFBA91 /* CommentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFF3A91D7055B100BFBA91 /* CommentObject.swift */; };
@@ -90,6 +92,8 @@
 		A0CF46411D5B481A001D8097 /* CustomMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenuCell.swift; sourceTree = "<group>"; };
 		A0D921721D6AFAC300180B45 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		A0D921781D6C1E9A00180B45 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		A0E13BA41D78532700D06D78 /* NoNetworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoNetworkView.swift; sourceTree = "<group>"; };
+		A0E13BA61D78534C00D06D78 /* NoNetworkView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoNetworkView.xib; sourceTree = "<group>"; };
 		A0EFF3A51D702ED300BFBA91 /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		A0EFF3A71D70558100BFBA91 /* CustomCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCommentCell.swift; sourceTree = "<group>"; };
 		A0EFF3A91D7055B100BFBA91 /* CommentObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentObject.swift; sourceTree = "<group>"; };
@@ -311,6 +315,8 @@
 			children = (
 				BA49CA4F1D533FA9001DC190 /* LaunchScreen.storyboard */,
 				BA49CA471D533FA9001DC190 /* Main.storyboard */,
+				A0E13BA41D78532700D06D78 /* NoNetworkView.swift */,
+				A0E13BA61D78534C00D06D78 /* NoNetworkView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -440,6 +446,7 @@
 				BAFECD071D62E6C60054A5CD /* OpenSans-Italic.ttf in Resources */,
 				BA49CA4E1D533FA9001DC190 /* Assets.xcassets in Resources */,
 				BAC9FA551D62AD6C00D95E82 /* OpenSans-Bold.ttf in Resources */,
+				A0E13BA71D78534C00D06D78 /* NoNetworkView.xib in Resources */,
 				BAC9FA561D62AD6C00D95E82 /* OpenSans-Light.ttf in Resources */,
 				BAC9FA571D62AD6C00D95E82 /* OpenSans-Regular.ttf in Resources */,
 				BAC9FA581D62AD6C00D95E82 /* OpenSans-Semibold.ttf in Resources */,
@@ -537,6 +544,7 @@
 				A0EFF3B01D70AE5200BFBA91 /* NewsLetterObject.swift in Sources */,
 				A0EFF3A61D702ED400BFBA91 /* CommentsViewController.swift in Sources */,
 				A077655E1D73FF44007A81C7 /* CoreDataController.swift in Sources */,
+				A0E13BA51D78532700D06D78 /* NoNetworkView.swift in Sources */,
 				BA2274EE1D65A3D5009E30BE /* ArticleObject.swift in Sources */,
 				A0C779141D75826E009D88B1 /* FolderObject.swift in Sources */,
 				BA49CA461D533FA9001DC190 /* ViewController.swift in Sources */,

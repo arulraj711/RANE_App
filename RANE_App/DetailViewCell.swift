@@ -52,20 +52,20 @@ class DetailViewCell: UICollectionViewCell {
     
     func webViewDidStartLoad(webView : UIWebView) {
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        print("AA")
+//        print("AA")
     }
     
     func webViewDidFinishLoad(webView : UIWebView) {
         //UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        print("BB")
+//        print("BB")
         webView.scrollView.scrollEnabled = false;
         webView.scrollView.bounces = false;
         let frame:CGRect = webView.frame
         var newBounds:CGRect = self.articleDetailWebView.bounds
         newBounds.size.height =  self.articleDetailWebView.scrollView.contentSize.height
         let pointOfWebview:CGFloat = newBounds.size.height
-        print("webview height",pointOfWebview)
-        print("webview y position",webView.frame.origin.y)
+//        print("webview height",pointOfWebview)
+//        print("webview y position",webView.frame.origin.y)
         self.webviewHeightConstraint.constant = pointOfWebview
         self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,pointOfWebview+webView.frame.origin.y+64)
     }

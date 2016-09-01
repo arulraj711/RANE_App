@@ -23,8 +23,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     var titleString:String = ""
     var dailyDigestId:Int = 0
     var isFromDailyDigest:Bool = true
+    var retryButtonClickCount:Int = 0
     let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     let listActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    let netWorkView = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -37,7 +39,84 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                                            target: self, action: #selector(ListViewController.OnMenuClicked))
         self.navigationItem.leftBarButtonItem = menu_button_
 
+        self.setupView()
         
+        
+        //Mail button click notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(mailButtonClickAction),
+            name: "MailButtonClick",
+            object: nil)
+        
+        //MarkedImportant button click notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(markedImportantButtonClickAction),
+            name: "MarkedImportantButtonClick",
+            object: nil)
+        
+        //Saved for later button click notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(savedForLaterButtonClickAction),
+            name: "SavedForLaterButtonClick",
+            object: nil)
+        
+        //Update marked important status in list view
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(updateMarkedImportantStatusInList),
+            name: "updateMarkedImportantStatus",
+            object: nil)
+        
+        //Update saved for later status in list view
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(updateSavedForLaterStatusInList),
+            name: "updateSavedForLaterStatus",
+            object: nil)
+        
+        //handle session expired
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(handleSessionExpired),
+            name: "SessionExpired",
+            object: nil)
+        
+        
+        //handle retry button click
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(retryButtonClick),
+            name: "RetryButtonClick",
+            object: nil)
+        
+        
+//        UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+//        [spinner startAnimating];
+//        spinner.frame = CGRectMake(0, 0, 320, 44);
+//        self.tableView.tableFooterView = spinner;
+        
+        
+        
+                    //myActivityIndicator.center = view.center
+       
+        myActivityIndicator.stopAnimating()
+        
+        
+        if(!Reachability.isConnectedToNetwork()) {
+            listActivityIndicator.stopAnimating()
+            listActivityIndicator.removeFromSuperview()
+            let noNetworkView = NoNetworkView.instanceFromNib()
+            netWorkView.frame = CGRectMake((self.view.frame.size.width-noNetworkView.frame.size.width)/2, (self.view.frame.size.height-noNetworkView.frame.size.height)/2, noNetworkView.frame.size.width, noNetworkView.frame.size.height)
+            netWorkView.addSubview(noNetworkView)
+            self.view.addSubview(netWorkView)
+        }
+    }
+
+    
+    func setupView (){
         print("company type id--->",self.contentTypeId)
         if(self.searchKeyword.characters.count == 0) {
             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
@@ -94,67 +173,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             }
             
         }
-        
-        //Mail button click notification observer
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(mailButtonClickAction),
-            name: "MailButtonClick",
-            object: nil)
-        
-        //MarkedImportant button click notification observer
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(markedImportantButtonClickAction),
-            name: "MarkedImportantButtonClick",
-            object: nil)
-        
-        //Saved for later button click notification observer
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(savedForLaterButtonClickAction),
-            name: "SavedForLaterButtonClick",
-            object: nil)
-        
-        //Update marked important status in list view
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(updateMarkedImportantStatusInList),
-            name: "updateMarkedImportantStatus",
-            object: nil)
-        
-        //Update saved for later status in list view
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(updateSavedForLaterStatusInList),
-            name: "updateSavedForLaterStatus",
-            object: nil)
-        
-        //handle session expired
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(handleSessionExpired),
-            name: "SessionExpired",
-            object: nil)
-        
-        
-        
-//        UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
-//        [spinner startAnimating];
-//        spinner.frame = CGRectMake(0, 0, 320, 44);
-//        self.tableView.tableFooterView = spinner;
-        
-        
-        
-                    //myActivityIndicator.center = view.center
-       
-        myActivityIndicator.stopAnimating()
-        
-        
-        
-        
     }
-
+    
+    
     
     func controller(controller: DetailViewController,contentType:Int ,articleArray:[Article]) {
         print("delegate called",articleArray.count)
@@ -333,6 +354,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func groupByContentType(menuArray:[Menu],articleArray:[Article]) {
         //self.groupedArticleArrayList.removeAllObjects()
+        print("menu items",menuArray.count)
+        print("incoming article items",articleArray.count)
         for menu in menuArray {
             let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
             let existingGroupArticles:[Article] = self.getExistingGroupedArticle(menu.menuName!)
@@ -355,9 +378,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 }
 
             }
-            
-            
         }
+        print("grouped article",self.groupedArticleArrayList.count)
     }
     
     func groupArticlesBasedOnContentType(companyId:Int,articletypeId:Int,articleArray:[Article],existingGroupedAricles:[Article])-> [Article]{
@@ -439,7 +461,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     func expandButtonClick(sender:UIButton){
         print("exapnd button tag",sender.tag)
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(sender.tag) as! NSDictionary
-        print("singel dic",singleDic)
+//        print("singel dic",singleDic)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
         vc.activityTypeId = 0
@@ -535,6 +557,22 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.searchKeyword = self.searchKeyword
         vc.isFromDailyDigest = self.isFromDailyDigest
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    func retryButtonClick() {
+        self.retryButtonClickCount += 1
+        if(Reachability.isConnectedToNetwork()) {
+            netWorkView.removeFromSuperview()
+            self.setupView()
+        } else {
+            if(self.retryButtonClickCount == 5) {
+                self.retryButtonClickCount = 0
+                dispatch_async(dispatch_get_main_queue(),{
+                    self.view.makeToast(message: "Please check your network connection")
+                })
+            }
+        }
     }
     
     func handleSessionExpired(notification: NSNotification) {
@@ -704,7 +742,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
        // print("current indexpath",indexPath.section,indexPath.row)
-        print("total items",self.articles.count)
+//        print("total items",self.articles.count)
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(indexPath.section) as! NSDictionary
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:Article = articleArray![indexPath.row] as! Article
@@ -797,7 +835,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 if let results = json.array {
                     if(results.count != 0) {
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: 0, entityName: "Article")
-                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
+                        print("newsletter article count",self.articles.count)
+                        self.groupByContentType(CoreDataController().getEntityInfoFromCoreData("Menu"), articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()

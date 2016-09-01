@@ -53,7 +53,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         let menu = self.menuItems![indexPath.row] 
-        print("menu object",menu.menuName,menu.menuId)
+//        print("menu object",menu.menuName,menu.menuId)
 //        if let url = NSURL(string: menu.menuIconURL) {
 //            if let data = NSData(contentsOfURL: url) {
 //                cell.menuIconImage.image = UIImage(data: data)

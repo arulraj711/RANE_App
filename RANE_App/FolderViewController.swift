@@ -57,7 +57,7 @@ class FolderViewController: UIViewController,UIAlertViewDelegate {
         if(securityToken?.characters.count != 0)  {
             
             WebServiceManager.sharedInstance.callFolderListWebService(securityToken!) { (json:JSON) in
-                print("folder response",json)
+//                print("folder response",json)
                 if let results = json.array {
                     self.folderArray.removeAll()
                     if(results.count != 0) {

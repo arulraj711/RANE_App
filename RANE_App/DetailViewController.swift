@@ -336,9 +336,9 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         cell.articleContactLabel.text = outletWithContactString
         let dateString:String = Utils.convertTimeStampToDate(articleObject.articlepublishedDate)
         cell.articlePublishedDateLabel.text = "Published: "+dateString
-                print("before removing",articleObject.articleDetailedDescription)
+//                print("before removing",articleObject.articleDetailedDescription)
                 let removedStyleTagString = articleObject.articleDetailedDescription!.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                print("after removing",removedStyleTagString)
+//                print("after removing",removedStyleTagString)
                 let removeClickText = removedStyleTagString.stringByReplacingOccurrencesOfString("Click here to read full article", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", removeClickText)
         
@@ -351,7 +351,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        print("flow layout delegate",self.view.frame.size.width,self.view.frame.size.height)
+//        print("flow layout delegate",self.view.frame.size.width,self.view.frame.size.height)
         
         return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
         
