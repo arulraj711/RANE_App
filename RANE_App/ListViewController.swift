@@ -121,9 +121,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         if(self.searchKeyword.characters.count == 0) {
             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
             if(isFromDailyDigest) {
-                self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
+                if(self.articles.count != 0) {
+                    self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
+                }
             } else {
-                self.groupByModifiedDate(self.articles)
+                if(self.articles.count != 0) {
+                    self.groupByModifiedDate(self.articles)
+                    
+                }
+                
             }
             dispatch_async(dispatch_get_main_queue(),{
                 self.listTableView.reloadData()

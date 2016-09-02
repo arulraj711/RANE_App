@@ -101,6 +101,16 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             vc.titleString = menu.menuName!
             self.navigationController?.pushViewController(vc, animated: true)
             
+        } else if(menu.menuId == 20) {
+            //Daily digest list #20-stage
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+            vc.contentTypeId = menu.menuId.integerValue
+            vc.titleString = menu.menuName!
+            vc.activityTypeId = activityTypeId
+            vc.isFromDailyDigest = true
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         } else if(menu.menuId == 21) {
             //Media analysis
             
