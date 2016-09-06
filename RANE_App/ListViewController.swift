@@ -422,17 +422,20 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let headerColorView:UIView = UIView()
         let expandButton = UIButton()
         let fullExpandButton = UIButton()
-       
+        let dividerView = UIView()
+        
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(section) as! NSDictionary
         if(section == 0) {
-            headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
-            label.frame = CGRectMake(20, 21, tableView.bounds.size.width-60, 52)
+            headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 77)
+            dividerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 5)
+            dividerView.backgroundColor = UIColor.init(red: 31/255, green: 55/255, blue: 118/255, alpha: 1)
+            label.frame = CGRectMake(20, 26, tableView.bounds.size.width-60, 47)
             headerColorView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20)
             headerColorView.backgroundColor = UIColor.init(colorLiteralRed: 241/255, green: 241/255, blue: 245/255, alpha: 1)
             headerView.addSubview(headerColorView)
             if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
-                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 36, 20, 20)
+                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 41, 20, 20)
                 fullExpandButton.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
                 fullExpandButton.tag = section
                 fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
@@ -441,12 +444,14 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             }
             
         } else {
-            headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
-            label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
+            headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 57)
+            dividerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 5)
+            dividerView.backgroundColor = UIColor.init(red: 31/255, green: 55/255, blue: 118/255, alpha: 1)
+            label.frame = CGRectMake(20, 5, tableView.bounds.size.width-60, 47)
             
             if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
-                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
+                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 21, 20, 20)
                 fullExpandButton.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
                 fullExpandButton.tag = section
                 fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
@@ -461,6 +466,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         label.font = UIFont(name:"OpenSans-Semibold", size: 14)
         label.textColor = UIColor.blackColor()
         headerView.addSubview(label)
+        headerView.addSubview(dividerView)
         return headerView
     }
     
