@@ -87,22 +87,22 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 2){
-            //Newsletter list #2-stage #36-live
+        if(menu.menuId == 38){
+            //Newsletter list #2-stage #38-live
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
             vc.titleString = menu.menuName!
             self.navigationController?.pushViewController(vc, animated: true)
             
-        } else if(menu.menuId == 19) {
+        } else if(menu.menuId == 35) {
             //Folder list #19-stage #35-live
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:FolderListViewController = storyboard.instantiateViewControllerWithIdentifier("folderListView") as! FolderListViewController
             vc.titleString = menu.menuName!
             self.navigationController?.pushViewController(vc, animated: true)
             
-        } else if(menu.menuId == 20) {
-            //Daily digest list #20-stage
+        } else if(menu.menuId == 36) {
+            //Daily digest article list #20-stage #36-live
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
             vc.contentTypeId = menu.menuId.integerValue
@@ -111,8 +111,8 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             vc.isFromDailyDigest = true
             self.navigationController?.pushViewController(vc, animated: true)
             
-        } else if(menu.menuId == 21) {
-            //Media analysis
+        } else if(menu.menuId == 37) {
+            //Media analysis #21-stage #37-live
             
         } else if(menu.menuId == 101) {
             let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1-844-RUN-RANE")
