@@ -95,7 +95,8 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         selectedArticleDictionary["ArticleId"] = artilceObj.articleId
         selectedArticleDictionary["isMarked"] = String(artilceObj.isMarkedImportant)
         selectedArticleDictionary["isSaved"] = String(artilceObj.isSavedForLater)
-        
+        selectedArticleDictionary["markAsImportantUserId"] = String(artilceObj.markAsImportantUserId)
+        selectedArticleDictionary["markAsImportantUserName"] = String(artilceObj.markAsImportantUserName)
         
         NSUserDefaults.standardUserDefaults().setObject(selectedArticleDictionary, forKey: "SelectedArticleDictionary")
         
@@ -185,54 +186,111 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                 userActivitiesInputDictionary.setValue("2", forKey: "status")
                 userActivitiesInputDictionary.setValue(info["ArticleId"], forKey: "selectedArticleId")
                 userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                let markAsImportantUserId = info["markAsImportantUserId"]!
+                let markAsImportantUserName = info["markAsImportantUserName"]!
+                let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
                 if(info["isMarked"] == "1") {
-                    userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                    if(markAsImportantUserId == "-1") {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "A FullIntel analyst marked this as important. If you like to change, please request via Feedback")
+                        })
+                    } else if(markAsImportantUserId == String(loginUserId)) {
+                        userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                        dispatch_async(dispatch_get_main_queue(),{
+                            
+                            var dataDict = Dictionary<String, String>()
+                            dataDict["articleId"] = info["articleId"]
+                            dataDict["isMarked"] = info["isMarked"]
+                            NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                            
+                        })
+                        
+                        WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                            dispatch_async(dispatch_get_main_queue(),{
+                                
+                                for article in self.articleArray {
+                                    if(article.articleId == info["ArticleId"]) {
+                                        if(info["isMarked"] == "1") {
+                                            //                                    article.isMarkedImportant = 0
+                                            if(self.isFromDailyDigest) {
+                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                            } else {
+                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                            }
+                                            
+                                        } else if(info["isMarked"] == "0"){
+                                            //                                    article.isMarkedImportant = 1
+                                            if(self.isFromDailyDigest) {
+                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                            } else {
+                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                            }
+                                            
+                                            
+                                        }
+                                        self.reloadNavBarItems(article)
+                                    } else {
+                                        continue
+                                    }
+                                }
+                                
+                            })
+                            
+                            
+                        }
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "If you like to change, please contact "+markAsImportantUserName+". who marked this article as important")
+                        })
+                    }
+                    
                 } else if(info["isMarked"] == "0") {
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
-                }
-                
-                dispatch_async(dispatch_get_main_queue(),{
-                    
-                    var dataDict = Dictionary<String, String>()
-                    dataDict["articleId"] = info["articleId"]
-                    dataDict["isMarked"] = info["isMarked"]
-                    NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
-                    
-                })
-                
-                WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
                     dispatch_async(dispatch_get_main_queue(),{
                         
-                        for article in self.articleArray {
-                            if(article.articleId == info["ArticleId"]) {
-                                if(info["isMarked"] == "1") {
-//                                    article.isMarkedImportant = 0
-                                    if(self.isFromDailyDigest) {
-                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                    } else {
-                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                    }
-                                    
-                                } else if(info["isMarked"] == "0"){
-//                                    article.isMarkedImportant = 1
-                                    if(self.isFromDailyDigest) {
-                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                    } else {
-                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                    }
-                                    
-
-                                }
-                                self.reloadNavBarItems(article)
-                            } else {
-                                continue
-                            }
-                        }
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isMarked"] = info["isMarked"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
                         
                     })
                     
-                    
+                    WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                        dispatch_async(dispatch_get_main_queue(),{
+                            
+                            for article in self.articleArray {
+                                if(article.articleId == info["ArticleId"]) {
+                                    if(info["isMarked"] == "1") {
+                                        //                                    article.isMarkedImportant = 0
+                                        if(self.isFromDailyDigest) {
+                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                        } else {
+                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                        }
+                                        
+                                    } else if(info["isMarked"] == "0"){
+                                        //                                    article.isMarkedImportant = 1
+                                        if(self.isFromDailyDigest) {
+                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                        } else {
+                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                        }
+                                        
+                                        
+                                    }
+                                    self.reloadNavBarItems(article)
+                                } else {
+                                    continue
+                                }
+                            }
+                            
+                        })
+                        
+                        
+                    }
                 }
+                
+                
             }
         }
         

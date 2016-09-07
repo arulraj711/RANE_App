@@ -741,26 +741,54 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 userActivitiesInputDictionary.setValue("2", forKey: "status")
                 userActivitiesInputDictionary.setValue(info["articleId"], forKey: "selectedArticleId")
                 userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+                
+                let markAsImportantUserId = info["markAsImportantUserId"]!
+                let markAsImportantUserName = info["markAsImportantUserName"]!
+                let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
                 if(info["isMarked"] == "1") {
-                    userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                    if(markAsImportantUserId == "-1") {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "A FullIntel analyst marked this as important. If you like to change, please request via Feedback")
+                            })
+                        
+                    } else if(markAsImportantUserId == String(loginUserId)) {
+                        userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                        dispatch_async(dispatch_get_main_queue(),{
+                            
+                            var dataDict = Dictionary<String, String>()
+                            dataDict["articleId"] = info["articleId"]
+                            dataDict["isMarked"] = info["isMarked"]
+                            NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                            
+                        })
+                        
+                        print("marked important userdic",userActivitiesInputDictionary)
+                        WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                            
+                        }
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.view.makeToast(message: "If you like to change, please contact "+markAsImportantUserName+". who marked this article as important")
+                        })
+                    }
+                    
                 } else if(info["isMarked"] == "0") {
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
-                }
-                
-                
-                dispatch_async(dispatch_get_main_queue(),{
+                    dispatch_async(dispatch_get_main_queue(),{
+                        
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isMarked"] = info["isMarked"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                        
+                    })
                     
-                    var dataDict = Dictionary<String, String>()
-                    dataDict["articleId"] = info["articleId"]
-                    dataDict["isMarked"] = info["isMarked"]
-                    NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
-                    
-                })
-                
-                print("marked important userdic",userActivitiesInputDictionary)
+                    print("marked important userdic",userActivitiesInputDictionary)
                     WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
-                    
+                        
+                    }
                 }
+                
             }
         }
     }

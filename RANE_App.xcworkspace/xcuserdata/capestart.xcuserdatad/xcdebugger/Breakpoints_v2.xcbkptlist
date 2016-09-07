@@ -38,12 +38,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RANE_App/CoreDataController.swift"
-            timestampString = "494937891.492327"
+            timestampString = "494945511.194346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
             landmarkName = "updateMarkedImportantStatusInArticle(_:contentTypeId:isMarked:isMarkedImpSync:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RANE_App/ListViewController.swift"
+            timestampString = "494945580.103768"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "733"
+            endingLineNumber = "733"
+            landmarkName = "markedImportantButtonClickAction(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RANE_App/ListViewController.swift"
+            timestampString = "494947150.714136"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "747"
+            endingLineNumber = "747"
+            landmarkName = "markedImportantButtonClickAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

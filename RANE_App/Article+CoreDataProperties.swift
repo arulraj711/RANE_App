@@ -30,5 +30,7 @@ extension Article {
     @NSManaged var fieldsName: String?
     @NSManaged var outletName: String?
     @NSManaged var contactName: String?
+    @NSManaged var markAsImportantUserName: String
+    @NSManaged var markAsImportantUserId: NSNumber
 
 }

@@ -49,6 +49,8 @@ class CustomListCell: UITableViewCell {
         dataDict["title"] = cellArticleObject.articleTitle!
         dataDict["articleId"] = cellArticleObject.articleId
         dataDict["isMarked"] = String(cellArticleObject.isMarkedImportant)
+        dataDict["markAsImportantUserId"] = String(cellArticleObject.markAsImportantUserId)
+        dataDict["markAsImportantUserName"] = String(cellArticleObject.markAsImportantUserName)
         NSNotificationCenter.defaultCenter().postNotificationName("MarkedImportantButtonClick", object:self, userInfo:dataDict)
     }
 }

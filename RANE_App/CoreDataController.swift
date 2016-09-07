@@ -146,6 +146,11 @@ class CoreDataController {
                     article.setValue(contactName, forKey: "contactName")
                 }
                 
+                if let markAsImportantDic = articleJSON["markAsImportantUserDetail"].dictionary {
+                    article.setValue(markAsImportantDic["userId"]?.intValue, forKey: "markAsImportantUserId")
+                    article.setValue(markAsImportantDic["name"]?.stringValue, forKey: "markAsImportantUserName")
+                }
+                
                 try article.managedObjectContext?.save()
                 
             } else {
@@ -215,6 +220,11 @@ class CoreDataController {
                         
                     }
                     article.setValue(contactName, forKey: "contactName")
+                }
+                
+                if let markAsImportantDic = articleJSON["markAsImportantUserDetail"].dictionary {
+                    article.setValue(markAsImportantDic["userId"]?.intValue, forKey: "markAsImportantUserId")
+                    article.setValue(markAsImportantDic["name"]?.stringValue, forKey: "markAsImportantUserName")
                 }
                 
                 try article.managedObjectContext?.save()
