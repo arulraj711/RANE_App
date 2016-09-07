@@ -24,6 +24,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     var titleString:String = ""
     var dailyDigestId:Int = 0
     var isFromDailyDigest:Bool = true
+    var isFromListPage:Bool = false
     var retryButtonClickCount:Int = 0
     let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     let listActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
@@ -44,7 +45,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             let menu_button_ = UIBarButtonItem(image: UIImage(named: "navmenu"),
                                                style: UIBarButtonItemStyle.Plain ,
                                                target: self, action: #selector(ListViewController.OnMenuClicked))
-            self.navigationItem.leftBarButtonItem = menu_button_
+            if(!self.isFromListPage) {
+                self.navigationItem.leftBarButtonItem = menu_button_
+            }
         }
         
         self.setupView()
@@ -509,6 +512,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.contentTypeId = (singleDic.objectForKey("sectionId") as? Int)!
         vc.titleString = (singleDic.objectForKey("sectionName") as? String)!
         vc.isFromDailyDigest = false
+        vc.isFromListPage = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -595,6 +599,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.currentindex = self.getSelectedArticlePostion(articleObject, articleArray: articleGroupArray)
         vc.contentTypeId = self.contentTypeId
         vc.activityTypeId = self.activityTypeId
+        vc.dailyDigestId = self.dailyDigestId
         vc.searchKeyword = self.searchKeyword
         vc.isFromDailyDigest = self.isFromDailyDigest
         self.navigationController?.pushViewController(vc, animated: true)
@@ -667,10 +672,20 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 if(article.articleId == info["articleId"]) {
                     if(info["isSaved"] == "1") {
 //                        article.isSavedForLater = 0
-                        CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId ,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                        if(self.isFromDailyDigest) {
+                            CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!,contentTypeId: self.dailyDigestId ,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                        } else {
+                            CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId ,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                        }
+                        
                     } else if(info["isSaved"] == "0"){
 //                        article.isSavedForLater = 1
-                        CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                        if(self.isFromDailyDigest) {
+                            CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!, contentTypeId: self.dailyDigestId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                        } else {
+                            CoreDataController().updateSavedForLaterStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                        }
+                        
                     }
                     
                 }
@@ -689,10 +704,20 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     print("Reachability",Reachability.isConnectedToNetwork())
                     if(info["isMarked"] == "1") {
 //                        article.isMarkedImportant = 0
-                        CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                        if(self.isFromDailyDigest) {
+                            CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                        } else {
+                            CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                        }
+                        
                     } else if(info["isMarked"] == "0"){
 //                        article.isMarkedImportant = 1
-                        CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                        if(self.isFromDailyDigest) {
+                            CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                        } else {
+                            CoreDataController().updateMarkedImportantStatusInArticle(info["articleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                        }
+                        
                     }
                     
                 }

@@ -143,6 +143,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 vc.titleString = menu.menuName!
                 vc.activityTypeId = activityTypeId
                 vc.isFromDailyDigest = true
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
                 let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
@@ -152,6 +153,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 frontViewContrller.titleString = menu.menuName!
                 frontViewContrller.activityTypeId = activityTypeId
                 frontViewContrller.isFromDailyDigest = true
+                frontViewContrller.isFromListPage = false
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
         } else if(menu.menuId == 21) {
@@ -196,6 +198,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 frontViewContrller.titleString = menu.menuName!
                 frontViewContrller.activityTypeId = activityTypeId
                 frontViewContrller.isFromDailyDigest = false
+                frontViewContrller.isFromListPage = false
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
         }

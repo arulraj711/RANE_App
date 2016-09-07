@@ -22,6 +22,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var contentTypeId:Int = 0
+    var dailyDigestId:Int = 0
     var isFromDailyDigest:Bool = true
     @IBOutlet var collectionView: UICollectionView!
      @IBOutlet var readFullArticleButton: UIButton!
@@ -206,10 +207,20 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isMarked"] == "1") {
 //                                    article.isMarkedImportant = 0
-                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    if(self.isFromDailyDigest) {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    } else {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    }
+                                    
                                 } else if(info["isMarked"] == "0"){
 //                                    article.isMarkedImportant = 1
-                                    CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    if(self.isFromDailyDigest) {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    } else {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    }
+                                    
 
                                 }
                                 self.reloadNavBarItems(article)
@@ -255,10 +266,20 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isSaved"] == "1") {
 //                                    article.isSavedForLater = 0
-                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                                    if(self.isFromDailyDigest) {
+                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                                    } else {
+                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                                    }
+                                    
                                 } else if(info["isSaved"] == "0"){
 //                                    article.isSavedForLater = 1
-                                    CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                                    if(self.isFromDailyDigest) {
+                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                                    } else {
+                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                                    }
+                                    
                                 }
                                 self.reloadNavBarItems(article)
                             } else {

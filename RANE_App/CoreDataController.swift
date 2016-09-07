@@ -232,6 +232,7 @@ class CoreDataController {
     
     
     func updateMarkedImportantStatusInArticle(artilceId:String,contentTypeId:Int,isMarked:Int,isMarkedImpSync:Bool) {
+        print("incoming content type id",contentTypeId)
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext

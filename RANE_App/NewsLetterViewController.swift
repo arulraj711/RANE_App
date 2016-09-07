@@ -143,6 +143,7 @@ class NewsLetterViewController: UIViewController {
         vc.contentTypeId = newsletterObject.newsletterId
         vc.dailyDigestId = newsletterObject.newsletterId
         vc.activityTypeId = 0
+        vc.isFromListPage = true
         vc.titleString = Utils.convertTimeStampToDate(newsletterObject.newsletterCreatedDate)
         self.navigationController?.pushViewController(vc, animated: true)
     }
