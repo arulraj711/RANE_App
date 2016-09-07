@@ -236,16 +236,30 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         if(searchBar.text?.characters.count != 0) {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-            vc.titleString = searchBar.text!
-            vc.contentTypeId = -200 //handle duplicate article list while searching
-            vc.isFromDailyDigest = false
-            vc.searchKeyword = searchBar.text!
-                .stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet()
-            )
-            self.navigationController?.pushViewController(vc, animated: true)
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+                vc.titleString = searchBar.text!
+                vc.contentTypeId = -200 //handle duplicate article list while searching
+                vc.isFromDailyDigest = false
+                vc.searchKeyword = searchBar.text!
+                    .stringByTrimmingCharactersInSet(
+                        NSCharacterSet.whitespaceAndNewlineCharacterSet()
+                )
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+                let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
+                let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
+                let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
+                frontViewContrller.contentTypeId = -200 //handle duplicate article list while searching
+                frontViewContrller.titleString = searchBar.text!
+                frontViewContrller.isFromDailyDigest = false
+                frontViewContrller.searchKeyword = searchBar.text!
+                    .stringByTrimmingCharactersInSet(
+                        NSCharacterSet.whitespaceAndNewlineCharacterSet()
+                )
+                self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
+            }
         }
     }
 //

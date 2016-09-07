@@ -74,8 +74,15 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func handleSessionExpired(notification: NSNotification) {
+        CoreDataController().deleteAndResetStack()
         NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let frontViewController: UINavigationController = storyboard.instantiateViewControllerWithIdentifier("iPhoneRootView") as! UINavigationController
+            UIApplication.sharedApplication().keyWindow?.rootViewController = frontViewController;
+        }
     }
     
     func reloadNavBarItems(artilceObj:Article) {

@@ -95,12 +95,12 @@ class CommonViewController: UIViewController,PKRevealing {
                     revealController.delegate = self
                     UIApplication.sharedApplication().keyWindow?.rootViewController = revealController;
                 } else {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
                     let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
                     self.navigationController?.addChildViewController(vc)
                 }
             } else {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
                 self.navigationController?.addChildViewController(vc)
             }
