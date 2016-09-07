@@ -30,15 +30,32 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         self.navigationItem.titleView = imageView
         
         searchBar.layer.borderWidth = 1
-        searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            searchBar.layer.borderColor = UIColor.init(colorLiteralRed: 250/255, green: 250/255, blue: 250/255, alpha: 1).CGColor
+        }
+        
         searchBar.enablesReturnKeyAutomatically = false
         self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
         self.menuTableView.reloadData()
+        
+        //After Menu API notification observer
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(loadMenus),
+            name: "AfterMenuAPI",
+            object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadMenus() {
+        self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
+        self.menuTableView.reloadData()
     }
     
     
@@ -87,31 +104,57 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 38){
+        if(menu.menuId == 2){
             //Newsletter list #2-stage #38-live
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
-            vc.titleString = menu.menuName!
-            self.navigationController?.pushViewController(vc, animated: true)
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
+                vc.titleString = menu.menuName!
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
+                let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
+                let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("newsLetterNav") as! UINavigationController
+                let frontViewContrller:NewsLetterViewController = navCtlr.viewControllers[0] as! NewsLetterViewController
+                frontViewContrller.titleString = menu.menuName!
+                self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
+            }
             
-        } else if(menu.menuId == 35) {
+            
+        } else if(menu.menuId == 19) {
             //Folder list #19-stage #35-live
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc:FolderListViewController = storyboard.instantiateViewControllerWithIdentifier("folderListView") as! FolderListViewController
-            vc.titleString = menu.menuName!
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-        } else if(menu.menuId == 36) {
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:FolderListViewController = storyboard.instantiateViewControllerWithIdentifier("folderListView") as! FolderListViewController
+                vc.titleString = menu.menuName!
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
+                let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
+                let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("folderNav") as! UINavigationController
+                let frontViewContrller:NewsLetterViewController = navCtlr.viewControllers[0] as! NewsLetterViewController
+                frontViewContrller.titleString = menu.menuName!
+                self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
+            }
+        } else if(menu.menuId == 20) {
             //Daily digest article list #20-stage #36-live
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-            vc.contentTypeId = menu.menuId.integerValue
-            vc.titleString = menu.menuName!
-            vc.activityTypeId = activityTypeId
-            vc.isFromDailyDigest = true
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-        } else if(menu.menuId == 37) {
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+                vc.contentTypeId = menu.menuId.integerValue
+                vc.titleString = menu.menuName!
+                vc.activityTypeId = activityTypeId
+                vc.isFromDailyDigest = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
+                let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
+                let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
+                let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
+                frontViewContrller.contentTypeId = menu.menuId.integerValue
+                frontViewContrller.titleString = menu.menuName!
+                frontViewContrller.activityTypeId = activityTypeId
+                frontViewContrller.isFromDailyDigest = true
+                self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
+            }
+        } else if(menu.menuId == 21) {
             //Media analysis #21-stage #37-live
             
         } else if(menu.menuId == 101) {
@@ -121,23 +164,40 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 102) {
             //logout action
             CoreDataController().deleteAndResetStack()
-            for viewCtlr in (self.navigationController?.viewControllers)! {
-                if(viewCtlr.isKindOfClass(ViewController) == true) {
-                    self.navigationController?.popToViewController(viewCtlr as! ViewController, animated: true)
-                    break;
-                }
-
-            }
-            
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
+            
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                for viewCtlr in (self.navigationController?.viewControllers)! {
+                    if(viewCtlr.isKindOfClass(ViewController) == true) {
+                        self.navigationController?.popToViewController(viewCtlr as! ViewController, animated: true)
+                        break;
+                    }
+                    
+                }
+            } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let frontViewController: UINavigationController = storyboard.instantiateViewControllerWithIdentifier("iPhoneRootView") as! UINavigationController
+                UIApplication.sharedApplication().keyWindow?.rootViewController = frontViewController;
+            }
         } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-            vc.contentTypeId = menu.menuId.integerValue
-            vc.titleString = menu.menuName!
-            vc.activityTypeId = activityTypeId
-            vc.isFromDailyDigest = false
-            self.navigationController?.pushViewController(vc, animated: true)
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+                vc.contentTypeId = menu.menuId.integerValue
+                vc.titleString = menu.menuName!
+                vc.activityTypeId = activityTypeId
+                vc.isFromDailyDigest = false
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
+                let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
+                let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
+                let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
+                frontViewContrller.contentTypeId = menu.menuId.integerValue
+                frontViewContrller.titleString = menu.menuName!
+                frontViewContrller.activityTypeId = activityTypeId
+                frontViewContrller.isFromDailyDigest = false
+                self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
+            }
         }
     }
 

@@ -577,7 +577,7 @@
         <!--Navigation Controller-->
         <scene sceneID="7wF-We-BD1">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="il0-Za-EHd" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="iPhoneRootView" automaticallyAdjustsScrollViewInsets="NO" id="il0-Za-EHd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SpS-cw-tEN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

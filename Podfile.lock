@@ -4,6 +4,7 @@ PODS:
   - Fabric (1.6.7)
   - GrowingTextView (0.1.6)
   - Kingfisher (2.4.2)
+  - PKRevealController (2.0.6)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -11,6 +12,7 @@ DEPENDENCIES:
   - Fabric
   - GrowingTextView
   - Kingfisher (~> 2.4)
+  - PKRevealController
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
@@ -27,8 +29,9 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   GrowingTextView: 5b431583ba0a401797d3edc8e4af1e2854aaa4e9
   Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
+  PKRevealController: ffb45a16f5a5032ad90a3d16e5cbb0d8e035bd58
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 5bf1c65339f72a39aa82ea82770a433999842f5c
+PODFILE CHECKSUM: b0127dbc6973a2976e1c731a23462b36ae1eb96e
 
 COCOAPODS: 1.0.1

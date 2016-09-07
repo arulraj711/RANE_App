@@ -1,6 +1,7 @@
 use_frameworks!
 target 'RANE_App' do
 pod 'Fabric'
+pod 'PKRevealController'
 pod 'Crashlytics'
 pod 'Kingfisher', '~> 2.4'
 pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'

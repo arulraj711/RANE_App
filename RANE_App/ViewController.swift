@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 import SwiftyJSON
-class ViewController: UIViewController {
+import PKRevealController
+
+class ViewController: UIViewController,PKRevealing {
     
     @IBOutlet var emailAddressField: UITextField!
     @IBOutlet var userInfoView: UIView!
@@ -40,8 +42,8 @@ class ViewController: UIViewController {
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
 //  
-//        emailAddressField.text = "rane.pe@fullintel.com"
-//        passwordField.text = "firanepe"
+        emailAddressField.text = "testingrane@capestart.com"
+        passwordField.text = "start"
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -111,14 +113,25 @@ class ViewController: UIViewController {
             NSUserDefaults.standardUserDefaults().setObject(json["email"].stringValue, forKey: "email")
             
             dispatch_async(dispatch_get_main_queue(),{
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
-                let vc1 = storyboard.instantiateViewControllerWithIdentifier("listView")
-                var controllers = self.navigationController?.viewControllers;
-                controllers?.append(vc)
-                controllers?.append(vc1)
-                self.navigationController?.setViewControllers(controllers!, animated: true)
-
+                
+                if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                    //code for iPhone
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewControllerWithIdentifier("menuView")
+                    let vc1 = storyboard.instantiateViewControllerWithIdentifier("listView")
+                    var controllers = self.navigationController?.viewControllers;
+                    controllers?.append(vc)
+                    controllers?.append(vc1)
+                    self.navigationController?.setViewControllers(controllers!, animated: true)
+                } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+                    //code for iPad
+                    let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
+                    let frontViewController: UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
+                    let leftViewController: UIViewController = storyboard.instantiateViewControllerWithIdentifier("iPadMenuView")
+                    let revealController: PKRevealController = PKRevealController(frontViewController: frontViewController, leftViewController: leftViewController)
+                    revealController.delegate = self
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = revealController;
+                }
             })
             
         }

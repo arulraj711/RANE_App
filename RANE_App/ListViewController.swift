@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import MessageUI
+import PKRevealController
 
 
 class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,DetailViewControllerDelegate {
@@ -33,12 +34,19 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 
         self.listTableView.rowHeight = UITableViewAutomaticDimension
         self.listTableView.estimatedRowHeight = 220
+    
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
+                                               style: UIBarButtonItemStyle.Plain ,
+                                               target: self, action: #selector(ListViewController.OnMenuClicked))
+            self.navigationItem.leftBarButtonItem = menu_button_
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            let menu_button_ = UIBarButtonItem(image: UIImage(named: "navmenu"),
+                                               style: UIBarButtonItemStyle.Plain ,
+                                               target: self, action: #selector(ListViewController.OnMenuClicked))
+            self.navigationItem.leftBarButtonItem = menu_button_
+        }
         
-        let menu_button_ = UIBarButtonItem(image: UIImage(named: "backbutton"),
-                                           style: UIBarButtonItemStyle.Plain ,
-                                           target: self, action: #selector(ListViewController.OnMenuClicked))
-        self.navigationItem.leftBarButtonItem = menu_button_
-
         self.setupView()
         
         
@@ -770,7 +778,16 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     
     func OnMenuClicked() {
-        self.navigationController?.popViewControllerAnimated(true)
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            self.navigationController?.popViewControllerAnimated(true)
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+           print("reveal controller state",self.revealController.state)
+            if(self.revealController.state == PKRevealControllerShowsFrontViewController) {
+                self.revealController.showViewController(self.revealController.leftViewController)
+            } else {
+                self.revealController.showViewController(self.revealController.frontViewController)
+            }
+        }
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {

@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PKRevealController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-RANE_App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,6 +37,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>541F5B2948FBFA01D206B0603A93C050</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>62CB4A53E53AA477BFD9B082EF16EF5F</key>
 		<dict>
 			<key>primary</key>
@@ -42,17 +52,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2D295E54DC33949987E277CC84B7A77</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D73ED96A8D0073BAB3C61DB8A0F3592D</key>
+		<key>DE6FBF6D5D3626B59D64D01E27539A93</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>E96E13C4D3B5B5FC0651440734C2BF4D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FBF452D9313EF913EA92AD5D72258A8E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

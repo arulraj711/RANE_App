@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import PKRevealController
 
 class FolderListViewController: UIViewController,UIAlertViewDelegate {
     var titleString:String = ""
@@ -24,6 +25,15 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
         
         
         self.title = titleString
+        
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            let menu_button_ = UIBarButtonItem(image: UIImage(named: "navmenu"),
+                                               style: UIBarButtonItemStyle.Plain ,
+                                               target: self, action: #selector(FolderListViewController.OnMenuClicked))
+            self.navigationItem.leftBarButtonItem = menu_button_
+        }
         
         self.getFolderList()
         
@@ -50,6 +60,18 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func OnMenuClicked() {
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            self.navigationController?.popViewControllerAnimated(true)
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            print("reveal controller state",self.revealController.state)
+            if(self.revealController.state == PKRevealControllerShowsFrontViewController) {
+                self.revealController.showViewController(self.revealController.leftViewController)
+            } else {
+                self.revealController.showViewController(self.revealController.frontViewController)
+            }
+        }
+    }
     
     func getFolderList() {
         activityIndicator.center = self.view.center

@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import PKRevealController
 
 class NewsLetterViewController: UIViewController {
     @IBOutlet var newsletterListView: UITableView!
@@ -23,6 +24,15 @@ class NewsLetterViewController: UIViewController {
         
         
         self.title = titleString
+        
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            let menu_button_ = UIBarButtonItem(image: UIImage(named: "navmenu"),
+                                               style: UIBarButtonItemStyle.Plain ,
+                                               target: self, action: #selector(NewsLetterViewController.OnMenuClicked))
+            self.navigationItem.leftBarButtonItem = menu_button_
+        }
         
         self.getNewsLetterList()
         
@@ -48,6 +58,18 @@ class NewsLetterViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func OnMenuClicked() {
+        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            self.navigationController?.popViewControllerAnimated(true)
+        } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad) {
+            print("reveal controller state",self.revealController.state)
+            if(self.revealController.state == PKRevealControllerShowsFrontViewController) {
+                self.revealController.showViewController(self.revealController.leftViewController)
+            } else {
+                self.revealController.showViewController(self.revealController.frontViewController)
+            }
+        }
+    }
     
     func getNewsLetterList() {
         activityIndicator.center = self.view.center
