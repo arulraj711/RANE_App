@@ -104,7 +104,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 2){
+        if(menu.menuId == 38){
             //Newsletter list #2-stage #38-live
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -120,7 +120,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             }
             
             
-        } else if(menu.menuId == 19) {
+        } else if(menu.menuId == 35) {
             //Folder list #19-stage #35-live
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -130,11 +130,11 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
                 let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("folderNav") as! UINavigationController
-                let frontViewContrller:NewsLetterViewController = navCtlr.viewControllers[0] as! NewsLetterViewController
+                let frontViewContrller:FolderListViewController = navCtlr.viewControllers[0] as! FolderListViewController
                 frontViewContrller.titleString = menu.menuName!
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
-        } else if(menu.menuId == 20) {
+        } else if(menu.menuId == 36) {
             //Daily digest article list #20-stage #36-live
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -156,7 +156,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 frontViewContrller.isFromListPage = false
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
-        } else if(menu.menuId == 21) {
+        } else if(menu.menuId == 37) {
             //Media analysis #21-stage #37-live
             
         } else if(menu.menuId == 101) {

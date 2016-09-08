@@ -77,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		A04D60611D7FD73000AE7991 /* iPad-Design.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "iPad-Design.storyboard"; sourceTree = "<group>"; };
+		A04D60691D80551000AE7991 /* RANE_App 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RANE_App 2.xcdatamodel"; sourceTree = "<group>"; };
 		A05C5C6A1D5C580000FA6817 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A05C5C6C1D5C844400FA6817 /* CustomListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
 		A077655D1D73FF44007A81C7 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
@@ -862,9 +863,10 @@
 		BA49CA4A1D533FA9001DC190 /* RANE_App.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A04D60691D80551000AE7991 /* RANE_App 2.xcdatamodel */,
 				BA49CA4B1D533FA9001DC190 /* RANE_App.xcdatamodel */,
 			);
-			currentVersion = BA49CA4B1D533FA9001DC190 /* RANE_App.xcdatamodel */;
+			currentVersion = A04D60691D80551000AE7991 /* RANE_App 2.xcdatamodel */;
 			path = RANE_App.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
