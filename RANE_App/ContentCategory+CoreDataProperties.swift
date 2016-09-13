@@ -1,8 +1,8 @@
 //
-//  Menu+CoreDataProperties.swift
+//  ContentCategory+CoreDataProperties.swift
 //  RANE_App
 //
-//  Created by cape start on 29/08/16.
+//  Created by cape start on 13/09/16.
 //  Copyright © 2016 capestart. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,11 +12,9 @@
 import Foundation
 import CoreData
 
-extension Menu {
+extension ContentCategory {
 
-    @NSManaged var menuId: NSNumber
-    @NSManaged var menuName: String
-    @NSManaged var menuIconURL: String?
-    @NSManaged var companyId: NSNumber
+    @NSManaged var contentCategoryId: String
+    @NSManaged var contentCategoryName: String
 
 }

@@ -38,11 +38,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RANE_App/CoreDataController.swift"
-            timestampString = "494945511.194346"
+            timestampString = "495461530.654023"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "updateMarkedImportantStatusInArticle(_:contentTypeId:isMarked:isMarkedImpSync:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -54,7 +54,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RANE_App/ListViewController.swift"
-            timestampString = "494945580.103768"
+            timestampString = "495468986.563764"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "733"
@@ -70,12 +70,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RANE_App/ListViewController.swift"
-            timestampString = "494947150.714136"
+            timestampString = "495468986.563764"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "747"
             endingLineNumber = "747"
             landmarkName = "markedImportantButtonClickAction(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RANE_App/ListViewController.swift"
+            timestampString = "495465590.682426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
+            landmarkName = "getExistingGroupNamesList()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RANE_App/ListViewController.swift"
+            timestampString = "495467316.395362"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
+            landmarkName = "groupByContentType(_:articleArray:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

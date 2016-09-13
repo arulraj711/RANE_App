@@ -109,13 +109,13 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
-                vc.titleString = menu.menuName!
+                vc.titleString = menu.menuName
                 self.navigationController?.pushViewController(vc, animated: true)
             } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
                 let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("newsLetterNav") as! UINavigationController
                 let frontViewContrller:NewsLetterViewController = navCtlr.viewControllers[0] as! NewsLetterViewController
-                frontViewContrller.titleString = menu.menuName!
+                frontViewContrller.titleString = menu.menuName
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
             
@@ -125,13 +125,13 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:FolderListViewController = storyboard.instantiateViewControllerWithIdentifier("folderListView") as! FolderListViewController
-                vc.titleString = menu.menuName!
+                vc.titleString = menu.menuName
                 self.navigationController?.pushViewController(vc, animated: true)
             } else if(UIDevice.currentDevice().userInterfaceIdiom == .Pad){
                 let storyboard = UIStoryboard(name: "iPad-Design", bundle: nil)
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("folderNav") as! UINavigationController
                 let frontViewContrller:FolderListViewController = navCtlr.viewControllers[0] as! FolderListViewController
-                frontViewContrller.titleString = menu.menuName!
+                frontViewContrller.titleString = menu.menuName
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
         } else if(menu.menuId == 36) {
@@ -140,7 +140,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
                 vc.contentTypeId = menu.menuId.integerValue
-                vc.titleString = menu.menuName!
+                vc.titleString = menu.menuName
                 vc.activityTypeId = activityTypeId
                 vc.isFromDailyDigest = true
                 
@@ -150,7 +150,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
                 let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
                 frontViewContrller.contentTypeId = menu.menuId.integerValue
-                frontViewContrller.titleString = menu.menuName!
+                frontViewContrller.titleString = menu.menuName
                 frontViewContrller.activityTypeId = activityTypeId
                 frontViewContrller.isFromDailyDigest = true
                 frontViewContrller.isFromListPage = false
@@ -186,7 +186,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
                 vc.contentTypeId = menu.menuId.integerValue
-                vc.titleString = menu.menuName!
+                vc.titleString = menu.menuName
                 vc.activityTypeId = activityTypeId
                 vc.isFromDailyDigest = false
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -195,7 +195,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
                 let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
                 frontViewContrller.contentTypeId = menu.menuId.integerValue
-                frontViewContrller.titleString = menu.menuName!
+                frontViewContrller.titleString = menu.menuName
                 frontViewContrller.activityTypeId = activityTypeId
                 frontViewContrller.isFromDailyDigest = false
                 frontViewContrller.isFromListPage = false

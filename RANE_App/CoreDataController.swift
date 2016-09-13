@@ -12,7 +12,83 @@ import CoreData
 
 
 class CoreDataController {
+    var contentCategory: [ContentCategory]?
+    func addContentCategory(contentCategoryJSON:JSON) {
+        //1 get managedcontext from appdelegate Object
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2 set predicate value
+        let fetchRequest = NSFetchRequest(entityName: "ContentCategory")
+        fetchRequest.predicate = NSPredicate(format: "contentCategoryId == %@",contentCategoryJSON["id"].stringValue)
+        //        print("predicate",fetchRequest)
+        
+        do {
+            
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [ContentCategory]
+            if results.count != 0{
+                let contentCategory = results[0] as ContentCategory
+                
+                contentCategory.setValue(contentCategoryJSON["nodeid"].stringValue, forKey: "contentCategoryId")
+                contentCategory.setValue(contentCategoryJSON["name"].stringValue, forKey: "contentCategoryName")
+                
+                try contentCategory.managedObjectContext?.save()
+                
+            } else {
+                // Create Entity
+                let entity = NSEntityDescription.entityForName("ContentCategory", inManagedObjectContext: managedContext)
+                
+                // Initialize Record
+                let contentCategory = ContentCategory(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                //let record = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                
+                //                print("menu json",menuJSON)
+                //                print("menu name",menuJSON["name"].stringValue)
+                
+                // Populate Record
+                contentCategory.setValue(contentCategoryJSON["nodeid"].stringValue, forKey: "contentCategoryId")
+                contentCategory.setValue(contentCategoryJSON["name"].stringValue, forKey: "contentCategoryName")
+                
+                // Save Record
+                try contentCategory.managedObjectContext?.save()
+            }
+            
+            
+            // Dismiss View Controller
+            
+        } catch {
+            let saveError = error as NSError
+            print("\(saveError), \(saveError.userInfo)")
+        }
+    }
     
+    func getContentNameFromContentTypeId(contentTypeId:Int)->String {
+        var contentCategoryName:String!
+        //1 get managedcontext from appdelegate Object
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2 set predicate value
+        let fetchRequest = NSFetchRequest(entityName: "ContentCategory")
+        fetchRequest.predicate = NSPredicate(format: "contentCategoryId == %@",String(contentTypeId))
+        //        print("predicate",fetchRequest)
+        do {
+            
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [ContentCategory]
+            if results.count != 0{
+                let contentCategory = results[0] as ContentCategory
+                contentCategoryName = contentCategory.contentCategoryName
+            }
+        } catch {
+            let saveError = error as NSError
+            print("\(saveError), \(saveError.userInfo)")
+        }
+        return contentCategoryName
+    }
     
     func addMenu(menuJSON:JSON) {
         
@@ -105,18 +181,36 @@ class CoreDataController {
                     article.setValue(true, forKey: "isSearch")
                 }
                 /* fields name configuration */
-                if let fieldsArray = articleJSON["fields"].array {
+//                if let fieldsArray = articleJSON["fields"].array {
+//                    var fieldsName:String = ""
+//                    for fields in fieldsArray {
+//                        if(fieldsName.characters.count == 0) {
+//                            fieldsName = fieldsName.uppercaseString+fields["name"].stringValue.uppercaseString
+//                        } else {
+//                            fieldsName = fieldsName.uppercaseString+" & "+fields["name"].stringValue.uppercaseString
+//                        }
+//                        
+//                    }
+//                    article.setValue(fieldsName, forKey: "fieldsName")
+//                }
+                self.contentCategory = CoreDataController().getContentCategoryInfoFromCoreData("ContentCategory")
+                
+                /* fields name configuration */
+                if let fieldsArray = articleJSON["contentCategoryId"].array {
                     var fieldsName:String = ""
                     for fields in fieldsArray {
+                        print("fields",fields,CoreDataController().getContentNameFromContentTypeId(fields.int!))
                         if(fieldsName.characters.count == 0) {
-                            fieldsName = fieldsName.uppercaseString+fields["name"].stringValue.uppercaseString
+                            
+                            fieldsName = fieldsName.uppercaseString+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         } else {
-                            fieldsName = fieldsName.uppercaseString+" & "+fields["name"].stringValue.uppercaseString
+                            fieldsName = fieldsName.uppercaseString+" & "+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         }
                         
                     }
                     article.setValue(fieldsName, forKey: "fieldsName")
                 }
+                
                 
                 /* outlet name configuration */
                 if let outletArray = articleJSON["outlet"].array {
@@ -180,14 +274,32 @@ class CoreDataController {
                 } else {
                     article.setValue(true, forKey: "isSearch")
                 }
+//                /* fields name configuration */
+//                if let fieldsArray = articleJSON["fields"].array {
+//                    var fieldsName:String = ""
+//                    for fields in fieldsArray {
+//                        if(fieldsName.characters.count == 0) {
+//                            fieldsName = fieldsName.uppercaseString+fields["name"].stringValue.uppercaseString
+//                        } else {
+//                            fieldsName = fieldsName.uppercaseString+" & "+fields["name"].stringValue.uppercaseString
+//                        }
+//                        
+//                    }
+//                    article.setValue(fieldsName, forKey: "fieldsName")
+//                }
+                
+                self.contentCategory = CoreDataController().getContentCategoryInfoFromCoreData("ContentCategory")
+                
                 /* fields name configuration */
-                if let fieldsArray = articleJSON["fields"].array {
+                if let fieldsArray = articleJSON["contentCategoryId"].array {
                     var fieldsName:String = ""
                     for fields in fieldsArray {
+                        print("fields",fields,CoreDataController().getContentNameFromContentTypeId(fields.int!))
                         if(fieldsName.characters.count == 0) {
-                            fieldsName = fieldsName.uppercaseString+fields["name"].stringValue.uppercaseString
+                            
+                            fieldsName = fieldsName.uppercaseString+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         } else {
-                            fieldsName = fieldsName.uppercaseString+" & "+fields["name"].stringValue.uppercaseString
+                            fieldsName = fieldsName.uppercaseString+" & "+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         }
                         
                     }
@@ -350,6 +462,31 @@ class CoreDataController {
         }
         return entityResult
     }
+    
+    func getContentCategoryInfoFromCoreData(entityName:String) -> [ContentCategory] {
+        var entityResult = [ContentCategory]()
+        //1
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: entityName)
+        
+        //3
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [ContentCategory]
+            entityResult = results
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return entityResult
+    }
+    
+
+    
     
     func getArticleListForContentTypeId(contentTypeId:NSNumber,pageNo:NSNumber,entityName:String) -> [Article] {
         var entityResult = [Article]()

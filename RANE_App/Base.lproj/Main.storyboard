@@ -781,17 +781,29 @@
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yzx-IS-FFu">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="C9K-sh-IyU" id="g61-SD-x0p"/>
+                                </connections>
                             </webView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="BaG-jv-gil">
+                                <rect key="frame" x="0.0" y="64" width="600" height="3"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yzx-IS-FFu" firstAttribute="bottom" secondItem="jqq-Mz-Vfg" secondAttribute="top" id="1NH-TS-cco"/>
-                            <constraint firstItem="yzx-IS-FFu" firstAttribute="top" secondItem="0xS-NE-Zh4" secondAttribute="top" id="GhQ-hO-G3S"/>
+                            <constraint firstItem="BaG-jv-gil" firstAttribute="trailing" secondItem="yzx-IS-FFu" secondAttribute="trailing" id="A0k-gv-1q1"/>
+                            <constraint firstItem="BaG-jv-gil" firstAttribute="leading" secondItem="yzx-IS-FFu" secondAttribute="leading" id="Dr8-Lm-Onc"/>
+                            <constraint firstItem="BaG-jv-gil" firstAttribute="top" secondItem="0xS-NE-Zh4" secondAttribute="top" constant="64" id="Mxc-KV-i4S"/>
                             <constraint firstAttribute="trailing" secondItem="yzx-IS-FFu" secondAttribute="trailing" id="PUo-Qh-WaR"/>
                             <constraint firstItem="yzx-IS-FFu" firstAttribute="leading" secondItem="0xS-NE-Zh4" secondAttribute="leading" id="S7F-bU-B7r"/>
+                            <constraint firstItem="yzx-IS-FFu" firstAttribute="top" secondItem="BaG-jv-gil" secondAttribute="bottom" constant="-66" id="YcX-vJ-XgA"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="myProgressView" destination="BaG-jv-gil" id="XMN-7j-w2u"/>
                         <outlet property="webView" destination="yzx-IS-FFu" id="G33-ef-LOx"/>
                     </connections>
                 </viewController>

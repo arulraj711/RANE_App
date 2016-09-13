@@ -9,7 +9,10 @@
 import UIKit
 
 class ReadFullArticleViewController: UIViewController {
+    @IBOutlet var myProgressView: UIProgressView!
     var articleUrl:String = ""
+    var theBool:Bool = false
+    var timer:NSTimer!
     @IBOutlet weak var webView: UIWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +27,38 @@ class ReadFullArticleViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func webViewDidFinishLoad(webView: UIWebView!) {
+        theBool = true;
+        timer.invalidate()
+       // myProgressView.removeFromSuperview()
+    }
+//
+    func webViewDidStartLoad(webView: UIWebView!) {
+        myProgressView.progress = 0;
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(ReadFullArticleViewController.timerCallback), userInfo: nil, repeats: true)
+    }
 
+    func timerCallback() {
+        if (theBool) {
+            if (myProgressView.progress >= 1) {
+                myProgressView.hidden = true;
+                timer.invalidate()
+            }
+            else {
+                myProgressView.progress += 0.1;
+            }
+        }
+        else {
+            myProgressView.progress += 0.01;
+            if (myProgressView.progress >= 0.95) {
+                myProgressView.progress = 0.95;
+            }
+        }
+    }
+    
+
+    
     /*
     // MARK: - Navigation
 

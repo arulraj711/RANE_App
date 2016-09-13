@@ -42,8 +42,8 @@ class ViewController: UIViewController,PKRevealing {
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
 //  
-//        emailAddressField.text = "testingrane@capestart.com"
-//        passwordField.text = "start"
+//        emailAddressField.text = "schwab@fullintel.com"
+//        passwordField.text = "fischwab02716"
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -109,11 +109,13 @@ class ViewController: UIViewController,PKRevealing {
             NSUserDefaults.standardUserDefaults().setObject(json["securityToken"].stringValue, forKey: "securityToken")
             NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
             NSUserDefaults.standardUserDefaults().setObject(json["id"].intValue, forKey: "userId")
-            NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
+            //NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
             NSUserDefaults.standardUserDefaults().setObject(json["email"].stringValue, forKey: "email")
             
             dispatch_async(dispatch_get_main_queue(),{
-                
+                WebServiceManager.sharedInstance.callContentCategoriesService(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), securityToken: NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!) { (json:JSON) in
+                    print("content category JSON",json)
+                }
                 if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                     //code for iPhone
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)

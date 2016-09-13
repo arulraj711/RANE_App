@@ -23,6 +23,10 @@
         <attribute name="outletName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pageNo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="ContentCategory" representedClassName=".ContentCategory" syncable="YES">
+        <attribute name="contentCategoryId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentCategoryName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Menu" representedClassName=".Menu" syncable="YES">
         <attribute name="companyId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="menuIconURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -40,5 +44,6 @@
         <element name="Article" positionX="-36" positionY="54" width="128" height="360"/>
         <element name="Menu" positionX="-54" positionY="27" width="128" height="105"/>
         <element name="User" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="ContentCategory" positionX="-45" positionY="135" width="128" height="75"/>
     </elements>
 </model>

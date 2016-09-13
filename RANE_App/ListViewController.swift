@@ -371,13 +371,12 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func groupByContentType(menuArray:[Menu],articleArray:[Article]) {
         //self.groupedArticleArrayList.removeAllObjects()
-        print("menu items",menuArray.count)
-        print("incoming article items",articleArray.count)
+        print("incoming article array count",articleArray.count)
         for menu in menuArray {
             let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
-            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(menu.menuName!)
+            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(menu.menuName)
             let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId.integerValue, articletypeId: menu.menuId.integerValue, articleArray: articleArray,existingGroupedAricles: existingGroupArticles)
-            if(existingGroupNameList.containsObject(menu.menuName!)) {
+            if(existingGroupNameList.containsObject(menu.menuName)) {
                 let index:Int = self.getGroupedArticleIndex(String(menu.menuName))
                 self.groupedArticleArrayList.removeObjectAtIndex(index)
                 let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
@@ -396,7 +395,6 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 
             }
         }
-        print("grouped article",self.groupedArticleArrayList.count)
     }
     
     func groupArticlesBasedOnContentType(companyId:Int,articletypeId:Int,articleArray:[Article],existingGroupedAricles:[Article])-> [Article]{
@@ -444,6 +442,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 41, 20, 20)
             } else {
                 headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
+                dividerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 5)
                 label.frame = CGRectMake(20, 21, tableView.bounds.size.width-60, 52)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 36, 20, 20)
             }
@@ -469,6 +468,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 21, 20, 20)
             } else {
                 headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
+                dividerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 5)
                 label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
             }

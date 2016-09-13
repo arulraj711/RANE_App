@@ -84,6 +84,20 @@ class WebServiceManager: NSObject {
         })
     }
     
+    func callContentCategoriesService(companyId:Int,securityToken:String,onCompletion: (JSON) -> Void) {
+        let menuAPIFunctionName = "api/v1/companies/"+String(companyId)+"/contentCategory?security_token="+securityToken
+        WebService().makeHTTPGetRequest(menuAPIFunctionName, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            if let results = json.array {
+                for entry in results {
+                    CoreDataController().addContentCategory(entry)
+                }
+            }
+            onCompletion(json as JSON)
+        })
+    }
+    
+    
     // For newsletter API call
     func callDailyDigestArticleListWebService(dailyDigestId:Int,securityToken:String,page:Int,size:Int,onCompletion: (JSON) -> Void) {
         let dailyDigestAPIFunctionName = "api/v1/client/newsletter/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
@@ -96,7 +110,7 @@ class WebServiceManager: NSObject {
                     }
                 }
             
-            print("newsletter results count",json.array?.count)
+            print("newsletter results count",json.array)
             onCompletion(json as JSON)
         })
     }
