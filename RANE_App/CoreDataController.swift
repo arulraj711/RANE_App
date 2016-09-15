@@ -90,6 +90,33 @@ class CoreDataController {
         return contentCategoryName
     }
     
+    
+    func getMenuNameFromArticleTypeId(contentTypeId:NSNumber)->String {
+        var menuName:String!
+        //1 get managedcontext from appdelegate Object
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2 set predicate value
+        let fetchRequest = NSFetchRequest(entityName: "Menu")
+        fetchRequest.predicate = NSPredicate(format: "menuId == %@",contentTypeId)
+        //        print("predicate",fetchRequest)
+        do {
+            
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Menu]
+            if results.count != 0{
+                let contentCategory = results[0] as Menu
+                menuName = contentCategory.menuName
+            }
+        } catch {
+            let saveError = error as NSError
+            print("\(saveError), \(saveError.userInfo)")
+        }
+        return menuName
+    }
+    
     func addMenu(menuJSON:JSON) {
         
         //1 get managedcontext from appdelegate Object

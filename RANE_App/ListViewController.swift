@@ -133,7 +133,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
             if(isFromDailyDigest) {
                 if(self.articles.count != 0) {
-                    self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: self.articles)
+                    self.groupByContentType(self.articles)
                 }
             } else {
                 if(self.articles.count != 0) {
@@ -203,7 +203,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         
         if(isFromDailyDigest) {
-            self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: articleArray)
+            self.groupByContentType(articleArray)
         } else {
             self.groupByModifiedDate(articleArray)
         }
@@ -369,31 +369,71 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         return articlePublishedDateArray
     }
     
-    func groupByContentType(menuArray:[Menu],articleArray:[Article]) {
-        //self.groupedArticleArrayList.removeAllObjects()
-        print("incoming article array count",articleArray.count)
-        for menu in menuArray {
+//    func groupByContentType(menuArray:[Menu],articleArray:[Article]) {
+//        //self.groupedArticleArrayList.removeAllObjects()
+//        print("incoming article array count",menuArray)
+//        for menu in menuArray {
+//            let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
+//            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(menu.menuName)
+//            let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId.integerValue, articletypeId: menu.menuId.integerValue, articleArray: articleArray,existingGroupedAricles: existingGroupArticles)
+//            print("incoming menu",menu.menuName)
+//            if(existingGroupNameList.containsObject(menu.menuName)) {
+//                let index:Int = self.getGroupedArticleIndex(String(menu.menuName))
+//                self.groupedArticleArrayList.removeObjectAtIndex(index)
+//                let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+//                articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
+//                articleGroupDictionary.setValue(menu.menuId, forKey: "sectionId")
+//                articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+//                self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: index)
+//            } else {
+//                if(groupedArticleArray.count != 0) {
+//                    print("inserting menu name",menu.menuName)
+//                    let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+//                    articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
+//                    articleGroupDictionary.setValue(menu.menuId, forKey: "sectionId")
+//                    articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+//                    self.groupedArticleArrayList.addObject(articleGroupDictionary)
+//                    print("grouped article",self.groupedArticleArrayList)
+//                }
+//
+//            }
+//        }
+//    }
+    
+    
+    func groupByContentType(articleArray:[Article]) {
+        for article in articleArray {
+            let sectionName = CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId)
             let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
-            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(menu.menuName)
-            let groupedArticleArray = self.groupArticlesBasedOnContentType(menu.companyId.integerValue, articletypeId: menu.menuId.integerValue, articleArray: articleArray,existingGroupedAricles: existingGroupArticles)
-            if(existingGroupNameList.containsObject(menu.menuName)) {
-                let index:Int = self.getGroupedArticleIndex(String(menu.menuName))
-                self.groupedArticleArrayList.removeObjectAtIndex(index)
-                let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
-                articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
-                articleGroupDictionary.setValue(menu.menuId, forKey: "sectionId")
-                articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
-                self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: index)
-            } else {
-                if(groupedArticleArray.count != 0) {
+            let existingGroupArticles:[Article] = self.getExistingGroupedArticle(sectionName)
+                if(existingGroupNameList.containsObject(CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId))) {
+                    let index:Int = self.getGroupedArticleIndex(sectionName)
+                    self.groupedArticleArrayList.removeObjectAtIndex(index)
                     let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
-                    articleGroupDictionary.setValue(menu.menuName, forKey: "sectionName")
-                    articleGroupDictionary.setValue(menu.menuId, forKey: "sectionId")
-                    articleGroupDictionary.setValue(groupedArticleArray, forKey: "articleList")
+                    articleGroupDictionary.setValue(sectionName, forKey: "sectionName")
+                    articleGroupDictionary.setValue(article.articleTypeId, forKey: "sectionId")
+                    var tempArray = [Article]()
+                    tempArray = existingGroupArticles
+                    if(article.companyId == NSUserDefaults.standardUserDefaults().integerForKey("companyId")) {
+                        tempArray.append(article)
+                    } else {
+                        continue
+                    }
+                    articleGroupDictionary.setValue(tempArray, forKey: "articleList")
+                    self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: index)
+                } else {
+                    let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                    articleGroupDictionary.setValue(sectionName, forKey: "sectionName")
+                    articleGroupDictionary.setValue(article.articleTypeId, forKey: "sectionId")
+                    var tempArray = [Article]()
+                    if(article.companyId == NSUserDefaults.standardUserDefaults().integerForKey("companyId")) {
+                        tempArray.append(article)
+                    } else {
+                        continue
+                    }
+                    articleGroupDictionary.setValue(tempArray, forKey: "articleList")
                     self.groupedArticleArrayList.addObject(articleGroupDictionary)
                 }
-
-            }
         }
     }
     
@@ -401,6 +441,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         var tempArray = [Article]()
         tempArray = existingGroupedAricles
         for article in articleArray {
+            print("article heading",article.articleTitle)
             if(article.articleTypeId == articletypeId && article.companyId == companyId) {
                 tempArray.append(article)
             } else {
@@ -947,7 +988,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     if(results.count != 0) {
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
-                        self.groupByContentType(CoreDataController().getEntityInfoFromCoreData("Menu"), articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
+                        self.groupByContentType(CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
+//                        self.groupByContentType(CoreDataController().getEntityInfoFromCoreData("Menu"), articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
