@@ -54,7 +54,7 @@ class WebServiceManager: NSObject {
 //                        } else {
                         
                        //CoreDataController().updateMenuInfoInCoreData(entry)
-                        
+                        //print("menu entry",entry)
                         CoreDataController().addMenu(entry)
                         
                         //}

@@ -1,3 +1,5 @@
+
+
 //
 //  CoreDataController.swift
 //  RANE_App
@@ -65,6 +67,7 @@ class CoreDataController {
     }
     
     func getContentNameFromContentTypeId(contentTypeId:Int)->String {
+        print("inside",contentTypeId)
         var contentCategoryName:String!
         //1 get managedcontext from appdelegate Object
         let appDelegate =
@@ -156,6 +159,8 @@ class CoreDataController {
                 // Populate Record
                 record.setValue(menuJSON["id"].intValue, forKey: "menuId")
                 record.setValue(menuJSON["name"].stringValue, forKey: "menuName")
+                print("menu",menuJSON)
+                print("menu url",menuJSON["iconUrl"].stringValue)
                 record.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 record.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
                 // Save Record
@@ -268,8 +273,11 @@ class CoreDataController {
                 }
                 
                 if let markAsImportantDic = articleJSON["markAsImportantUserDetail"].dictionary {
-                    article.setValue(markAsImportantDic["userId"]?.intValue, forKey: "markAsImportantUserId")
-                    article.setValue(markAsImportantDic["name"]?.stringValue, forKey: "markAsImportantUserName")
+                    if(markAsImportantDic.count != 0) {
+                        article.setValue(markAsImportantDic["userId"]?.intValue, forKey: "markAsImportantUserId")
+                        article.setValue(markAsImportantDic["name"]?.stringValue, forKey: "markAsImportantUserName")
+                    }
+                    
                 }
                 
                 try article.managedObjectContext?.save()
@@ -362,8 +370,11 @@ class CoreDataController {
                 }
                 
                 if let markAsImportantDic = articleJSON["markAsImportantUserDetail"].dictionary {
-                    article.setValue(markAsImportantDic["userId"]?.intValue, forKey: "markAsImportantUserId")
-                    article.setValue(markAsImportantDic["name"]?.stringValue, forKey: "markAsImportantUserName")
+                    if(markAsImportantDic.count != 0) {
+                        article.setValue(markAsImportantDic["userId"]?.intValue, forKey: "markAsImportantUserId")
+                        article.setValue(markAsImportantDic["name"]?.stringValue, forKey: "markAsImportantUserName")
+                    }
+                    
                 }
                 
                 try article.managedObjectContext?.save()
@@ -516,6 +527,34 @@ class CoreDataController {
     
     
     func getArticleListForContentTypeId(contentTypeId:NSNumber,pageNo:NSNumber,entityName:String) -> [Article] {
+        var entityResult = [Article]()
+        //1
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: entityName)
+        if((pageNo.isEqualToNumber(0))) {
+            fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+        } else {
+            fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@",contentTypeId,pageNo)
+        }
+        
+        //3
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            entityResult = results
+            print("webservice results",entityResult.count)
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        return entityResult
+    }
+    
+    func getMarkedArticleListForContentTypeId(contentTypeId:NSNumber,pageNo:NSNumber,entityName:String) -> [Article] {
         var entityResult = [Article]()
         //1
         let appDelegate =

@@ -26,6 +26,9 @@ class CustomListCell: UITableViewCell {
     @IBOutlet weak var articleDescription: UILabel!
     @IBOutlet weak var outletName: UILabel!
     var cellArticleObject:Article!
+    var cellSection:Int!
+    var cellRow:Int!
+    var contentTypeId:Int!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -41,6 +44,9 @@ class CustomListCell: UITableViewCell {
         var dataDict = Dictionary<String, String>()
         dataDict["title"] = cellArticleObject.articleTitle!
         dataDict["articleId"] = cellArticleObject.articleId
+        dataDict["cellSection"] = String(self.cellSection)
+        dataDict["cellRow"] = String(self.cellRow)
+        dataDict["contentTypeId"] = String(self.contentTypeId)
         dataDict["isSaved"] = String(cellArticleObject.isSavedForLater)
         NSNotificationCenter.defaultCenter().postNotificationName("SavedForLaterButtonClick", object:self, userInfo:dataDict)
     }
@@ -48,9 +54,24 @@ class CustomListCell: UITableViewCell {
         var dataDict = Dictionary<String, String>()
         dataDict["title"] = cellArticleObject.articleTitle!
         dataDict["articleId"] = cellArticleObject.articleId
+        dataDict["cellSection"] = String(self.cellSection)
+        dataDict["cellRow"] = String(self.cellRow)
+        dataDict["contentTypeId"] = String(self.contentTypeId)
         dataDict["isMarked"] = String(cellArticleObject.isMarkedImportant)
-        dataDict["markAsImportantUserId"] = String(cellArticleObject.markAsImportantUserId)
-        dataDict["markAsImportantUserName"] = String(cellArticleObject.markAsImportantUserName)
+        if(String(cellArticleObject.isMarkedImportant) == "1") {
+            if(String(cellArticleObject.markAsImportantUserId) == "0") {
+                let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
+                dataDict["markAsImportantUserId"] = String(loginUserId)
+            } else {
+                dataDict["markAsImportantUserId"] = String(cellArticleObject.markAsImportantUserId)
+            }
+            dataDict["markAsImportantUserName"] = String(cellArticleObject.markAsImportantUserName)
+        } else {
+            let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
+            dataDict["markAsImportantUserId"] = String(loginUserId)
+            dataDict["markAsImportantUserName"] = String("")
+        }
+        
         NSNotificationCenter.defaultCenter().postNotificationName("MarkedImportantButtonClick", object:self, userInfo:dataDict)
     }
 }

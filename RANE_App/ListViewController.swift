@@ -130,7 +130,14 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     func setupView (){
         print("company type id--->",self.contentTypeId)
         if(self.searchKeyword.characters.count == 0) {
-            self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+            if(self.contentTypeId == 9) {
+                
+            } else if(self.contentTypeId == 6) {
+                
+            }else {
+                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+            }
+            
             if(isFromDailyDigest) {
                 if(self.articles.count != 0) {
                     self.groupByContentType(self.articles)
@@ -167,12 +174,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 //for normal article list
                 
                 self.title = titleString
-                if(self.articles.count == 0) {
-                    listActivityIndicator.center = self.view.center
-                    listActivityIndicator.startAnimating()
-                    self.view.addSubview(listActivityIndicator)
-                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
-                }
+               
+                    if(self.articles.count == 0) {
+                        listActivityIndicator.center = self.view.center
+                        listActivityIndicator.startAnimating()
+                        self.view.addSubview(listActivityIndicator)
+                        self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                    }
+                
+                
                 
             }
         } else {
@@ -226,6 +236,15 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     override func viewDidAppear(animated: Bool) {
+//        if(self.contentTypeId == 9) {
+//            self.articles.removeAll()
+//        } else if(self.contentTypeId == 6) {
+//            self.articles.removeAll()
+//        }
+//        dispatch_async(dispatch_get_main_queue(),{
+//            //self.tableView.reloadData()
+//            self.listTableView.reloadData()
+//        })
 
     }
     
@@ -586,6 +605,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let articleArray: NSArray?   = singleDic.objectForKey("articleList") as? NSArray;
         let articleObject:Article = articleArray![indexPath.row] as! Article
         cell.cellArticleObject = articleObject
+        cell.cellSection = indexPath.section
+        cell.cellRow = indexPath.row
+        cell.contentTypeId = articleObject.articleTypeId.integerValue
         if(articleObject.fieldsName!.characters.count == 0) {
             cell.fieldNameLabelHeightConstraint.constant=0
         } else {
@@ -617,6 +639,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         return cell
     }
+    
+   
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -681,11 +705,41 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             if let info = notification.userInfo as? Dictionary<String,String> {
+                let cellSection = info["cellSection"]!
+                let cellRow = info["cellRow"]!
+                let contentTypeId = info["contentTypeId"]!
                 let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
                 userActivitiesInputDictionary.setValue("3", forKey: "status")
                 userActivitiesInputDictionary.setValue(info["articleId"], forKey: "selectedArticleId")
                 userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
                 if(info["isSaved"] == "1") {
+                    if(self.contentTypeId == 6) {
+                        let dic = self.groupedArticleArrayList.objectAtIndex(Int(cellSection)!) as! NSDictionary
+                        self.groupedArticleArrayList.removeObjectAtIndex(Int(cellSection)!)
+                        let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                        articleGroupDictionary.setValue(dic.objectForKey("sectionName")!, forKey: "sectionName")
+                        articleGroupDictionary.setValue(contentTypeId, forKey: "sectionId")
+                        var articleList = dic.objectForKey("articleList") as! [Article]
+                        
+                        let appDelegate =
+                            UIApplication.sharedApplication().delegate as! AppDelegate
+                        let managedContext = appDelegate.managedObjectContext
+                        do {
+                            managedContext.deleteObject(articleList[Int(cellRow)!] as Article)
+                            try managedContext.save()
+                            articleList.removeAtIndex(Int(cellRow)!)
+                            articleGroupDictionary.setValue(articleList, forKey: "articleList")
+                            if(articleList.count != 0) {
+                                self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: Int(cellSection)!)
+                            }
+                        } catch {
+                            
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.listTableView.reloadData()
+                        })
+                    }
                     userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
                 } else if(info["isSaved"] == "0") {
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
@@ -772,7 +826,6 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     
     func markedImportantButtonClickAction(notification: NSNotification) {
-        
         // This method is invoked when the notification is sent
         
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
@@ -786,13 +839,48 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 let markAsImportantUserId = info["markAsImportantUserId"]!
                 let markAsImportantUserName = info["markAsImportantUserName"]!
                 let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
+                
+                let cellSection = info["cellSection"]!
+                let cellRow = info["cellRow"]!
+                let contentTypeId = info["contentTypeId"]!
+               
+                
+                
                 if(info["isMarked"] == "1") {
+                    print("marked imp userId",markAsImportantUserId)
+                    print("login userId",String(loginUserId))
                     if(markAsImportantUserId == "-1") {
                         dispatch_async(dispatch_get_main_queue(),{
                             self.view.makeToast(message: "A FullIntel analyst marked this as important. If you like to change, please request via Feedback")
                             })
                         
                     } else if(markAsImportantUserId == String(loginUserId)) {
+                        if(self.contentTypeId == 9) {
+                            let dic = self.groupedArticleArrayList.objectAtIndex(Int(cellSection)!) as! NSDictionary
+                            self.groupedArticleArrayList.removeObjectAtIndex(Int(cellSection)!)
+                            let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+                            articleGroupDictionary.setValue(dic.objectForKey("sectionName")!, forKey: "sectionName")
+                            articleGroupDictionary.setValue(contentTypeId, forKey: "sectionId")
+                            var articleList = dic.objectForKey("articleList") as! [Article]
+                            let appDelegate =
+                                UIApplication.sharedApplication().delegate as! AppDelegate
+                            let managedContext = appDelegate.managedObjectContext
+                            do {
+                                managedContext.deleteObject(articleList[Int(cellRow)!] as Article)
+                                try managedContext.save()
+                                articleList.removeAtIndex(Int(cellRow)!)
+                                articleGroupDictionary.setValue(articleList, forKey: "articleList")
+                                if(articleList.count != 0) {
+                                    self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: Int(cellSection)!)
+                                }
+                            } catch {
+                                
+                            }
+                            
+                            dispatch_async(dispatch_get_main_queue(),{
+                                self.listTableView.reloadData()
+                            })
+                        }
                         userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
                         dispatch_async(dispatch_get_main_queue(),{
                             
@@ -814,6 +902,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     }
                     
                 } else if(info["isMarked"] == "0") {
+                    
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                     dispatch_async(dispatch_get_main_queue(),{
                         

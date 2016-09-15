@@ -28,6 +28,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
      @IBOutlet var readFullArticleButton: UIButton!
     var outletWithContactString:String = ""
     var currentindex:Int?
+    var currentIndexPath:Int?
     var selectedIndexPath:NSIndexPath?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         selectedArticleDictionary["isSaved"] = String(artilceObj.isSavedForLater)
         selectedArticleDictionary["markAsImportantUserId"] = String(artilceObj.markAsImportantUserId)
         selectedArticleDictionary["markAsImportantUserName"] = String(artilceObj.markAsImportantUserName)
+        
         
         NSUserDefaults.standardUserDefaults().setObject(selectedArticleDictionary, forKey: "SelectedArticleDictionary")
         
@@ -195,6 +197,27 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                             self.view.makeToast(message: "A FullIntel analyst marked this as important. If you like to change, please request via Feedback")
                         })
                     } else if(markAsImportantUserId == String(loginUserId)) {
+                        
+//                        if(self.contentTypeId == 9) {
+//                            let appDelegate =
+//                                UIApplication.sharedApplication().delegate as! AppDelegate
+//                            let managedContext = appDelegate.managedObjectContext
+//                            do {
+//                                print("indexpath",self.currentIndexPath!)
+//                                print("article",self.articleArray[self.currentIndexPath!])
+//                                managedContext.deleteObject(self.articleArray[self.currentIndexPath!] as Article)
+//                                try managedContext.save()
+//                                 dispatch_async(dispatch_get_main_queue(),{
+//                                    self.collectionView.reloadData()
+//                                })
+//                            } catch {
+//                                
+//                            }
+//                            
+//                            
+//                        }
+
+                        
                         userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
                         dispatch_async(dispatch_get_main_queue(),{
                             
@@ -403,6 +426,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! DetailViewCell
         //cell.scrollView.contentOffset = CGPointMake(0, 0)
         let articleObject:Article = articleArray[indexPath.row]
+        self.currentIndexPath = indexPath.row
         dispatch_async(dispatch_get_main_queue(),{
             self.reloadNavBarItems(articleObject)
         })

@@ -29,9 +29,9 @@ public class Utils {
         return dateString
     }
     
-    func nullToNil(value : AnyObject?) -> AnyObject? {
+    class func nullToNil(value : AnyObject?) -> AnyObject? {
         if value is NSNull {
-            return ""
+            return nil
         } else {
             return value
         }
