@@ -17,6 +17,7 @@ class CustomListCell: UITableViewCell {
         var dataDict = Dictionary<String, String>()
         dataDict["title"] = cellArticleObject.articleTitle!
         dataDict["Description"] = cellArticleObject.articleDescription!
+        dataDict["articleUrl"] = cellArticleObject.articleURL!
          NSNotificationCenter.defaultCenter().postNotificationName("MailButtonClick", object:self, userInfo:dataDict)
     }
     @IBOutlet var mailButton: UIButton!

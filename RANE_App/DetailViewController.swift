@@ -16,13 +16,19 @@ protocol DetailViewControllerDelegate {
     func controller(controller: DetailViewController,contentType:Int ,articleArray:[Article])
 }
 
+protocol DetailViewControllerDelegate1 {
+    func test()
+}
+
 class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,MFMailComposeViewControllerDelegate {
     var delegate: DetailViewControllerDelegate?
+    var delegate1: DetailViewControllerDelegate1?
     var articleArray = [Article]()
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
     var contentTypeId:Int = 0
     var dailyDigestId:Int = 0
+    var sharedCustomerCompanyId:Int = 0
     var isFromDailyDigest:Bool = true
     @IBOutlet var collectionView: UICollectionView!
      @IBOutlet var readFullArticleButton: UIButton!
@@ -96,9 +102,22 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         selectedArticleDictionary["ArticleId"] = artilceObj.articleId
         selectedArticleDictionary["isMarked"] = String(artilceObj.isMarkedImportant)
         selectedArticleDictionary["isSaved"] = String(artilceObj.isSavedForLater)
-        selectedArticleDictionary["markAsImportantUserId"] = String(artilceObj.markAsImportantUserId)
-        selectedArticleDictionary["markAsImportantUserName"] = String(artilceObj.markAsImportantUserName)
+        selectedArticleDictionary["articleTypeId"] = String(artilceObj.articleTypeId)
         
+        if(String(artilceObj.isMarkedImportant) == "1") {
+            if(String(artilceObj.markAsImportantUserId) == "0") {
+                let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
+                selectedArticleDictionary["markAsImportantUserId"] = String(loginUserId)
+            } else {
+                selectedArticleDictionary["markAsImportantUserId"] = String(artilceObj.markAsImportantUserId)
+            }
+            selectedArticleDictionary["markAsImportantUserName"] = String(artilceObj.markAsImportantUserName)
+        } else {
+            let loginUserId:Int = NSUserDefaults.standardUserDefaults().integerForKey("userId")
+            selectedArticleDictionary["markAsImportantUserId"] = String(loginUserId)
+            selectedArticleDictionary["markAsImportantUserName"] = String("")
+        }
+        selectedArticleDictionary["articleModifiedDate"] = String(Utils.convertTimeStampToDate(artilceObj.articleModifiedDate))
         
         NSUserDefaults.standardUserDefaults().setObject(selectedArticleDictionary, forKey: "SelectedArticleDictionary")
         
@@ -197,41 +216,48 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                             self.view.makeToast(message: "A FullIntel analyst marked this as important. If you like to change, please request via Feedback")
                         })
                     } else if(markAsImportantUserId == String(loginUserId)) {
-                        
+                        print("before artilce count",self.articleArray.count)
 //                        if(self.contentTypeId == 9) {
-//                            let appDelegate =
-//                                UIApplication.sharedApplication().delegate as! AppDelegate
-//                            let managedContext = appDelegate.managedObjectContext
-//                            do {
-//                                print("indexpath",self.currentIndexPath!)
-//                                print("article",self.articleArray[self.currentIndexPath!])
-//                                managedContext.deleteObject(self.articleArray[self.currentIndexPath!] as Article)
-//                                try managedContext.save()
-//                                 dispatch_async(dispatch_get_main_queue(),{
-//                                    self.collectionView.reloadData()
-//                                })
-//                            } catch {
-//                                
+//                            var dataDict = Dictionary<String, String>()
+//                            dataDict["articleTypeId"] = info["articleTypeId"]
+//                            dataDict["articleModifiedDate"] = info["articleModifiedDate"]
+//                            dataDict["ArticleId"] = info["ArticleId"]
+//                            
+//                            var articleIndex:Int!
+//                            
+//                            for (index,article) in self.articleArray.enumerate() {
+//                                 if(article.articleId == info["ArticleId"]) {
+//                                    articleIndex = index
+//                                    break
+//                                 } else {
+//                                    continue
+//                                }
 //                            }
-//                            
-//                            
-//                        }
-
+//                            self.articleArray.removeAtIndex(articleIndex)
+//                            dispatch_async(dispatch_get_main_queue(),{
+//                                self.collectionView.reloadData()
+//                            })
                         
-                        userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
-                        dispatch_async(dispatch_get_main_queue(),{
-                            
-                            var dataDict = Dictionary<String, String>()
-                            dataDict["articleId"] = info["articleId"]
-                            dataDict["isMarked"] = info["isMarked"]
-                            NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
-                            
-                        })
                         
-                        WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                        //} else {
                             dispatch_async(dispatch_get_main_queue(),{
                                 
+                                var dataDict = Dictionary<String, String>()
+                                dataDict["articleId"] = info["articleId"]
+                                dataDict["isMarked"] = info["isMarked"]
+                                NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                                
+                            })
+                      //  }
+                        userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
+                        WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                            dispatch_async(dispatch_get_main_queue(),{
+                                print("after artilce count",self.articleArray.count,info["ArticleId"])
+                                if(self.contentTypeId == 9) {
+                                    NSNotificationCenter.defaultCenter().postNotificationName("deleteMarkedImportant", object:self, userInfo:nil)
+                                }
                                 for article in self.articleArray {
+                                    print("single article",article)
                                     if(article.articleId == info["ArticleId"]) {
                                         if(info["isMarked"] == "1") {
                                             //                                    article.isMarkedImportant = 0
@@ -333,17 +359,50 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                 }
                 
-                dispatch_async(dispatch_get_main_queue(),{
-                    
-                    var dataDict = Dictionary<String, String>()
-                    dataDict["articleId"] = info["articleId"]
-                    dataDict["isSaved"] = info["isSaved"]
-                    NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
-                })
+//                if(self.contentTypeId == 6) {
+//                    var dataDict = Dictionary<String, String>()
+//                    dataDict["articleTypeId"] = info["articleTypeId"]
+//                    dataDict["articleModifiedDate"] = info["articleModifiedDate"]
+//                    dataDict["ArticleId"] = info["ArticleId"]
+                
+//                    var articleIndex:Int!
+//                    for (index,article) in self.articleArray.enumerate() {
+//                        if(article.articleId == info["ArticleId"]) {
+//                            articleIndex = index
+//                            break
+//                        } else {
+//                            continue
+//                        }
+//                    }
+//                    self.articleArray.removeAtIndex(articleIndex)
+//                    dispatch_async(dispatch_get_main_queue(),{
+//                        self.collectionView.reloadData()
+//                    })
+//                    
+//                   
+//                } else {
+                    dispatch_async(dispatch_get_main_queue(),{
+                        
+                        var dataDict = Dictionary<String, String>()
+                        dataDict["articleId"] = info["articleId"]
+                        dataDict["isSaved"] = info["isSaved"]
+                        NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
+                    })
+                //}
+                if(self.contentTypeId == 6) {
+                    if let delegate1 = self.delegate1 {
+                        delegate1.test()
+                    }
+//                    if let delegate1 = self.delegate1 {
+//                        delegate1.test()
+//                    }
+                }
                 
                 WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                    print("result json",json)
                     dispatch_async(dispatch_get_main_queue(),{
                         for article in self.articleArray {
+                            print("saved for later",article)
                             if(article.articleId == info["ArticleId"]) {
                                 if(info["isSaved"] == "1") {
 //                                    article.isSavedForLater = 0
@@ -369,6 +428,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         }
                         
                         
+
                     })
                     
                     
@@ -381,12 +441,24 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
             print("notification info",info)
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
-            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: info["Description"]!)
+            var mailBodyString:String!
+            let articleUrl = info["ArticleURL"]!
+            if(articleUrl.characters.count != 0) {
+                mailBodyString = "\n"+info["Description"]!+"\n\n"+articleUrl
+                
+            } else {
+                mailBodyString = "\n"+info["Description"]!
+                
+            }
+            print("mail body string",mailBodyString)
+            
+            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: mailBodyString)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
                 self.showSendMailErrorAlert()
             }
+            
         }
     }
     
@@ -423,6 +495,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        print("cell for item")
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! DetailViewCell
         //cell.scrollView.contentOffset = CGPointMake(0, 0)
         let articleObject:Article = articleArray[indexPath.row]
@@ -573,7 +646,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         var nextSetArticles = [Article]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, companyId:sharedCustomerCompanyId,page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
                 if let results = json.array {
                     if(results.count != 0) {
                         if(searchString.characters.count != 0) {

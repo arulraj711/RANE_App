@@ -18,7 +18,7 @@ class WebServiceManager: NSObject {
     
     
     func callLoginWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
-        //api/v1/eti/customers/authenticate for RANE live login
+        //api/v1/eti/customers/authenticate for RANE live login #userauthentication
         let loginAPIFunctionName = "api/v1/userauthentication"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
             onCompletion(json as JSON)
@@ -115,7 +115,7 @@ class WebServiceManager: NSObject {
         })
     }
     
-    func callArticleListWebService(activityTypeId:Int,securityToken:String,contentTypeId:Int,page:Int,size:Int,searchString:String,onCompletion: (JSON) -> Void) {
+    func callArticleListWebService(activityTypeId:Int,securityToken:String,contentTypeId:Int,companyId:Int,page:Int,size:Int,searchString:String,onCompletion: (JSON) -> Void) {
         
         //articles?security_token=ab6526b6260000c584e810ccede97ca8111533e9&contentTypeId=1&page=0&size=10
         
@@ -127,13 +127,13 @@ class WebServiceManager: NSObject {
             
             if(activityTypeId == 0) {
                 //for normal articles
-                articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+                articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)+"&companyId="+String(companyId)
             } else {
                 //for marked important and saved for later articles
-                articleAPIFunctionName = "api/v1/articles/"+String(activityTypeId)+"?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)
+                articleAPIFunctionName = "api/v1/articles/"+String(activityTypeId)+"?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)+"&companyId="+String(companyId)
             }
         } else {
-            articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString
+            articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString+"&companyId="+String(companyId)
         }
         WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
             //if(searchString.characters.count == 0) {
@@ -154,6 +154,7 @@ class WebServiceManager: NSObject {
         //http://fullintel.com/2.0.0/services/mv01/sv00/appuser/useractivitiesonarticles
         let loginAPIFunctionName = "services/mv01/sv00/appuser/useractivitiesonarticles"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            print("json",json)
             onCompletion(json as JSON)
             
             

@@ -68,7 +68,7 @@ class CoreDataController {
     
     func getContentNameFromContentTypeId(contentTypeId:Int)->String {
         print("inside",contentTypeId)
-        var contentCategoryName:String!
+        var contentCategoryName:String! = ""
         //1 get managedcontext from appdelegate Object
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
@@ -82,20 +82,49 @@ class CoreDataController {
             
             let results =
                 try managedContext.executeFetchRequest(fetchRequest) as! [ContentCategory]
+            print("results count",results.count)
             if results.count != 0{
                 let contentCategory = results[0] as ContentCategory
                 contentCategoryName = contentCategory.contentCategoryName
+                print("nameee",contentCategoryName)
             }
         } catch {
             let saveError = error as NSError
             print("\(saveError), \(saveError.userInfo)")
         }
-        return contentCategoryName
+        print("category name",contentCategoryName!)
+        return contentCategoryName!
+    }
+    
+    func getCompanyIdFromMenuId(menuId:NSNumber,menuName:String)->Int {
+        var companyId:Int! = 0
+        //1 get managedcontext from appdelegate Object
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2 set predicate value
+        let fetchRequest = NSFetchRequest(entityName: "Menu")
+        fetchRequest.predicate = NSPredicate(format: "menuId == %@ AND menuName == %@",menuId,menuName)
+        //        print("predicate",fetchRequest)
+        do {
+            
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Menu]
+            if results.count != 0{
+                let contentCategory = results[0] as Menu
+                companyId = contentCategory.companyId.integerValue
+            }
+        } catch {
+            let saveError = error as NSError
+            print("\(saveError), \(saveError.userInfo)")
+        }
+        return companyId
     }
     
     
     func getMenuNameFromArticleTypeId(contentTypeId:NSNumber)->String {
-        var menuName:String!
+        var menuName:String! = ""
         //1 get managedcontext from appdelegate Object
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
@@ -121,7 +150,7 @@ class CoreDataController {
     }
     
     func addMenu(menuJSON:JSON) {
-        
+        print("menuJSON",menuJSON)
         //1 get managedcontext from appdelegate Object
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
@@ -129,7 +158,7 @@ class CoreDataController {
         
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Menu")
-        fetchRequest.predicate = NSPredicate(format: "menuId == %@",menuJSON["id"].stringValue)
+        fetchRequest.predicate = NSPredicate(format: "menuId == %@ AND companyId == %@",menuJSON["id"].stringValue,menuJSON["companyId"].stringValue)
 //        print("predicate",fetchRequest)
         
         do {
@@ -329,15 +358,20 @@ class CoreDataController {
                 if let fieldsArray = articleJSON["contentCategoryId"].array {
                     var fieldsName:String = ""
                     for fields in fieldsArray {
-                        print("fields",fields,CoreDataController().getContentNameFromContentTypeId(fields.int!))
+                        print("fields",fields)
+                        print("test",fields.int!)
+                        print("testss",CoreDataController().getContentNameFromContentTypeId(fields.int!))
+                        print("after this")
                         if(fieldsName.characters.count == 0) {
-                            
+                            print("one")
                             fieldsName = fieldsName.uppercaseString+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         } else {
+                            print("two")
                             fieldsName = fieldsName.uppercaseString+" & "+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         }
                         
                     }
+                    print("before")
                     article.setValue(fieldsName, forKey: "fieldsName")
                 }
                 
@@ -537,7 +571,13 @@ class CoreDataController {
         //2
         let fetchRequest = NSFetchRequest(entityName: entityName)
         if((pageNo.isEqualToNumber(0))) {
-            fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+            if(contentTypeId.isEqualToNumber(6)) {
+                
+                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1",contentTypeId)
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+            }
+            
         } else {
             fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@",contentTypeId,pageNo)
         }
@@ -554,7 +594,7 @@ class CoreDataController {
         return entityResult
     }
     
-    func getMarkedArticleListForContentTypeId(contentTypeId:NSNumber,pageNo:NSNumber,entityName:String) -> [Article] {
+    func getSavedArticleListForContentTypeId(contentTypeId:NSNumber,savedValue:NSNumber,pageNo:NSNumber,entityName:String) -> [Article] {
         var entityResult = [Article]()
         //1
         let appDelegate =
@@ -565,7 +605,7 @@ class CoreDataController {
         //2
         let fetchRequest = NSFetchRequest(entityName: entityName)
         if((pageNo.isEqualToNumber(0))) {
-            fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+            fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == %@",contentTypeId,savedValue)
         } else {
             fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@",contentTypeId,pageNo)
         }

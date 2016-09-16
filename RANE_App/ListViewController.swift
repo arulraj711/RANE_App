@@ -12,14 +12,16 @@ import MessageUI
 import PKRevealController
 
 
-class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,DetailViewControllerDelegate {
+class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,DetailViewControllerDelegate,DetailViewControllerDelegate1 {
 
     @IBOutlet weak var listNavigationBarItem: UINavigationItem!
     @IBOutlet var listTableView: UITableView!
     var articles = [Article]()
-    let groupedArticleArrayList: NSMutableArray = NSMutableArray();
+    var groupedArticleArrayList: NSMutableArray = NSMutableArray();
     var contentTypeId:Int = 20 //for daily digest
     var activityTypeId:Int = 0
+    var isSavedValue:Int = 1
+    var sharedCustomerCompanyId:Int = 0
     var searchKeyword:String = ""
     var titleString:String = ""
     var dailyDigestId:Int = 0
@@ -29,10 +31,19 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     let listActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     let netWorkView = UIView()
+    var refreshControl: UIRefreshControl!
     override func viewDidLoad() {
+        print("list view didload")
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
+        
+//        refreshControl = UIRefreshControl()
+//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+//        refreshControl.addTarget(self, action: #selector(ListViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+//        self.listTableView.addSubview(refreshControl)
+        
+        
         self.listTableView.rowHeight = UITableViewAutomaticDimension
         self.listTableView.estimatedRowHeight = 220
     
@@ -79,6 +90,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             self,
             selector: #selector(updateMarkedImportantStatusInList),
             name: "updateMarkedImportantStatus",
+            object: nil)
+        
+        //Delete marked important record  in list view
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(deleteMarkedImportant),
+            name: "deleteMarkedImportant",
             object: nil)
         
         //Update saved for later status in list view
@@ -202,7 +220,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         }
     }
     
-    
+    func test() {
+        print("delegate calling")
+    }
     
     func controller(controller: DetailViewController,contentType:Int ,articleArray:[Article]) {
         print("delegate called",articleArray.count)
@@ -236,6 +256,17 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     override func viewDidAppear(animated: Bool) {
+//        print("")
+//        if(self.contentTypeId == 6) {
+//            self.articles.removeAll()
+//            if(self.articles.count == 0) {
+//                listActivityIndicator.center = self.view.center
+//                listActivityIndicator.startAnimating()
+//                self.view.addSubview(listActivityIndicator)
+//                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+//            }
+//        }
+        
 //        if(self.contentTypeId == 9) {
 //            self.articles.removeAll()
 //        } else if(self.contentTypeId == 6) {
@@ -358,6 +389,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             }
             
         }
+        print("grouped article",self.groupedArticleArrayList)
     }
     
     func groupArticlesBasedOnModofiedDate(modifiedDate:String,articleArray:[Article],existingGroupedArticle:[Article]) -> [Article] {
@@ -423,6 +455,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     func groupByContentType(articleArray:[Article]) {
         for article in articleArray {
             let sectionName = CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId)
+            print("section name",sectionName)
             let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
             let existingGroupArticles:[Article] = self.getExistingGroupedArticle(sectionName)
                 if(existingGroupNameList.containsObject(CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId))) {
@@ -433,11 +466,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     articleGroupDictionary.setValue(article.articleTypeId, forKey: "sectionId")
                     var tempArray = [Article]()
                     tempArray = existingGroupArticles
-                    if(article.companyId == NSUserDefaults.standardUserDefaults().integerForKey("companyId")) {
+                   // if(article.companyId == NSUserDefaults.standardUserDefaults().integerForKey("companyId")) {
                         tempArray.append(article)
-                    } else {
-                        continue
-                    }
+//                    } else {
+//                        continue
+//                    }
                     articleGroupDictionary.setValue(tempArray, forKey: "articleList")
                     self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: index)
                 } else {
@@ -445,15 +478,16 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     articleGroupDictionary.setValue(sectionName, forKey: "sectionName")
                     articleGroupDictionary.setValue(article.articleTypeId, forKey: "sectionId")
                     var tempArray = [Article]()
-                    if(article.companyId == NSUserDefaults.standardUserDefaults().integerForKey("companyId")) {
+                    //if(article.companyId == NSUserDefaults.standardUserDefaults().integerForKey("companyId")) {
                         tempArray.append(article)
-                    } else {
-                        continue
-                    }
+//                    } else {
+//                        continue
+//                    }
                     articleGroupDictionary.setValue(tempArray, forKey: "articleList")
                     self.groupedArticleArrayList.addObject(articleGroupDictionary)
                 }
         }
+        print("newsletter group",self.groupedArticleArrayList.count)
     }
     
     func groupArticlesBasedOnContentType(companyId:Int,articletypeId:Int,articleArray:[Article],existingGroupedAricles:[Article])-> [Article]{
@@ -572,6 +606,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.contentTypeId = (singleDic.objectForKey("sectionId") as? Int)!
         vc.titleString = (singleDic.objectForKey("sectionName") as? String)!
         vc.isFromDailyDigest = false
+        print("",CoreDataController().getCompanyIdFromMenuId((singleDic.objectForKey("sectionId") as? Int)!, menuName: (singleDic.objectForKey("sectionName") as? String)!))
+        vc.sharedCustomerCompanyId = CoreDataController().getCompanyIdFromMenuId((singleDic.objectForKey("sectionId") as? Int)!, menuName: (singleDic.objectForKey("sectionName") as? String)!)
         vc.isFromListPage = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -666,6 +702,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.activityTypeId = self.activityTypeId
         vc.dailyDigestId = self.dailyDigestId
         vc.searchKeyword = self.searchKeyword
+        vc.sharedCustomerCompanyId = self.sharedCustomerCompanyId
         vc.isFromDailyDigest = self.isFromDailyDigest
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -791,6 +828,90 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         }
         
     }
+    
+    func refresh(sender:AnyObject) {
+        // Code to refresh table view
+        refreshControl.endRefreshing()
+        self.articles.removeAll()
+        self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+        self.groupByModifiedDate(self.articles)
+        self.listTableView.reloadData()
+    }
+    
+    func deleteMarkedImportant(notification: NSNotification) {
+       
+//        if(self.contentTypeId == 6) {
+//            print("before",self.articles.count)
+//            self.articles.removeAll()
+//            print("after",self.articles.count)
+//            self.articles = CoreDataController().getSavedArticleListForContentTypeId(self.contentTypeId,savedValue: self.isSavedValue, pageNo: 0, entityName: "Article")
+//            print("afterrr",self.articles.count)
+//            self.groupByModifiedDate(self.articles)
+//            self.listTableView.reloadData()
+//        }
+//        self.groupedArticleArrayList.removeAllObjects()
+//        self.groupByModifiedDate(self.articles)
+//        print("delete marked important",self.groupedArticleArrayList)
+//        if let info = notification.userInfo as? Dictionary<String,String> {
+//            print("article type id",info["ArticleId"],info["articleModifiedDate"])
+//            
+//            var section:Int!
+//            var row:Int!
+//            var sectionName:String!
+//            var articleList:[Article]!
+//            
+//            for (index,dic) in self.groupedArticleArrayList.enumerate() {
+//                print("one",String(dic.objectForKey("sectionName")!))
+//                print("two",info["articleModifiedDate"]!)
+//                if(String(dic.objectForKey("sectionName")!) == info["articleModifiedDate"]!) {
+////                    print("dictionary",dic)
+////                    print("test",dic.objectForKey("sectionName"))
+//                    section = index
+//                    sectionName = dic.objectForKey("sectionName")! as! String
+//                    articleList = dic.objectForKey("articleList") as! [Article]
+//                    
+//                    for(articleIndex,article) in articleList.enumerate() {
+//                        if(article.articleId == info["ArticleId"]!) {
+//                            row = articleIndex
+//                            break
+//                        } else {
+//                            continue
+//                        }
+//                    }
+//                    
+//                    break
+//                } else {
+//                    continue
+//                }
+//            }
+//            
+//            print("selected section",section)
+//            print("selected row",row)
+//            self.groupedArticleArrayList.removeObjectAtIndex(section)
+//            let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
+//            articleGroupDictionary.setValue(sectionName, forKey: "sectionName")
+//            let appDelegate =
+//                UIApplication.sharedApplication().delegate as! AppDelegate
+//            let managedContext = appDelegate.managedObjectContext
+//            do {
+//                print("article",articleList[row] )
+//                managedContext.deleteObject(articleList[row])
+//                try managedContext.save()
+//                articleList.removeAtIndex(row)
+//                articleGroupDictionary.setValue(articleList, forKey: "articleList")
+//                if(articleList.count != 0) {
+//                    self.groupedArticleArrayList.insertObject(articleGroupDictionary, atIndex: section)
+//                }
+//            } catch {
+//                
+//            }
+//            
+//            dispatch_async(dispatch_get_main_queue(),{
+//                self.listTableView.reloadData()
+//            })
+//        }
+    }
+    
     
     func updateMarkedImportantStatusInList(notification: NSNotification) {
         if let info = notification.userInfo as? Dictionary<String,String> {
@@ -927,7 +1048,19 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         // This method is invoked when the notification is sent
         if let info = notification.userInfo as? Dictionary<String,String> {
-            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: info["Description"]!)
+            
+            var mailBodyString:String!
+            let articleUrl = info["articleUrl"]!
+            if(articleUrl.characters.count != 0) {
+                mailBodyString = "\n"+info["Description"]!+"\n\n"+articleUrl
+                
+            } else {
+                mailBodyString = "\n"+info["Description"]!
+                
+            }
+            print("mail body string",mailBodyString)
+            
+            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: mailBodyString)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
@@ -1114,7 +1247,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //        var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId,companyId:sharedCustomerCompanyId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
                 
                 if let results = json.array {
                     if(results.count != 0) {

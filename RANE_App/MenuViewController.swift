@@ -136,10 +136,12 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             }
         } else if(menu.menuId == 36) {
             //Daily digest article list #20-stage #36-live
+            NSUserDefaults.standardUserDefaults().setInteger(menu.companyId.integerValue, forKey: "sharedCustomerCompanyId")
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
                 vc.contentTypeId = menu.menuId.integerValue
+                vc.sharedCustomerCompanyId = menu.companyId.integerValue
                 vc.titleString = menu.menuName
                 vc.activityTypeId = activityTypeId
                 vc.isFromDailyDigest = true
@@ -150,6 +152,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
                 let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
                 frontViewContrller.contentTypeId = menu.menuId.integerValue
+                frontViewContrller.sharedCustomerCompanyId = menu.companyId.integerValue
                 frontViewContrller.titleString = menu.menuName
                 frontViewContrller.activityTypeId = activityTypeId
                 frontViewContrller.isFromDailyDigest = true
@@ -182,10 +185,12 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 UIApplication.sharedApplication().keyWindow?.rootViewController = frontViewController;
             }
         } else {
+            NSUserDefaults.standardUserDefaults().setInteger(menu.companyId.integerValue, forKey: "sharedCustomerCompanyId")
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
                 vc.contentTypeId = menu.menuId.integerValue
+                vc.sharedCustomerCompanyId = menu.companyId.integerValue
                 vc.titleString = menu.menuName
                 vc.activityTypeId = activityTypeId
                 vc.isFromDailyDigest = false
@@ -195,6 +200,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 let navCtlr:UINavigationController = storyboard.instantiateViewControllerWithIdentifier("listNavController") as! UINavigationController
                 let frontViewContrller:ListViewController = navCtlr.viewControllers[0] as! ListViewController
                 frontViewContrller.contentTypeId = menu.menuId.integerValue
+                frontViewContrller.sharedCustomerCompanyId = menu.companyId.integerValue
                 frontViewContrller.titleString = menu.menuName
                 frontViewContrller.activityTypeId = activityTypeId
                 frontViewContrller.isFromDailyDigest = false
