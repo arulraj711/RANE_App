@@ -36,7 +36,7 @@ class CoreDataController {
                 contentCategory.setValue(contentCategoryJSON["nodeid"].stringValue, forKey: "contentCategoryId")
                 contentCategory.setValue(contentCategoryJSON["name"].stringValue, forKey: "contentCategoryName")
                 
-                try contentCategory.managedObjectContext?.save()
+                try managedContext.save()
                 
             } else {
                 // Create Entity
@@ -54,7 +54,7 @@ class CoreDataController {
                 contentCategory.setValue(contentCategoryJSON["name"].stringValue, forKey: "contentCategoryName")
                 
                 // Save Record
-                try contentCategory.managedObjectContext?.save()
+                try managedContext.save()
             }
             
             
@@ -193,7 +193,7 @@ class CoreDataController {
                 record.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 record.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
                 // Save Record
-                try record.managedObjectContext?.save()
+                try managedContext.save()
             }
             
             
@@ -309,16 +309,20 @@ class CoreDataController {
                     }
                     
                 }
+                try managedContext.save()
                 
-                try article.managedObjectContext?.save()
+                //try article.managedObjectContext?.save()
                 
             } else {
                 print("new")
+                let appDelegate =
+                    UIApplication.sharedApplication().delegate as! AppDelegate
+                let managedContext1 = appDelegate.managedObjectContext
                 // Create Entity
-                let entity = NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext)
+                let entity = NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext1)
                 
                 // Initialize Record
-                let article = Article(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                let article = Article(entity: entity!, insertIntoManagedObjectContext: managedContext1)
                 //let record = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 
                 article.setValue(articleJSON["id"].stringValue, forKey: "articleId")
@@ -413,7 +417,7 @@ class CoreDataController {
                     
                 }
                 
-                try article.managedObjectContext?.save()
+                try managedContext1.save()
             }
             
             
@@ -444,7 +448,7 @@ class CoreDataController {
                 let article = results[0] as Article
                 article.setValue(isMarked, forKey: "isMarkedImportant")
                 article.setValue(isMarkedImpSync, forKey: "isMarkedImportantSync")
-                try article.managedObjectContext?.save()
+                try managedContext.save()
             }
         } catch {
             let saveError = error as NSError
@@ -468,7 +472,7 @@ class CoreDataController {
                 let article = results[0] as Article
                 article.setValue(isSaved, forKey: "isSavedForLater")
                 article.setValue(isSavedSync, forKey: "isSavedForLaterSync")
-                try article.managedObjectContext?.save()
+                try managedContext.save()
             }
         } catch {
             let saveError = error as NSError
@@ -719,7 +723,7 @@ class CoreDataController {
             if results.count != 0 {
                 let article = results[0] as Article
                 article.setValue(true, forKey: "isMarkedImportantSync")
-                try article.managedObjectContext?.save()
+                try managedContext.save()
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
@@ -766,7 +770,7 @@ class CoreDataController {
             if results.count != 0 {
                 let article = results[0] as Article
                 article.setValue(true, forKey: "isSavedForLaterSync")
-                try article.managedObjectContext?.save()
+                try managedContext.save()
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")

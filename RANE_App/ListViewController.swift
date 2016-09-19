@@ -156,7 +156,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             }else if(self.isFromFolder) {
                 CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
             } else {
-                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
+                CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+                //self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
             }
             
             
@@ -174,12 +175,14 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 }
                 
                // if(self.articles.count == 0) {
+                self.groupedArticleArrayList.removeAllObjects()
+                self.listTableView.reloadData()
                     listActivityIndicator.center = self.view.center
                     listActivityIndicator.startAnimating()
                     self.view.addSubview(listActivityIndicator)
                     self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
                // } else {
-                    self.groupByContentType(self.articles)
+                    //self.groupByContentType(self.articles)
                // }
             } else {
                 //for normal article list
@@ -187,21 +190,25 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 self.title = titleString
                
                 if(self.isFromFolder) {
+                    self.groupedArticleArrayList.removeAllObjects()
+                    self.listTableView.reloadData()
                     listActivityIndicator.center = self.view.center
                     listActivityIndicator.startAnimating()
                     self.view.addSubview(listActivityIndicator)
                     self.folderListAPICall(0, dailyDigestId: dailyDigestId)
                     
                     // } else {
-                    self.groupByModifiedDate(self.articles)
+                    //self.groupByModifiedDate(self.articles)
                 } else {
                     // if(self.articles.count == 0) {
+                    self.groupedArticleArrayList.removeAllObjects()
+                    self.listTableView.reloadData()
                     listActivityIndicator.center = self.view.center
                     listActivityIndicator.startAnimating()
                     self.view.addSubview(listActivityIndicator)
-                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
                     // } else {
-                    self.groupByModifiedDate(self.articles)
+                    //self.groupByModifiedDate(self.articles)
                     // }
                 }
                 
@@ -221,7 +228,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 listActivityIndicator.center = self.view.center
                 listActivityIndicator.startAnimating()
                 self.view.addSubview(listActivityIndicator)
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
             }
             
         }
@@ -273,7 +280,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 listActivityIndicator.center = self.view.center
                 listActivityIndicator.startAnimating()
                 self.view.addSubview(listActivityIndicator)
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
                 print("article count",self.groupedArticleArrayList.count)
                 //self.listTableView.reloadData()
             }
@@ -869,6 +876,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func refresh(sender:AnyObject) {
         // Code to refresh table view
+        CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
         refreshControl.endRefreshing()
         myActivityIndicator.stopAnimating()
         myActivityIndicator.removeFromSuperview()
@@ -892,7 +900,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     listActivityIndicator.center = self.view.center
                     listActivityIndicator.startAnimating()
                     self.view.addSubview(listActivityIndicator)
-                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
                 }
             }
             dispatch_async(dispatch_get_main_queue(),{
@@ -902,7 +910,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 listActivityIndicator.center = self.view.center
                 listActivityIndicator.startAnimating()
                 self.view.addSubview(listActivityIndicator)
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
             
         }
     }
@@ -1211,10 +1219,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     self.dailyDigestAPICall(pageNo!,dailyDigestId: dailyDigestId)
                 } else {
                     //for normal article list
-                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:pageNo!,searchString: self.searchKeyword)
                 }
             } else {
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:pageNo!,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:pageNo!,searchString: self.searchKeyword)
             }
 
         }
@@ -1277,6 +1285,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 
                 if let results = json.array {
                     if(results.count != 0) {
+                        if(pageNo == 0 && self.contentTypeId == 20) {
+                            CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+                            self.groupedArticleArrayList.removeAllObjects()
+                            self.listTableView.reloadData()
+                        }
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
                         self.groupByContentType(CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
@@ -1322,6 +1335,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 
                 if let results = json.array {
                     if(results.count != 0) {
+//                        if(pageNo == 0) {
+//                            CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+//                            self.groupedArticleArrayList.removeAllObjects()
+//                            self.listTableView.reloadData()
+//                        }
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
                         self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
@@ -1358,28 +1376,32 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
     }
     
-    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pagenNo:Int,searchString:String) {
+    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pageNo:Int,searchString:String) {
 //        var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId,companyId:sharedCustomerCompanyId, page: pagenNo, size: 10,searchString: searchString){ (json:JSON) in
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId,companyId:sharedCustomerCompanyId, page: pageNo, size: 10,searchString: searchString){ (json:JSON) in
                 
                 if let results = json.array {
                     if(results.count != 0) {
                         if(searchString.characters.count != 0) {
                             self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
-                            if(pagenNo == 0){
+                            if(pageNo == 0) {
+                                //CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
                                 self.groupedArticleArrayList.removeAllObjects()
+                                //self.listTableView.reloadData()
                             }
-                            self.groupByModifiedDate(CoreDataController().getSearchArticleList(pagenNo, entityName: "Article"))
+                            self.groupByModifiedDate(CoreDataController().getSearchArticleList(pageNo, entityName: "Article"))
                         } else {
                             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
-                            if(pagenNo == 0){
+                            if(pageNo == 0) {
+                               // CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
                                 self.groupedArticleArrayList.removeAllObjects()
+                                //self.listTableView.reloadData()
                             }
 
-                            print("pageNo and articles",pagenNo,self.articles.count)
-                            self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article"))
+                            print("pageNo and articles",pageNo,self.articles.count)
+                            self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pageNo, entityName: "Article"))
                         }
                         
                         dispatch_async(dispatch_get_main_queue(),{
@@ -1396,7 +1418,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     } else {
                         //handle empty article list
                         dispatch_async(dispatch_get_main_queue(),{
-                            if(pagenNo == 0) {
+                            if(pageNo == 0) {
                                 self.view.makeToast(message: "No articles to display")
                             }
                             self.myActivityIndicator.stopAnimating()
