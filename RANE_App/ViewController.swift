@@ -48,6 +48,8 @@ class ViewController: UIViewController,PKRevealing {
 
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = true
+        emailAddressField.text = ""
+        passwordField.text = ""
     }
     
     override func viewDidDisappear(animated: Bool) {

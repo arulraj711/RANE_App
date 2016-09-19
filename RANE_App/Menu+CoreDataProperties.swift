@@ -16,7 +16,7 @@ extension Menu {
 
     @NSManaged var menuId: NSNumber
     @NSManaged var menuName: String
-    @NSManaged var menuIconURL: String?
+    @NSManaged var menuIconURL: String
     @NSManaged var companyId: NSNumber
 
 }

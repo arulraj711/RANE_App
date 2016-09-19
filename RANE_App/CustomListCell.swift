@@ -15,9 +15,9 @@ class CustomListCell: UITableViewCell {
     @IBAction func mailButtonClick(sender: UIButton) {
         
         var dataDict = Dictionary<String, String>()
-        dataDict["title"] = cellArticleObject.articleTitle!
-        dataDict["Description"] = cellArticleObject.articleDescription!
-        dataDict["articleUrl"] = cellArticleObject.articleURL!
+        dataDict["title"] = cellArticleObject.articleTitle
+        dataDict["Description"] = cellArticleObject.articleDescription
+        dataDict["articleUrl"] = cellArticleObject.articleURL
          NSNotificationCenter.defaultCenter().postNotificationName("MailButtonClick", object:self, userInfo:dataDict)
     }
     @IBOutlet var mailButton: UIButton!
@@ -43,7 +43,7 @@ class CustomListCell: UITableViewCell {
 
     @IBAction func savedForLaterButtonClick(sender: UIButton) {
         var dataDict = Dictionary<String, String>()
-        dataDict["title"] = cellArticleObject.articleTitle!
+        dataDict["title"] = cellArticleObject.articleTitle
         dataDict["articleId"] = cellArticleObject.articleId
         dataDict["cellSection"] = String(self.cellSection)
         dataDict["cellRow"] = String(self.cellRow)
@@ -53,7 +53,7 @@ class CustomListCell: UITableViewCell {
     }
     @IBAction func markedImportantButtonClick(sender: UIButton) {
         var dataDict = Dictionary<String, String>()
-        dataDict["title"] = cellArticleObject.articleTitle!
+        dataDict["title"] = cellArticleObject.articleTitle
         dataDict["articleId"] = cellArticleObject.articleId
         dataDict["cellSection"] = String(self.cellSection)
         dataDict["cellRow"] = String(self.cellRow)

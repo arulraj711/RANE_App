@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
+         dispatch_async(dispatch_get_main_queue(),{
         if(NSUserDefaults.standardUserDefaults().stringForKey("securityToken") != nil) {
             let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
             if(securityToken!.characters.count != 0){
@@ -86,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         } else {
         }
+        })
         
         
     }

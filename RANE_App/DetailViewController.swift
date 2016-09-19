@@ -25,6 +25,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     var dailyDigestId:Int = 0
     var sharedCustomerCompanyId:Int = 0
     var isFromDailyDigest:Bool = true
+    
     @IBOutlet var collectionView: UICollectionView!
      @IBOutlet var readFullArticleButton: UIButton!
     var outletWithContactString:String = ""
@@ -184,6 +185,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     func folderButtonClick() {
         if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
+            NSNotificationCenter.defaultCenter().postNotificationName("deleteMarkedImportant", object:self, userInfo:nil)
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "fromListPage")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc:FolderViewController = storyboard.instantiateViewControllerWithIdentifier("folderView") as! FolderViewController
@@ -255,7 +257,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                                 self.reloadNavBarItems(selectedArticle)
                                 
                                 var dataDict = Dictionary<String, String>()
-                                dataDict["articleId"] = info["articleId"]
+                                dataDict["articleId"] = info["ArticleId"]
                                 dataDict["isMarked"] = info["isMarked"]
                                 NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
                                 
@@ -297,7 +299,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         self.reloadNavBarItems(selectedArticle)
                         
                         var dataDict = Dictionary<String, String>()
-                        dataDict["articleId"] = info["articleId"]
+                        dataDict["articleId"] = info["ArticleId"]
                         dataDict["isMarked"] = info["isMarked"]
                     NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
                         
@@ -374,7 +376,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         
                         
                         var dataDict = Dictionary<String, String>()
-                        dataDict["articleId"] = info["articleId"]
+                        dataDict["articleId"] = info["ArticleId"]
                         dataDict["isSaved"] = info["isSaved"]
                         NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
                     })
@@ -457,23 +459,23 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             self.reloadNavBarItems(articleObject)
         })
         
-        if(articleObject.fieldsName!.characters.count == 0) {
+        if(articleObject.fieldsName.characters.count == 0) {
             cell.fieldsNameHeightConstraint.constant = 0;
         } else {
             cell.fieldsNameHeightConstraint.constant = 21;
             cell.articleFieldNamelabel.text = articleObject.fieldsName
         }
         cell.webviewHeightConstraint.constant = 20
-        cell.articleTitleLabel.text = articleObject.articleTitle!.stringByTrimmingCharactersInSet(
+        cell.articleTitleLabel.text = articleObject.articleTitle.stringByTrimmingCharactersInSet(
             NSCharacterSet.whitespaceAndNewlineCharacterSet())
         
-        self.outletWithContactString = articleObject.outletName!+" | "+articleObject.contactName!
+        self.outletWithContactString = articleObject.outletName+" | "+articleObject.contactName
         
         cell.articleContactLabel.text = outletWithContactString
         let dateString:String = Utils.convertTimeStampToDate(articleObject.articlepublishedDate)
         cell.articlePublishedDateLabel.text = "Published: "+dateString
 //                print("before removing",articleObject.articleDetailedDescription)
-                let removedStyleTagString = articleObject.articleDetailedDescription!.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                let removedStyleTagString = articleObject.articleDetailedDescription.stringByReplacingOccurrencesOfString("style", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
 //                print("after removing",removedStyleTagString)
                 let removeClickText = removedStyleTagString.stringByReplacingOccurrencesOfString("Click here to read full article", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 let aStr = String(format: "<body style='color:#777777;font-family:Open Sans;line-height: auto;font-size: 14px;padding:0px;margin:0;'>%@", removeClickText)

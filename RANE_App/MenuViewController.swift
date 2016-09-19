@@ -81,7 +81,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId.integerValue == 102) {
             cell.menuIconImage.image = UIImage(named: "Logout")
         } else {
-            cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL!)!, placeholderImage: nil)
+            cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
         }
         
         

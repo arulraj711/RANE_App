@@ -19,7 +19,7 @@ class WebServiceManager: NSObject {
     
     func callLoginWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
         //api/v1/eti/customers/authenticate for RANE live login #userauthentication
-        let loginAPIFunctionName = "api/v1/userauthentication"
+        let loginAPIFunctionName = "api/v1/eti/customers/authenticate"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
             onCompletion(json as JSON)
             
@@ -145,13 +145,13 @@ class WebServiceManager: NSObject {
             
             if(activityTypeId == 0) {
                 //for normal articles
-                articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)+"&companyId="+String(companyId)
+                articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)+"&companyId="+String(companyId)+"&orderby=contentCategoryId"
             } else {
                 //for marked important and saved for later articles
                 articleAPIFunctionName = "api/v1/articles/"+String(activityTypeId)+"?security_token="+securityToken+"&contentTypeId="+String(contentTypeId)+"&page="+String(page)+"&size="+String(size)+"&companyId="+String(companyId)
             }
         } else {
-            articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString+"&companyId="+String(companyId)
+            articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString+"&companyId="+String(companyId)+"&orderby=contentCategoryId"
         }
         WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
             //if(searchString.characters.count == 0) {

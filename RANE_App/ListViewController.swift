@@ -40,7 +40,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         // Do any additional setup after loading the view.
 
         refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.attributedTitle = NSAttributedString(string: "")
         refreshControl.addTarget(self, action: #selector(ListViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.listTableView.addSubview(refreshControl)
         
@@ -153,7 +153,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
             } else if(self.contentTypeId == 6) {
                 CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
-            }else {
+            }else if(self.isFromFolder) {
+                CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+            } else {
                 self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
             }
             
@@ -268,10 +270,23 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: 0, entityName: "Article")
                 self.groupedArticleArrayList.removeAllObjects()
                 self.listTableView.reloadData()
+                listActivityIndicator.center = self.view.center
+                listActivityIndicator.startAnimating()
+                self.view.addSubview(listActivityIndicator)
                 self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pagenNo:0,searchString: self.searchKeyword)
                 print("article count",self.groupedArticleArrayList.count)
                 //self.listTableView.reloadData()
             }
+        }
+        
+        if(self.isFromFolder && self.isDeletedFromDetailPage) {
+            CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+            self.groupedArticleArrayList.removeAllObjects()
+            self.listTableView.reloadData()
+            listActivityIndicator.center = self.view.center
+            listActivityIndicator.startAnimating()
+            self.view.addSubview(listActivityIndicator)
+            self.folderListAPICall(0, dailyDigestId: self.contentTypeId)
         }
         
         
@@ -550,45 +565,40 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
         let singleDic:NSDictionary = self.groupedArticleArrayList.objectAtIndex(section) as! NSDictionary
         if(section == 0) {
-            if(self.isFromDailyDigest) {
-                headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 77)
-                dividerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 5)
-                label.frame = CGRectMake(20, 26, tableView.bounds.size.width-60, 47)
-                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 41, 20, 20)
-            } else {
+//            if(self.isFromDailyDigest) {
+//                headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 77)
+//                dividerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 5)
+//                label.frame = CGRectMake(20, 26, tableView.bounds.size.width-60, 47)
+//                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 41, 20, 20)
+//            } else {
                 headerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
-                dividerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 5)
-                label.frame = CGRectMake(20, 21, tableView.bounds.size.width-60, 52)
-                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 36, 20, 20)
-            }
+                dividerView.frame = CGRectMake(0, 21, tableView.bounds.size.width, 52)
+                label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
+                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
+            //}
             
-            dividerView.backgroundColor = UIColor.init(red: 31/255, green: 55/255, blue: 118/255, alpha: 1)
             headerColorView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20)
-            headerColorView.backgroundColor = UIColor.init(colorLiteralRed: 241/255, green: 241/255, blue: 245/255, alpha: 1)
             headerView.addSubview(headerColorView)
             if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
                 expandButton.setImage(UIImage(named: "expandbutton"), forState: .Normal)
-                fullExpandButton.frame = CGRectMake(0, 21, tableView.bounds.size.width, 72)
+                fullExpandButton.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
                 fullExpandButton.tag = section
                 fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
-                headerView.addSubview(fullExpandButton)
-                headerView.addSubview(expandButton)
+                dividerView.addSubview(fullExpandButton)
+                dividerView.addSubview(expandButton)
             }
-            
         } else {
-            if(self.isFromDailyDigest) {
-                headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 57)
-                dividerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 5)
-                label.frame = CGRectMake(20, 5, tableView.bounds.size.width-60, 47)
-                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 21, 20, 20)
-            } else {
+//            if(self.isFromDailyDigest) {
+//                headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 57)
+//                dividerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 5)
+//                label.frame = CGRectMake(20, 5, tableView.bounds.size.width-60, 47)
+//                expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 21, 20, 20)
+//            } else {
                 headerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
-                dividerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 5)
+                dividerView.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
                 label.frame = CGRectMake(20, 0, tableView.bounds.size.width-60, 52)
                 expandButton.frame = CGRectMake(tableView.bounds.size.width-27, 16, 20, 20)
-            }
-            
-            dividerView.backgroundColor = UIColor.init(red: 31/255, green: 55/255, blue: 118/255, alpha: 1)
+            //}
             
             
             if ((singleDic.objectForKey("sectionId") as? Int) != nil) {
@@ -596,23 +606,24 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 fullExpandButton.frame = CGRectMake(0, 0, tableView.bounds.size.width, 52)
                 fullExpandButton.tag = section
                 fullExpandButton.addTarget(self, action: #selector(ListViewController.expandButtonClick(_:)), forControlEvents: .TouchUpInside)
-                headerView.addSubview(fullExpandButton)
-                headerView.addSubview(expandButton)
+                dividerView.addSubview(fullExpandButton)
+                dividerView.addSubview(expandButton)
             }
         }
         print("section name",singleDic.objectForKey("sectionName"))
         print("after section name",singleDic.objectForKey("sectionName") as? String)
         label.text = singleDic.objectForKey("sectionName") as? String
-        headerView.backgroundColor = UIColor.whiteColor()
+        
         label.font = UIFont(name:"OpenSans-Semibold", size: 14)
-        label.textColor = UIColor.blackColor()
-        headerView.addSubview(label)
+        label.textColor = UIColor.whiteColor()
+        dividerView.addSubview(label)
         /* code for top shadow
         headerView.layer.shadowColor = UIColor.blackColor().CGColor
         headerView.layer.shadowOffset = CGSizeMake(0.0, -5.0)
         headerView.layer.shadowOpacity = 0.1
         headerView.layer.shadowRadius = 8
         */
+        dividerView.backgroundColor = UIColor.init(red: 20/255, green: 61/255, blue: 141/255, alpha: 1)
         headerView.addSubview(dividerView)
         return headerView
     }
@@ -668,19 +679,19 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         cell.cellSection = indexPath.section
         cell.cellRow = indexPath.row
         cell.contentTypeId = articleObject.articleTypeId.integerValue
-        if(articleObject.fieldsName!.characters.count == 0) {
+        if(articleObject.fieldsName.characters.count == 0) {
             cell.fieldNameLabelHeightConstraint.constant=0
         } else {
             cell.fieldNameLabelHeightConstraint.constant=20
             cell.fieldName.text = articleObject.fieldsName
         }
        // print("one")
-        cell.articleTitle.text = articleObject.articleTitle!.stringByTrimmingCharactersInSet(
+        cell.articleTitle.text = articleObject.articleTitle.stringByTrimmingCharactersInSet(
             NSCharacterSet.whitespaceAndNewlineCharacterSet()
         )
         //print("two")
-        cell.articleDescription.text = articleObject.articleDescription!
-        cell.outletName.text = articleObject.outletName!
+        cell.articleDescription.text = articleObject.articleDescription
+        cell.outletName.text = articleObject.outletName
         
         //highlight marked important articles
         if (articleObject.isMarkedImportant == 1) {
@@ -824,8 +835,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func updateSavedForLaterStatusInList(notification: NSNotification) {
         if let info = notification.userInfo as? Dictionary<String,String> {
+            print("saved info",info)
+            print("article id",info["articleId"])
             for article in self.articles {
                 if(article.articleId == info["articleId"]) {
+                    print("test",info["articleId"]!)
                     if(info["isSaved"] == "1") {
 //                        article.isSavedForLater = 0
                         if(self.isFromDailyDigest) {
@@ -856,6 +870,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     func refresh(sender:AnyObject) {
         // Code to refresh table view
         refreshControl.endRefreshing()
+        myActivityIndicator.stopAnimating()
+        myActivityIndicator.removeFromSuperview()
         self.groupedArticleArrayList.removeAllObjects()
         self.listTableView.reloadData()
         if(self.searchKeyword.characters.count == 0) {
@@ -1268,8 +1284,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
-                            self.myActivityIndicator.startAnimating()
-                            self.listTableView.tableFooterView = self.myActivityIndicator;
+                            if(self.articles.count > 0) {
+                                self.myActivityIndicator.startAnimating()
+                                self.listTableView.tableFooterView = self.myActivityIndicator;
+                            }
                             self.listActivityIndicator.stopAnimating()
                             self.listActivityIndicator.removeFromSuperview()
 
@@ -1311,8 +1329,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
-                            self.myActivityIndicator.startAnimating()
-                            self.listTableView.tableFooterView = self.myActivityIndicator;
+                            if(self.articles.count > 0) {
+                                self.myActivityIndicator.startAnimating()
+                                self.listTableView.tableFooterView = self.myActivityIndicator;
+                            }
                             self.listActivityIndicator.stopAnimating()
                             self.listActivityIndicator.removeFromSuperview()
                             
@@ -1366,7 +1386,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
                             self.myActivityIndicator.startAnimating()
-                            self.listTableView.tableFooterView = self.myActivityIndicator;
+                            if(self.articles.count > 0) {
+                                self.myActivityIndicator.startAnimating()
+                                self.listTableView.tableFooterView = self.myActivityIndicator;
+                            }
                             self.listActivityIndicator.stopAnimating()
                             self.listActivityIndicator.removeFromSuperview()
                         })
