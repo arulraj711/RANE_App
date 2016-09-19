@@ -42,8 +42,8 @@ class ViewController: UIViewController,PKRevealing {
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
 //  
-        emailAddressField.text = "rane.demo@ranenetwork.com"
-        passwordField.text = "ranestart"
+        emailAddressField.text = ""
+        passwordField.text = ""
     }
 
     override func viewWillAppear(animated: Bool) {

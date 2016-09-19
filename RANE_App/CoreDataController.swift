@@ -214,12 +214,13 @@ class CoreDataController {
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Article")
         fetchRequest.predicate = NSPredicate(format: "articleId == %@ AND contentTypeId == %@",articleJSON["id"].stringValue,String(contentTypeId))
-        
+        print("article id and contenttypeid",articleJSON["id"].stringValue,String(contentTypeId))
         do {
             
             let results =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Article]
             if results.count != 0{
+                print("existing")
                 let article = results[0] as Article
                 
                 article.setValue(articleJSON["id"].stringValue, forKey: "articleId")
@@ -260,7 +261,7 @@ class CoreDataController {
                 if let fieldsArray = articleJSON["contentCategoryId"].array {
                     var fieldsName:String = ""
                     for fields in fieldsArray {
-                        print("fields",fields,CoreDataController().getContentNameFromContentTypeId(fields.int!))
+                        //print("fields",fields,CoreDataController().getContentNameFromContentTypeId(fields.int!))
                         if(fieldsName.characters.count == 0) {
                             
                             fieldsName = fieldsName.uppercaseString+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
@@ -312,6 +313,7 @@ class CoreDataController {
                 try article.managedObjectContext?.save()
                 
             } else {
+                print("new")
                 // Create Entity
                 let entity = NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext)
                 
@@ -358,20 +360,20 @@ class CoreDataController {
                 if let fieldsArray = articleJSON["contentCategoryId"].array {
                     var fieldsName:String = ""
                     for fields in fieldsArray {
-                        print("fields",fields)
-                        print("test",fields.int!)
-                        print("testss",CoreDataController().getContentNameFromContentTypeId(fields.int!))
-                        print("after this")
+//                        print("fields",fields)
+//                        print("test",fields.int!)
+//                        print("testss",CoreDataController().getContentNameFromContentTypeId(fields.int!))
+//                        print("after this")
                         if(fieldsName.characters.count == 0) {
-                            print("one")
+//                            print("one")
                             fieldsName = fieldsName.uppercaseString+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         } else {
-                            print("two")
+//                            print("two")
                             fieldsName = fieldsName.uppercaseString+" & "+CoreDataController().getContentNameFromContentTypeId(fields.int!).uppercaseString
                         }
                         
                     }
-                    print("before")
+//                    print("before")
                     article.setValue(fieldsName, forKey: "fieldsName")
                 }
                 
@@ -620,6 +622,30 @@ class CoreDataController {
             print("Could not fetch \(error), \(error.userInfo)")
         }
         return entityResult
+    }
+    
+    func deleteExistingSavedArticles(contentTypeId:NSNumber) {
+        //1
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        //2
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+
+        //3
+        do {
+            let results =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Article]
+            for article in results {
+                managedContext.deleteObject(article)
+                try managedContext.save()
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
     }
     
     

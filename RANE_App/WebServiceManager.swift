@@ -115,6 +115,24 @@ class WebServiceManager: NSObject {
         })
     }
     
+    // For folder API call
+    func callFolderArticleListWebService(dailyDigestId:Int,securityToken:String,page:Int,size:Int,onCompletion: (JSON) -> Void) {
+        let dailyDigestAPIFunctionName = "api/v1/folders/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
+        WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
+            
+            if let results = json.array {
+                for entry in results {
+                    CoreDataController().addArticle(entry, contentTypeId: dailyDigestId, pageNo: page,searchText: "")
+                    
+                }
+            }
+            
+            print("folder results count",json.array)
+            onCompletion(json as JSON)
+        })
+    }
+    
+    
     func callArticleListWebService(activityTypeId:Int,securityToken:String,contentTypeId:Int,companyId:Int,page:Int,size:Int,searchString:String,onCompletion: (JSON) -> Void) {
         
         //articles?security_token=ab6526b6260000c584e810ccede97ca8111533e9&contentTypeId=1&page=0&size=10

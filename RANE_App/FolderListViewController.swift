@@ -152,13 +152,17 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let newsletterObject = self.newsletterArray[indexPath.row]
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
-//        vc.contentTypeId = 20
-//        vc.dailyDigestId = newsletterObject.newsletterId
-//        vc.activityTypeId = 0
-//        self.navigationController?.pushViewController(vc, animated: true)
+        let folderObject = self.folderArray[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc:ListViewController = storyboard.instantiateViewControllerWithIdentifier("listView") as! ListViewController
+        vc.isFromDailyDigest = false
+        vc.isFromFolder = true
+        vc.contentTypeId = folderObject.folderId
+        vc.dailyDigestId = folderObject.folderId
+        vc.activityTypeId = 0
+        vc.isFromListPage = true
+        vc.titleString = folderObject.folderName
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func rssButtonClick(sender: UIButton) {

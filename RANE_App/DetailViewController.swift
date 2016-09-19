@@ -16,13 +16,8 @@ protocol DetailViewControllerDelegate {
     func controller(controller: DetailViewController,contentType:Int ,articleArray:[Article])
 }
 
-protocol DetailViewControllerDelegate1 {
-    func test()
-}
-
 class DetailViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,MFMailComposeViewControllerDelegate {
     var delegate: DetailViewControllerDelegate?
-    var delegate1: DetailViewControllerDelegate1?
     var articleArray = [Article]()
     var activityTypeId:Int = 0
     var searchKeyword:String = ""
@@ -200,6 +195,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func markedImportantButtonClick() {
+        let selectedArticle = self.articleArray[self.currentindex!]
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
@@ -217,30 +213,46 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         })
                     } else if(markAsImportantUserId == String(loginUserId)) {
                         print("before artilce count",self.articleArray.count)
-//                        if(self.contentTypeId == 9) {
-//                            var dataDict = Dictionary<String, String>()
-//                            dataDict["articleTypeId"] = info["articleTypeId"]
-//                            dataDict["articleModifiedDate"] = info["articleModifiedDate"]
-//                            dataDict["ArticleId"] = info["ArticleId"]
-//                            
-//                            var articleIndex:Int!
-//                            
-//                            for (index,article) in self.articleArray.enumerate() {
-//                                 if(article.articleId == info["ArticleId"]) {
-//                                    articleIndex = index
-//                                    break
-//                                 } else {
-//                                    continue
-//                                }
-//                            }
-//                            self.articleArray.removeAtIndex(articleIndex)
-//                            dispatch_async(dispatch_get_main_queue(),{
-//                                self.collectionView.reloadData()
-//                            })
-                        
-                        
-                        //} else {
+                        if(self.contentTypeId == 9) {
+                            
+                            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            let managedContext = appDelegate.managedObjectContext
+                            do {
+                                print("article",self.articleArray[self.currentindex!] )
+                                managedContext.deleteObject(self.articleArray[self.currentindex!])
+                                try managedContext.save()
+                                self.articleArray.removeAtIndex(self.currentindex!)
+                                //                        self.currentindex! = self.currentindex! - 1
+                                if(self.articleArray.count == 0) {
+                                    self.navigationController?.popViewControllerAnimated(true)
+                                }
+                            } catch {
+                                
+                            }
+                            self.collectionView.reloadData()
+                        NSNotificationCenter.defaultCenter().postNotificationName("deleteMarkedImportant", object:self, userInfo:nil)
+                        } else {
                             dispatch_async(dispatch_get_main_queue(),{
+                                
+                                if(info["isMarked"] == "1") {
+                                    //                                    article.isMarkedImportant = 0
+                                    if(self.isFromDailyDigest) {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    } else {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    }
+                                    
+                                } else if(info["isMarked"] == "0"){
+                                    //                                    article.isMarkedImportant = 1
+                                    if(self.isFromDailyDigest) {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    } else {
+                                        CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                                    }
+                                    
+                                    
+                                }
+                                self.reloadNavBarItems(selectedArticle)
                                 
                                 var dataDict = Dictionary<String, String>()
                                 dataDict["articleId"] = info["articleId"]
@@ -248,44 +260,11 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                                 NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
                                 
                             })
-                      //  }
+                        }
+                        
+                      
                         userActivitiesInputDictionary.setValue(false, forKey: "isSelected")
                         WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
-                            dispatch_async(dispatch_get_main_queue(),{
-                                print("after artilce count",self.articleArray.count,info["ArticleId"])
-                                if(self.contentTypeId == 9) {
-                                    NSNotificationCenter.defaultCenter().postNotificationName("deleteMarkedImportant", object:self, userInfo:nil)
-                                }
-                                for article in self.articleArray {
-                                    print("single article",article)
-                                    if(article.articleId == info["ArticleId"]) {
-                                        if(info["isMarked"] == "1") {
-                                            //                                    article.isMarkedImportant = 0
-                                            if(self.isFromDailyDigest) {
-                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                            } else {
-                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                            }
-                                            
-                                        } else if(info["isMarked"] == "0"){
-                                            //                                    article.isMarkedImportant = 1
-                                            if(self.isFromDailyDigest) {
-                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                            } else {
-                                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                            }
-                                            
-                                            
-                                        }
-                                        self.reloadNavBarItems(article)
-                                    } else {
-                                        continue
-                                    }
-                                }
-                                
-                            })
-                            
-                            
                         }
                     } else {
                         dispatch_async(dispatch_get_main_queue(),{
@@ -297,44 +276,34 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                     dispatch_async(dispatch_get_main_queue(),{
                         
+                        if(info["isMarked"] == "1") {
+                            //                                    article.isMarkedImportant = 0
+                            if(self.isFromDailyDigest) {
+                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                            } else {
+                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                            }
+                            
+                        } else if(info["isMarked"] == "0"){
+                            //                                    article.isMarkedImportant = 1
+                            if(self.isFromDailyDigest) {
+                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                            } else {
+                                CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
+                            }
+                            
+                            
+                        }
+                        self.reloadNavBarItems(selectedArticle)
+                        
                         var dataDict = Dictionary<String, String>()
                         dataDict["articleId"] = info["articleId"]
                         dataDict["isMarked"] = info["isMarked"]
-                        NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
+                    NSNotificationCenter.defaultCenter().postNotificationName("updateMarkedImportantStatus", object:self, userInfo:dataDict)
                         
                     })
                     
                     WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
-                        dispatch_async(dispatch_get_main_queue(),{
-                            
-                            for article in self.articleArray {
-                                if(article.articleId == info["ArticleId"]) {
-                                    if(info["isMarked"] == "1") {
-                                        //                                    article.isMarkedImportant = 0
-                                        if(self.isFromDailyDigest) {
-                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.dailyDigestId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                        } else {
-                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!,contentTypeId: self.contentTypeId, isMarked: 0,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                        }
-                                        
-                                    } else if(info["isMarked"] == "0"){
-                                        //                                    article.isMarkedImportant = 1
-                                        if(self.isFromDailyDigest) {
-                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                        } else {
-                                            CoreDataController().updateMarkedImportantStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isMarked: 1,isMarkedImpSync: Reachability.isConnectedToNetwork())
-                                        }
-                                        
-                                        
-                                    }
-                                    self.reloadNavBarItems(article)
-                                } else {
-                                    continue
-                                }
-                            }
-                            
-                        })
-                        
                         
                     }
                 }
@@ -346,6 +315,10 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func savedForLaterButtonClick() {
+        print("selected index",self.currentindex!)
+        print("article count",self.articleArray.count)
+        let selectedArticle = self.articleArray[self.currentindex!]
+        
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             if let info = NSUserDefaults.standardUserDefaults().objectForKey("SelectedArticleDictionary") as? Dictionary<String,String> {
@@ -359,79 +332,57 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                     userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
                 }
                 
-//                if(self.contentTypeId == 6) {
-//                    var dataDict = Dictionary<String, String>()
-//                    dataDict["articleTypeId"] = info["articleTypeId"]
-//                    dataDict["articleModifiedDate"] = info["articleModifiedDate"]
-//                    dataDict["ArticleId"] = info["ArticleId"]
-                
-//                    var articleIndex:Int!
-//                    for (index,article) in self.articleArray.enumerate() {
-//                        if(article.articleId == info["ArticleId"]) {
-//                            articleIndex = index
-//                            break
-//                        } else {
-//                            continue
-//                        }
-//                    }
-//                    self.articleArray.removeAtIndex(articleIndex)
-//                    dispatch_async(dispatch_get_main_queue(),{
-//                        self.collectionView.reloadData()
-//                    })
-//                    
-//                   
-//                } else {
+                if(self.contentTypeId == 6) {
+                    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let managedContext = appDelegate.managedObjectContext
+                    do {
+                        print("article",self.articleArray[self.currentindex!] )
+                        managedContext.deleteObject(self.articleArray[self.currentindex!])
+                        try managedContext.save()
+                        self.articleArray.removeAtIndex(self.currentindex!)
+//                        self.currentindex! = self.currentindex! - 1
+                        if(self.articleArray.count == 0) {
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                    } catch {
+                        
+                    }
+                    self.collectionView.reloadData()
+                    NSNotificationCenter.defaultCenter().postNotificationName("deleteMarkedImportant", object:self, userInfo:nil)
+                } else {
                     dispatch_async(dispatch_get_main_queue(),{
+                        
+                        
+                        if(info["isSaved"] == "1") {
+                            //                                    article.isSavedForLater = 0
+                            if(self.isFromDailyDigest) {
+                                CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                            } else {
+                                CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
+                            }
+                            
+                        } else if(info["isSaved"] == "0"){
+                            //                                    article.isSavedForLater = 1
+                            if(self.isFromDailyDigest) {
+                                CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                            } else {
+                                CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
+                            }
+                            
+                        }
+                        self.reloadNavBarItems(selectedArticle)
+                        
                         
                         var dataDict = Dictionary<String, String>()
                         dataDict["articleId"] = info["articleId"]
                         dataDict["isSaved"] = info["isSaved"]
                         NSNotificationCenter.defaultCenter().postNotificationName("updateSavedForLaterStatus", object:self, userInfo:dataDict)
                     })
-                //}
-                if(self.contentTypeId == 6) {
-                    if let delegate1 = self.delegate1 {
-                        delegate1.test()
-                    }
-//                    if let delegate1 = self.delegate1 {
-//                        delegate1.test()
-//                    }
                 }
                 
+                //}
+                
                 WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
-                    print("result json",json)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        for article in self.articleArray {
-                            print("saved for later",article)
-                            if(article.articleId == info["ArticleId"]) {
-                                if(info["isSaved"] == "1") {
-//                                    article.isSavedForLater = 0
-                                    if(self.isFromDailyDigest) {
-                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
-                                    } else {
-                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 0,isSavedSync: Reachability.isConnectedToNetwork())
-                                    }
-                                    
-                                } else if(info["isSaved"] == "0"){
-//                                    article.isSavedForLater = 1
-                                    if(self.isFromDailyDigest) {
-                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.dailyDigestId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
-                                    } else {
-                                        CoreDataController().updateSavedForLaterStatusInArticle(info["ArticleId"]!, contentTypeId: self.contentTypeId,isSaved: 1,isSavedSync: Reachability.isConnectedToNetwork())
-                                    }
-                                    
-                                }
-                                self.reloadNavBarItems(article)
-                            } else {
-                                continue
-                            }
-                        }
-                        
-                        
-
-                    })
-                    
-                    
                 }
             }
         }
@@ -499,7 +450,9 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! DetailViewCell
         //cell.scrollView.contentOffset = CGPointMake(0, 0)
         let articleObject:Article = articleArray[indexPath.row]
+        print("cell for item article",articleObject)
         self.currentIndexPath = indexPath.row
+        self.currentindex = indexPath.row
         dispatch_async(dispatch_get_main_queue(),{
             self.reloadNavBarItems(articleObject)
         })

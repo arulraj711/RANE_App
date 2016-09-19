@@ -104,8 +104,8 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 38){
-            //Newsletter list #2-stage #38-live
+        if(menu.menuId == 36){
+            //Newsletter list #2-stage #36-live
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:NewsLetterViewController = storyboard.instantiateViewControllerWithIdentifier("newsLetterView") as! NewsLetterViewController
@@ -134,8 +134,8 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 frontViewContrller.titleString = menu.menuName
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
-        } else if(menu.menuId == 36) {
-            //Daily digest article list #20-stage #36-live
+        } else if(menu.menuId == 38) {
+            //Daily digest article list #20-stage #38-live
             NSUserDefaults.standardUserDefaults().setInteger(menu.companyId.integerValue, forKey: "sharedCustomerCompanyId")
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)

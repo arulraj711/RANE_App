@@ -4,20 +4,41 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>GrowingTextView-GrowingTextView.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>GrowingTextView.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 		<key>Kingfisher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>PKRevealController.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
 		</dict>
 		<key>Pods-RANE_App.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -27,12 +48,37 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>541F5B2948FBFA01D206B0603A93C050</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>59A85FFF5497CF0FF979329743E77D95</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>62CB4A53E53AA477BFD9B082EF16EF5F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>63FB3FBF765C1F3013D3F2C22A8D231E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DE6FBF6D5D3626B59D64D01E27539A93</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E96E13C4D3B5B5FC0651440734C2BF4D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FBF452D9313EF913EA92AD5D72258A8E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
