@@ -43,6 +43,7 @@ class WebService: NSObject {
     // MARK: Perform a GET Request
     func makeHTTPGetRequest(functionName: String, onCompletion: ServiceResponse) {
         let urlString = baseURL+functionName
+        print("test",NSURL(string: urlString)!)
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         print("get request--->",request)
         let session = NSURLSession.sharedSession()

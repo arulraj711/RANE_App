@@ -219,6 +219,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             })
         } else {
             self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
+            print("search articles count",self.articles.count)
             self.groupByModifiedDate(self.articles)
             dispatch_async(dispatch_get_main_queue(),{
                 self.listTableView.reloadData()
@@ -1378,6 +1379,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func articleAPICall(activityTypeId:Int,contentTypeId:Int,pageNo:Int,searchString:String) {
 //        var nextSetOfArticles = [ArticleObject]()
+        print("search string",searchString)
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
             WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId,companyId:sharedCustomerCompanyId, page: pageNo, size: 10,searchString: searchString){ (json:JSON) in

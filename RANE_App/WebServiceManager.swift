@@ -139,7 +139,6 @@ class WebServiceManager: NSObject {
         
         //http://fullintel.com/2.0.0/api/v1/articles/2?security_token=ab6526b6260000c584e810ccede97ca8111533e9&contentTypeId=1&page=0&size=10&query=Google
         
-        
         var articleAPIFunctionName:String = ""
         if(searchString.characters.count == 0) {
             
@@ -153,7 +152,8 @@ class WebServiceManager: NSObject {
         } else {
             articleAPIFunctionName = "api/v1/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)+"&query="+searchString+"&companyId="+String(companyId)+"&orderby=contentCategoryId"
         }
-        WebService().makeHTTPGetRequest(articleAPIFunctionName, onCompletion: { json, err in
+        let urlNew:String = articleAPIFunctionName.stringByAddingPercentEncodingWithAllowedCharacters( NSCharacterSet.URLQueryAllowedCharacterSet())!
+        WebService().makeHTTPGetRequest(urlNew, onCompletion: { json, err in
             //if(searchString.characters.count == 0) {
                 if let results = json.array {
                     print("results count",results.count)
