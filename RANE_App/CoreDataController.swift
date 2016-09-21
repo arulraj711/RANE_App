@@ -40,10 +40,12 @@ class CoreDataController {
                 
             } else {
                 // Create Entity
-                let entity = NSEntityDescription.entityForName("ContentCategory", inManagedObjectContext: managedContext)
+//                let entity = NSEntityDescription.entityForName("ContentCategory", inManagedObjectContext: managedContext)
+//                
+//                // Initialize Record
+//                let contentCategory = ContentCategory(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 
-                // Initialize Record
-                let contentCategory = ContentCategory(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                let contentCategory = NSEntityDescription.insertNewObjectForEntityForName("ContentCategory", inManagedObjectContext: managedContext) as! ContentCategory
                 //let record = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 
                 //                print("menu json",menuJSON)
@@ -172,14 +174,15 @@ class CoreDataController {
                 menu.setValue(menuJSON["name"].stringValue, forKey: "menuName")
                 menu.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 menu.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
-                try menu.managedObjectContext?.save()
+                try managedContext.save()
                 
             } else {
                 // Create Entity
-                let entity = NSEntityDescription.entityForName("Menu", inManagedObjectContext: managedContext)
-                
-                // Initialize Record
-                let record = Menu(entity: entity!, insertIntoManagedObjectContext: managedContext)
+//                let entity = NSEntityDescription.entityForName("Menu", inManagedObjectContext: managedContext)
+//                
+//                // Initialize Record
+//                let record = Menu(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                let record = NSEntityDescription.insertNewObjectForEntityForName("Menu", inManagedObjectContext: managedContext) as! Menu
                 //let record = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 
 //                print("menu json",menuJSON)
@@ -255,7 +258,7 @@ class CoreDataController {
 //                    }
 //                    article.setValue(fieldsName, forKey: "fieldsName")
 //                }
-                self.contentCategory = CoreDataController().getContentCategoryInfoFromCoreData("ContentCategory")
+               // self.contentCategory = CoreDataController().getContentCategoryInfoFromCoreData("ContentCategory")
                 
                 /* fields name configuration */
                 if let fieldsArray = articleJSON["contentCategoryId"].array {
@@ -319,11 +322,15 @@ class CoreDataController {
                     UIApplication.sharedApplication().delegate as! AppDelegate
                 let managedContext1 = appDelegate.managedObjectContext
                 // Create Entity
-                let entity = NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext1)
+               // let entity = NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext1)
                 
                 // Initialize Record
-                let article = Article(entity: entity!, insertIntoManagedObjectContext: managedContext1)
+                //let article = Article(entity: entity!, insertIntoManagedObjectContext: managedContext1)
                 //let record = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                
+                let article = NSEntityDescription.insertNewObjectForEntityForName("Article", inManagedObjectContext: managedContext1) as! Article
+
+                
                 
                 article.setValue(articleJSON["id"].stringValue, forKey: "articleId")
                 article.setValue(articleJSON["articleDescription"].stringValue.capitalizedString, forKey: "articleDescription")
@@ -358,7 +365,7 @@ class CoreDataController {
 //                    article.setValue(fieldsName, forKey: "fieldsName")
 //                }
                 
-                self.contentCategory = CoreDataController().getContentCategoryInfoFromCoreData("ContentCategory")
+                //self.contentCategory = CoreDataController().getContentCategoryInfoFromCoreData("ContentCategory")
                 
                 /* fields name configuration */
                 if let fieldsArray = articleJSON["contentCategoryId"].array {

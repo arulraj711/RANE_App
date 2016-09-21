@@ -155,6 +155,7 @@ class WebServiceManager: NSObject {
         let urlNew:String = articleAPIFunctionName.stringByAddingPercentEncodingWithAllowedCharacters( NSCharacterSet.URLQueryAllowedCharacterSet())!
         WebService().makeHTTPGetRequest(urlNew, onCompletion: { json, err in
             //if(searchString.characters.count == 0) {
+           // dispatch_async(dispatch_get_main_queue(),{
                 if let results = json.array {
                     print("results count",results.count)
                     for entry in results {
@@ -162,6 +163,7 @@ class WebServiceManager: NSObject {
                         
                     }
                 }
+               // })
             //}
             onCompletion(json as JSON)
         })
