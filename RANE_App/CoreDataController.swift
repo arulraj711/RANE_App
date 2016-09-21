@@ -36,7 +36,7 @@ class CoreDataController {
                 contentCategory.setValue(contentCategoryJSON["nodeid"].stringValue, forKey: "contentCategoryId")
                 contentCategory.setValue(contentCategoryJSON["name"].stringValue, forKey: "contentCategoryName")
                 
-                try managedContext.save()
+                appDelegate.saveContext()
                 
             } else {
                 // Create Entity
@@ -56,7 +56,7 @@ class CoreDataController {
                 contentCategory.setValue(contentCategoryJSON["name"].stringValue, forKey: "contentCategoryName")
                 
                 // Save Record
-                try managedContext.save()
+                appDelegate.saveContext()
             }
             
             
@@ -174,7 +174,7 @@ class CoreDataController {
                 menu.setValue(menuJSON["name"].stringValue, forKey: "menuName")
                 menu.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 menu.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
-                try managedContext.save()
+                appDelegate.saveContext()
                 
             } else {
                 // Create Entity
@@ -193,10 +193,17 @@ class CoreDataController {
                 record.setValue(menuJSON["name"].stringValue, forKey: "menuName")
                 print("menu",menuJSON)
                 print("menu url",menuJSON["iconUrl"].stringValue)
-                record.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
+                if(menuJSON["iconUrl"].stringValue.characters.count == 0) {
+                    record.setValue("", forKey: "menuIconURL")
+                } else {
+                    record.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
+                }
+                
+                print("one",menuJSON["iconUrl"].stringValue.characters.count)
                 record.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
+                print("two",menuJSON["companyId"].intValue)
                 // Save Record
-                try managedContext.save()
+                appDelegate.saveContext()
             }
             
             
@@ -312,7 +319,8 @@ class CoreDataController {
                     }
                     
                 }
-                try managedContext.save()
+                appDelegate.saveContext()
+                //try managedContext.save()
                 
                 //try article.managedObjectContext?.save()
                 
@@ -424,7 +432,7 @@ class CoreDataController {
                     
                 }
                 
-                try managedContext1.save()
+                appDelegate.saveContext()
             }
             
             
@@ -455,7 +463,7 @@ class CoreDataController {
                 let article = results[0] as Article
                 article.setValue(isMarked, forKey: "isMarkedImportant")
                 article.setValue(isMarkedImpSync, forKey: "isMarkedImportantSync")
-                try managedContext.save()
+                appDelegate.saveContext()
             }
         } catch {
             let saveError = error as NSError
@@ -479,7 +487,7 @@ class CoreDataController {
                 let article = results[0] as Article
                 article.setValue(isSaved, forKey: "isSavedForLater")
                 article.setValue(isSavedSync, forKey: "isSavedForLaterSync")
-                try managedContext.save()
+                appDelegate.saveContext()
             }
         } catch {
             let saveError = error as NSError
@@ -520,7 +528,7 @@ class CoreDataController {
                 user.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
                 }
             }
-            try managedContext.save()
+            appDelegate.saveContext()
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -652,7 +660,7 @@ class CoreDataController {
                 try managedContext.executeFetchRequest(fetchRequest) as! [Article]
             for article in results {
                 managedContext.deleteObject(article)
-                try managedContext.save()
+                appDelegate.saveContext()
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
@@ -730,7 +738,7 @@ class CoreDataController {
             if results.count != 0 {
                 let article = results[0] as Article
                 article.setValue(true, forKey: "isMarkedImportantSync")
-                try managedContext.save()
+                appDelegate.saveContext()
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
@@ -777,7 +785,7 @@ class CoreDataController {
             if results.count != 0 {
                 let article = results[0] as Article
                 article.setValue(true, forKey: "isSavedForLaterSync")
-                try managedContext.save()
+                appDelegate.saveContext()
             }
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
