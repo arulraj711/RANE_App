@@ -102,7 +102,7 @@ class WebServiceManager: NSObject {
     func callDailyDigestArticleListWebService(dailyDigestId:Int,securityToken:String,page:Int,size:Int,onCompletion: (JSON) -> Void) {
         let dailyDigestAPIFunctionName = "api/v1/client/newsletter/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
         WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
-            
+                print("content type id",dailyDigestId,"pageno",page)
                 if let results = json.array {
                     for entry in results {
                         CoreDataController().addArticle(entry, contentTypeId: dailyDigestId, pageNo: page,searchText: "")
@@ -110,7 +110,7 @@ class WebServiceManager: NSObject {
                     }
                 }
             
-            //print("newsletter results count",json.array)
+            print("newsletter results count",json.array?.count)
             onCompletion(json as JSON)
         })
     }

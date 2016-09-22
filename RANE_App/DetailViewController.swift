@@ -555,27 +555,30 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     
     func dailyDigestAPICall(pageNo:Int) {
+        
         var nextSetOfArticles = [Article]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(0, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
+            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(self.dailyDigestId, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
                 if let results = json.array {
                     if(results.count != 0) {
                         
 //                        self.articles = CoreDataController().getArticleListForContentTypeId(20, pageNo: 0, entityName: "Article")
 //                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article"))
                         
-                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(20,isFromDailyDigest:true,pageNo: pageNo, entityName: "Article") as [Article]
+                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(self.dailyDigestId,isFromDailyDigest:true,pageNo: pageNo, entityName: "Article") as [Article]
                         print("next set of articles",nextSetArticles.count)
                         
                         for article in nextSetArticles {
                             self.articleArray.append(article)
                             nextSetOfArticles.append(article)
                         }
+                       
                         dispatch_async(dispatch_get_main_queue(),{
+                            
                             self.collectionView.reloadData()
                             if let delegate = self.delegate {
-                                delegate.controller(self,contentType:20,articleArray: nextSetOfArticles)
+                                delegate.controller(self,contentType:self.dailyDigestId,articleArray: nextSetOfArticles)
                             }
 //                            NSNotificationCenter.defaultCenter().postNotificationName("SavedForLaterButtonClick", object:self, userInfo:nextSetOfArticles as ArticleObject)
                         })

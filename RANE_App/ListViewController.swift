@@ -260,11 +260,16 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         }
         
         if(self.searchKeyword.characters.count == 0) {
-            if(self.contentTypeId == 20) {
-                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest: true,pageNo: 0, entityName: "Article")
+//            if(self.contentTypeId == 20) {
+//                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest: true,pageNo: 0, entityName: "Article")
+//            } else {
+            if(isFromDailyDigest) {
+                self.articles = CoreDataController().getArticleListForContentTypeId(self.dailyDigestId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
             } else {
                 self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
             }
+            
+           // }
             
         } else {
             self.articles = CoreDataController().getSearchArticleList(0, entityName: "Article")
@@ -282,7 +287,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     override func viewDidAppear(animated: Bool) {
-        
+        print("view did appear")
         if(self.contentTypeId == 6 || self.contentTypeId == 9) {
             if(self.isDeletedFromDetailPage) {
                 CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
