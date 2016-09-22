@@ -19,7 +19,7 @@ class WebServiceManager: NSObject {
     
     func callLoginWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
         //api/v1/eti/customers/authenticate for RANE live login #userauthentication
-        let loginAPIFunctionName = "api/v1/eti/customers/authenticate"
+        let loginAPIFunctionName = "api/v1/userauthentication"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
             onCompletion(json as JSON)
             
@@ -38,7 +38,7 @@ class WebServiceManager: NSObject {
         let menuAPIFunctionName = "api/v1/customer/menu?security_token="+securityToken
         WebService().makeHTTPGetRequest(menuAPIFunctionName, onCompletion: { json, err in
             
-            print("menu response-->",json)
+           // print("menu response-->",json)
             self.menuItems.removeAll()
             if let results = json.array {
                 for entry in results {
@@ -110,7 +110,7 @@ class WebServiceManager: NSObject {
                     }
                 }
             
-            print("newsletter results count",json.array)
+            //print("newsletter results count",json.array)
             onCompletion(json as JSON)
         })
     }

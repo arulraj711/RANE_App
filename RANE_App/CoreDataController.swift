@@ -69,7 +69,7 @@ class CoreDataController {
     }
     
     func getContentNameFromContentTypeId(contentTypeId:Int)->String {
-        print("inside",contentTypeId)
+//        print("inside",contentTypeId)
         var contentCategoryName:String! = ""
         //1 get managedcontext from appdelegate Object
         let appDelegate =
@@ -152,7 +152,7 @@ class CoreDataController {
     }
     
     func addMenu(menuJSON:JSON) {
-        print("menuJSON",menuJSON)
+        //print("menuJSON",menuJSON)
         //1 get managedcontext from appdelegate Object
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate
@@ -230,7 +230,7 @@ class CoreDataController {
             let results =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Article]
             if results.count != 0{
-                print("existing")
+//                print("existing")
                 let article = results[0] as Article
                 
                 article.setValue(articleJSON["id"].stringValue, forKey: "articleId")
@@ -602,7 +602,12 @@ class CoreDataController {
         } else {
             fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@",contentTypeId,pageNo)
         }
-        
+//        if(!isFromDailyDigest) {
+//            let sectionSortDescriptor = NSSortDescriptor(key: "articleModifiedDate", ascending: false)
+//            let sortDescriptors = [sectionSortDescriptor]
+//            fetchRequest.sortDescriptors = sortDescriptors
+//        }
+    
         //3
         do {
             let results =

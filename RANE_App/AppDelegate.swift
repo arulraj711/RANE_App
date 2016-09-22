@@ -11,6 +11,7 @@ import CoreData
 import Fabric
 import Crashlytics
 import SwiftyJSON
+import Foundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         Fabric.with([Crashlytics.self])
+        
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+        application.registerUserNotificationSettings(pushNotificationSettings)
+        application.registerForRemoteNotifications()
+        
         
         return true
     }
@@ -40,6 +47,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
 
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let dataString = String(data: deviceToken, encoding: NSUTF8StringEncoding)
+        var tokenString:String = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet.init(charactersInString: "<>"))
+        tokenString = tokenString.stringByReplacingOccurrencesOfString(" ", withString: "")
+        print("DEVICE TOKEN = \(dataString)",tokenString)
+    }
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        print("push error",userInfo)
+    }
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
          dispatch_async(dispatch_get_main_queue(),{

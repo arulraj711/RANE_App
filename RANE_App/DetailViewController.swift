@@ -607,7 +607,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         if(searchString.characters.count != 0) {
                             nextSetArticles = CoreDataController().getSearchArticleList(pagenNo, entityName: "Article")
                         } else {
-                            nextSetArticles = CoreDataController().getArticleListForContentTypeId(contentTypeId, pageNo: pagenNo, entityName: "Article") as [Article]
+                            nextSetArticles = CoreDataController().getArticleListForContentTypeId(contentTypeId,pageNo: pagenNo, entityName: "Article") as [Article]
                         }
                         
                         for article in nextSetArticles {
