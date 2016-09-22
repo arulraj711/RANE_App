@@ -565,7 +565,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
 //                        self.articles = CoreDataController().getArticleListForContentTypeId(20, pageNo: 0, entityName: "Article")
 //                        self.groupByContentType(WebServiceManager.sharedInstance.menuItems, articleArray: CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article"))
                         
-                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(20, pageNo: pageNo, entityName: "Article") as [Article]
+                        let nextSetArticles:[Article] = CoreDataController().getArticleListForContentTypeId(20,isFromDailyDigest:true,pageNo: pageNo, entityName: "Article") as [Article]
                         print("next set of articles",nextSetArticles.count)
                         
                         for article in nextSetArticles {
@@ -607,7 +607,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         if(searchString.characters.count != 0) {
                             nextSetArticles = CoreDataController().getSearchArticleList(pagenNo, entityName: "Article")
                         } else {
-                            nextSetArticles = CoreDataController().getArticleListForContentTypeId(contentTypeId,pageNo: pagenNo, entityName: "Article") as [Article]
+                            nextSetArticles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false,pageNo: pagenNo, entityName: "Article") as [Article]
                         }
                         
                         for article in nextSetArticles {

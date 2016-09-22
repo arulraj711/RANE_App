@@ -581,7 +581,7 @@ class CoreDataController {
 
     
     
-    func getArticleListForContentTypeId(contentTypeId:NSNumber,pageNo:NSNumber,entityName:String) -> [Article] {
+    func getArticleListForContentTypeId(contentTypeId:NSNumber,isFromDailyDigest:Bool,pageNo:NSNumber,entityName:String) -> [Article] {
         var entityResult = [Article]()
         //1
         let appDelegate =
@@ -606,6 +606,8 @@ class CoreDataController {
 //            let sectionSortDescriptor = NSSortDescriptor(key: "articleModifiedDate", ascending: false)
 //            let sortDescriptors = [sectionSortDescriptor]
 //            fetchRequest.sortDescriptors = sortDescriptors
+//        } else {
+//            print("from daily digest")
 //        }
     
         //3
