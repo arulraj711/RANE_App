@@ -107,7 +107,7 @@ class ViewController: UIViewController,PKRevealing {
         loginInputDictionary.setValue(passwordField.text, forKey: "password")
         
         WebServiceManager.sharedInstance.callLoginWebService(loginInputDictionary) { (json:JSON) in
-            print("login response-->",json);
+            //print("login response-->",json);
             NSUserDefaults.standardUserDefaults().setObject(json["securityToken"].stringValue, forKey: "securityToken")
             NSUserDefaults.standardUserDefaults().setObject(json["company"]["id"].intValue, forKey: "companyId")
             NSUserDefaults.standardUserDefaults().setObject(json["id"].intValue, forKey: "userId")
@@ -116,8 +116,19 @@ class ViewController: UIViewController,PKRevealing {
             
             dispatch_async(dispatch_get_main_queue(),{
                 WebServiceManager.sharedInstance.callContentCategoriesService(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), securityToken: NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!) { (json:JSON) in
-                    print("content category JSON",json)
+                    //print("content category JSON",json)
                 }
+                
+                let timeZone:NSTimeZone =  NSTimeZone.localTimeZone()
+                let pushNotificationDictionary: NSMutableDictionary = NSMutableDictionary()
+                pushNotificationDictionary.setValue(NSUserDefaults.standardUserDefaults().stringForKey("deviceToken")!, forKey: "deviceToken")
+                pushNotificationDictionary.setValue(timeZone.name, forKey: "locale")
+                pushNotificationDictionary.setValue(timeZone.abbreviation, forKey: "timeZone")
+                pushNotificationDictionary.setValue(true, forKey: "isAllowPushNotification")
+                WebServiceManager.sharedInstance.callPushNotificationService(NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!, parameter: pushNotificationDictionary) { (json:JSON) in
+                    print("Push service",json)
+                }
+                
                 if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                     //code for iPhone
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var tokenString:String = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet.init(charactersInString: "<>"))
         tokenString = tokenString.stringByReplacingOccurrencesOfString(" ", withString: "")
         print("DEVICE TOKEN = \(dataString)",tokenString)
+        NSUserDefaults.standardUserDefaults().setValue(tokenString, forKey: "deviceToken")
     }
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("push error",userInfo)

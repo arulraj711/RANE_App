@@ -32,6 +32,16 @@ class WebServiceManager: NSObject {
         })
     }
     
+    func callPushNotificationService(securityToken:String,parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
+        //api/v1/eti/customers/authenticate for RANE live login #userauthentication
+        let loginAPIFunctionName = "api/v1/customer/device?security_token="+securityToken
+        WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
+            onCompletion(json as JSON)
+            
+            
+        })
+    }
+    
     
     func callMenuWebService(securityToken:String,onCompletion: (JSON) -> Void) {
         //customer/menu?security_token=422ee02ea949e35df708c660a5d59ada28a26ff3
