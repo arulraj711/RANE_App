@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RANE_App/ListViewController.swift"
-            timestampString = "496240095.709737"
+            filePath = "RANE_App/ViewController.swift"
+            timestampString = "496325640.317637"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "558"
-            endingLineNumber = "558"
-            landmarkName = "groupByContentType(_:)"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "loginButtonCick(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

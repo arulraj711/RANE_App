@@ -38,7 +38,7 @@ class WebService: NSObject {
     
     static let sharedInstance = WebService()
     
-    let baseURL = "http://fullintel.com/3.5.2/"
+    let baseURL = "http://stageapi.fullintel.com/3.5.3/"
     
     // MARK: Perform a GET Request
     func makeHTTPGetRequest(functionName: String, onCompletion: ServiceResponse) {
@@ -121,7 +121,7 @@ class WebService: NSObject {
                             //failure block
                             if let jsonData = data {
                                 let json:JSON = JSON(data: jsonData)
-                                print("failure json",json)
+                                print(" ",json)
                                 if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
                                     dispatch_async(dispatch_get_main_queue(),{
                                         window.makeToast(message: json["message"].stringValue)
