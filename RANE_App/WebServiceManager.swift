@@ -19,10 +19,10 @@ class WebServiceManager: NSObject {
     
     func callLoginWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
         //api/v1/eti/customers/authenticate for RANE live login #userauthentication
-        let loginAPIFunctionName = "api/v1/userauthentication"
+        let loginAPIFunctionName = "api/v1/eti/customers/authenticate"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
             onCompletion(json as JSON)
-            
+            print("login response",json)
             let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
             
             if(securityToken?.characters.count != 0) {
@@ -48,7 +48,7 @@ class WebServiceManager: NSObject {
         let menuAPIFunctionName = "api/v1/customer/menu?security_token="+securityToken
         WebService().makeHTTPGetRequest(menuAPIFunctionName, onCompletion: { json, err in
             
-           // print("menu response-->",json)
+            print("menu response-->",json)
             self.menuItems.removeAll()
             if let results = json.array {
                 for entry in results {
@@ -98,6 +98,7 @@ class WebServiceManager: NSObject {
         let menuAPIFunctionName = "api/v1/companies/"+String(companyId)+"/contentCategory?security_token="+securityToken
         WebService().makeHTTPGetRequest(menuAPIFunctionName, onCompletion: { json, err in
             onCompletion(json as JSON)
+            print("content category response",json)
             if let results = json.array {
                 for entry in results {
                     CoreDataController().addContentCategory(entry)

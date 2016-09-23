@@ -49,9 +49,9 @@ class CommonViewController: UIViewController,PKRevealing {
     }
     override func viewDidAppear(animated: Bool) {
         print("common view did appear")
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
-//        self.navigationController?.pushViewController(vc, animated: false)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("loginView")
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     

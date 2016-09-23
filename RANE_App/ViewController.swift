@@ -42,8 +42,8 @@ class ViewController: UIViewController,PKRevealing {
         userInfoView.layer.borderColor = UIColor.init(colorLiteralRed: 199/255, green: 199/255, blue: 205/255, alpha: 1).CGColor;
         userInfoView.layer.borderWidth = 1;
 //  
-        emailAddressField.text = "schwab@fullintel.com"
-        passwordField.text = "fischwab02716"
+        emailAddressField.text = ""
+        passwordField.text = ""
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -121,14 +121,17 @@ class ViewController: UIViewController,PKRevealing {
                 
                 let timeZone:NSTimeZone =  NSTimeZone.localTimeZone()
                 let pushNotificationDictionary: NSMutableDictionary = NSMutableDictionary()
-                pushNotificationDictionary.setValue(NSUserDefaults.standardUserDefaults().stringForKey("deviceToken")!, forKey: "deviceToken")
-                pushNotificationDictionary.setValue(timeZone.name, forKey: "locale")
-                pushNotificationDictionary.setValue(timeZone.abbreviation, forKey: "timeZone")
-                pushNotificationDictionary.setValue(true, forKey: "isAllowPushNotification")
-                WebServiceManager.sharedInstance.callPushNotificationService(NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!, parameter: pushNotificationDictionary) { (json:JSON) in
-                    print("Push service",json)
+                let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken")
+                if(deviceToken?.characters.count != 0)  {
+                    pushNotificationDictionary.setValue(deviceToken, forKey: "deviceToken")
+                    pushNotificationDictionary.setValue(timeZone.name, forKey: "locale")
+                    pushNotificationDictionary.setValue(timeZone.abbreviation, forKey: "timeZone")
+                    pushNotificationDictionary.setValue(true, forKey: "isAllowPushNotification")
+                    WebServiceManager.sharedInstance.callPushNotificationService(NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!, parameter: pushNotificationDictionary) { (json:JSON) in
+                        print("Push service",json)
+                    }
                 }
-                
+        
                 if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                     //code for iPhone
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
