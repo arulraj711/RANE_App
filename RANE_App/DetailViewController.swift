@@ -270,7 +270,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
                         }
                     } else {
                         dispatch_async(dispatch_get_main_queue(),{
-                            self.view.makeToast(message: "If you like to change, please contact "+markAsImportantUserName+". who marked this article as important")
+                            self.view.makeToast(message: "If you like to change, please contact "+markAsImportantUserName+", who marked this article as important")
                         })
                     }
                     
@@ -405,7 +405,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
             }
             print("mail body string",mailBodyString)
             
-            let mailComposeViewController = configuredMailComposeViewController(NSUserDefaults.standardUserDefaults().stringForKey("email")!, title: info["title"]!, description: mailBodyString)
+            let mailComposeViewController = configuredMailComposeViewController("", title: info["title"]!, description: mailBodyString)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {

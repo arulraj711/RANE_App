@@ -11,9 +11,9 @@ import UIKit
 class CustomFolderCell: UITableViewCell {
     @IBOutlet var checkMarkButton: UIButton!
     @IBOutlet var folderTitle: UILabel!
-    @IBOutlet var editButon: UIButton!
-    @IBOutlet var deleteButton: UIButton!
-    @IBOutlet var rssButton: UIButton!
+//    @IBOutlet var editButon: UIButton!
+//    @IBOutlet var deleteButton: UIButton!
+//    @IBOutlet var rssButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

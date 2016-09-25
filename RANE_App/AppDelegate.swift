@@ -101,6 +101,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 
                 WebServiceManager.sharedInstance.callMenuWebService(securityToken!) { (json:JSON) in }
+                
+                WebServiceManager.sharedInstance.callContentCategoriesService(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), securityToken: NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!) { (json:JSON) in
+                    //print("content category JSON",json)
+                }
             }
         } else {
         }

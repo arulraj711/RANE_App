@@ -37,8 +37,11 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         }
         
         searchBar.enablesReturnKeyAutomatically = false
-        self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
-        self.menuTableView.reloadData()
+        
+            self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
+            self.menuTableView.reloadData()
+        
+        
         
         //After Menu API notification observer
         NSNotificationCenter.defaultCenter().addObserver(
@@ -54,8 +57,10 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
     }
     
     func loadMenus() {
-        self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
-        self.menuTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue(),{
+            self.menuItems = CoreDataController().getEntityInfoFromCoreData("Menu")
+            self.menuTableView.reloadData()
+        })
     }
     
     
@@ -68,28 +73,28 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomMenuCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        let menu = self.menuItems![indexPath.row] 
-//        print("menu object",menu.menuName,menu.menuId)
-//        if let url = NSURL(string: menu.menuIconURL) {
-//            if let data = NSData(contentsOfURL: url) {
-//                cell.menuIconImage.image = UIImage(data: data)
-//            }
-//        }
-        if(menu.menuId.integerValue == 101) {
-            cell.menuIconImage.kf_setImageWithURL(NSURL(string:"http://www.3daspect.com.au/here/wp-content/themes/gds3daspect/images/contact-icon-black-phone-90x90.png")!, placeholderImage: nil)
-        } else if(menu.menuId.integerValue == 102) {
-            cell.menuIconImage.image = UIImage(named: "Logout")
-        } else {
-            cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
-        }
-        
-        
-        
-//        let menuImage = UIImage(named: items[indexPath.row])
-//        cell.menuIconImage.image = menuImage
-        cell.menuName.text = menu.menuName
-        
+        dispatch_async(dispatch_get_main_queue(),{
+            let menu = self.menuItems![indexPath.row]
+            //        print("menu object",menu.menuName,menu.menuId)
+            //        if let url = NSURL(string: menu.menuIconURL) {
+            //            if let data = NSData(contentsOfURL: url) {
+            //                cell.menuIconImage.image = UIImage(data: data)
+            //            }
+            //        }
+            if(menu.menuId.integerValue == 101) {
+                cell.menuIconImage.kf_setImageWithURL(NSURL(string:"http://www.3daspect.com.au/here/wp-content/themes/gds3daspect/images/contact-icon-black-phone-90x90.png")!, placeholderImage: nil)
+            } else if(menu.menuId.integerValue == 102) {
+                cell.menuIconImage.image = UIImage(named: "Logout")
+            } else {
+                cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
+            }
+            
+            
+            
+            //        let menuImage = UIImage(named: items[indexPath.row])
+            //        cell.menuIconImage.image = menuImage
+            cell.menuName.text = menu.menuName
+        })
         return cell
         
         
@@ -169,6 +174,20 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 102) {
             //logout action
             CoreDataController().deleteAndResetStack()
+            
+            let timeZone:NSTimeZone =  NSTimeZone.localTimeZone()
+            let pushNotificationDictionary: NSMutableDictionary = NSMutableDictionary()
+            let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken")
+            if(deviceToken?.characters.count != 0)  {
+                pushNotificationDictionary.setValue(deviceToken, forKey: "deviceToken")
+                pushNotificationDictionary.setValue(timeZone.name, forKey: "locale")
+                pushNotificationDictionary.setValue(timeZone.abbreviation, forKey: "timeZone")
+                pushNotificationDictionary.setValue(false, forKey: "isAllowPushNotification")
+                WebServiceManager.sharedInstance.callPushNotificationService(NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!, parameter: pushNotificationDictionary) { (json:JSON) in
+                    print("Push service",json)
+                }
+            }
+            
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "securityToken")
             
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {

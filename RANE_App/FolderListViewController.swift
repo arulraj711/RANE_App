@@ -134,18 +134,18 @@ class FolderListViewController: UIViewController,UIAlertViewDelegate {
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         let folderObject = self.folderArray[indexPath.row]
         cell.folderTitle.text = folderObject.folderName
-        if(folderObject.defaultFlag) {
-            cell.rssButton.hidden = false
-            cell.editButon.hidden = true
-            cell.deleteButton.hidden = true
-        } else {
-            cell.rssButton.hidden = true
-            cell.editButon.hidden = false
-            cell.deleteButton.hidden = false
-        }
-        cell.rssButton.tag = indexPath.row
-        cell.deleteButton.tag = indexPath.row
-        cell.editButon.tag = indexPath.row
+//        if(folderObject.defaultFlag) {
+//            cell.rssButton.hidden = false
+//            cell.editButon.hidden = true
+//            cell.deleteButton.hidden = true
+//        } else {
+//            cell.rssButton.hidden = true
+//            cell.editButon.hidden = false
+//            cell.deleteButton.hidden = false
+//        }
+//        cell.rssButton.tag = indexPath.row
+//        cell.deleteButton.tag = indexPath.row
+//        cell.editButon.tag = indexPath.row
 //        cell.newsletterName.text = newsletterObject.newsletterName
 //        cell.articleCountLabel.text = String(newsletterObject.newsletterarticleCount)
         return cell

@@ -305,7 +305,7 @@ class CoreDataController {
                         if(contactName.characters.count == 0) {
                             contactName = contactName+contact["name"].stringValue
                         } else {
-                            contactName = contactName+","+contact["name"].stringValue
+                            contactName = contactName+", "+contact["name"].stringValue
                         }
                         
                     }
@@ -495,6 +495,26 @@ class CoreDataController {
         }
     }
     
+    
+    func deleteMenuItems() {
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let request = NSFetchRequest(entityName: "Menu")
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            let incidents = try managedContext.executeFetchRequest(request)
+            
+            if incidents.count > 0 {
+                
+                for result: AnyObject in incidents{
+                    managedContext.deleteObject(result as! NSManagedObject)
+                    print("NSManagedObject has been Deleted")
+                }
+                try managedContext.save() } } catch {}
+    }
+
     
     
     func updateMenuInfoInCoreData(menuJSON:JSON) {
