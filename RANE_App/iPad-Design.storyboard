@@ -22,6 +22,7 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
@@ -395,10 +396,10 @@
             </objects>
             <point key="canvasLocation" x="5022" y="-3656"/>
         </scene>
-        <!--Folder List View Controller-->
+        <!--View Controller-->
         <scene sceneID="hrH-Jz-SJy">
             <objects>
-                <viewController id="QqF-XQ-hNu" customClass="FolderListViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QqF-XQ-hNu" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JwY-aB-Jlb"/>
                         <viewControllerLayoutGuide type="bottom" id="z00-ZX-S7A"/>
@@ -437,7 +438,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="C60-yL-7DD" customClass="CustomFolderCell" customModule="RANE_App" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="C60-yL-7DD">
                                         <rect key="frame" x="0.0" y="1" width="375" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C60-yL-7DD" id="slt-aF-EOh">
@@ -556,7 +557,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="QqF-XQ-hNu" kind="relationship" relationship="rootViewController" id="vEo-zn-nSK"/>
+                        <segue destination="rry-QT-7dz" kind="relationship" relationship="rootViewController" id="LRU-UO-T5y"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Djp-AD-RSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -702,7 +703,78 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fcB-Rg-Gz9" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="710" y="-507"/>
+            <point key="canvasLocation" x="869" y="-571"/>
+        </scene>
+        <!--Folder List View Controller-->
+        <scene sceneID="shL-So-VDi">
+            <objects>
+                <viewController id="rry-QT-7dz" customClass="FolderListViewController" customModule="RANE_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xRd-1G-uS7"/>
+                        <viewControllerLayoutGuide type="bottom" id="RxY-VW-ZZX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="54A-ni-GAz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="vrb-Rc-sKX">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="LC1-FT-CGk" customClass="CustomFolderCell" customModule="RANE_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="65" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LC1-FT-CGk" id="q17-rx-sof">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boston Reach" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XTW-ZC-Q3Z">
+                                                    <rect key="frame" x="20" y="14" width="335" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="IZW-lM-bw8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="XTW-ZC-Q3Z" secondAttribute="trailing" constant="12" id="GH1-5v-ibP"/>
+                                                <constraint firstItem="XTW-ZC-Q3Z" firstAttribute="leading" secondItem="q17-rx-sof" secondAttribute="leadingMargin" constant="12" id="qwc-ED-3dw"/>
+                                                <constraint firstItem="XTW-ZC-Q3Z" firstAttribute="top" secondItem="q17-rx-sof" secondAttribute="topMargin" constant="6" id="vqr-vw-XCF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="folderTitle" destination="XTW-ZC-Q3Z" id="EuL-8r-nkJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="rry-QT-7dz" id="CPh-BA-ekj"/>
+                                    <outlet property="delegate" destination="rry-QT-7dz" id="Xg4-iu-jHg"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vrb-Rc-sKX" firstAttribute="bottom" secondItem="RxY-VW-ZZX" secondAttribute="top" id="4bZ-BX-ezJ"/>
+                            <constraint firstItem="vrb-Rc-sKX" firstAttribute="top" secondItem="54A-ni-GAz" secondAttribute="top" id="DE1-bl-AQx"/>
+                            <constraint firstItem="vrb-Rc-sKX" firstAttribute="leading" secondItem="54A-ni-GAz" secondAttribute="leading" id="i4W-i3-QZs"/>
+                            <constraint firstAttribute="trailing" secondItem="vrb-Rc-sKX" secondAttribute="trailing" id="lqt-Ob-h5M"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fmD-fl-WQ6"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="600"/>
+                    <connections>
+                        <outlet property="folderListView" destination="vrb-Rc-sKX" id="WIN-gK-caJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BKg-Bg-RF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5834.5" y="-3656"/>
         </scene>
     </scenes>
     <resources>

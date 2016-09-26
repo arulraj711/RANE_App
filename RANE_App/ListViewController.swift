@@ -185,7 +185,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     listActivityIndicator.center = self.view.center
                     listActivityIndicator.startAnimating()
                     self.view.addSubview(listActivityIndicator)
-                    self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
+                    self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId,isPullDown: false)
                 } else {
                     self.groupByContentType(self.articles)
                 }
@@ -200,7 +200,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                     listActivityIndicator.center = self.view.center
                     listActivityIndicator.startAnimating()
                     self.view.addSubview(listActivityIndicator)
-                    self.folderListAPICall(0, dailyDigestId: dailyDigestId)
+                    self.folderListAPICall(0, dailyDigestId: dailyDigestId,isPullDown: false)
                     
                     // } else {
                     //self.groupByModifiedDate(self.articles)
@@ -211,10 +211,10 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                         listActivityIndicator.center = self.view.center
                         listActivityIndicator.startAnimating()
                         self.view.addSubview(listActivityIndicator)
-                        self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
+                        self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword,isPullDown: false)
                      } else {
                         self.groupByModifiedDate(self.articles)
-                        self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
+                        self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword,isPullDown: false)
                      }
                 }
                 
@@ -235,7 +235,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 listActivityIndicator.center = self.view.center
                 listActivityIndicator.startAnimating()
                 self.view.addSubview(listActivityIndicator)
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword,isPullDown: false)
             }
             
         }
@@ -297,7 +297,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 listActivityIndicator.center = self.view.center
                 listActivityIndicator.startAnimating()
                 self.view.addSubview(listActivityIndicator)
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword,isPullDown: false)
                 print("article count",self.groupedArticleArrayList.count)
                 //self.listTableView.reloadData()
             }
@@ -310,7 +310,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             listActivityIndicator.center = self.view.center
             listActivityIndicator.startAnimating()
             self.view.addSubview(listActivityIndicator)
-            self.folderListAPICall(0, dailyDigestId: self.contentTypeId)
+            self.folderListAPICall(0, dailyDigestId: self.contentTypeId,isPullDown: false)
         }
         
         
@@ -953,19 +953,19 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                listActivityIndicator.center = self.view.center
 //                listActivityIndicator.startAnimating()
 //                self.view.addSubview(listActivityIndicator)
-                self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId)
+                self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId,isPullDown: true)
             } else {
                 //for normal article list
                 if(self.isFromFolder) {
 //                    listActivityIndicator.center = self.view.center
 //                    listActivityIndicator.startAnimating()
 //                    self.view.addSubview(listActivityIndicator)
-                    self.folderListAPICall(0, dailyDigestId: dailyDigestId)
+                    self.folderListAPICall(0, dailyDigestId: dailyDigestId,isPullDown: true)
                 } else {
 //                    listActivityIndicator.center = self.view.center
 //                    listActivityIndicator.startAnimating()
 //                    self.view.addSubview(listActivityIndicator)
-                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword,isPullDown: true)
                 }
             }
 //            dispatch_async(dispatch_get_main_queue(),{
@@ -975,7 +975,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                listActivityIndicator.center = self.view.center
 //                listActivityIndicator.startAnimating()
 //                self.view.addSubview(listActivityIndicator)
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:0,searchString: self.searchKeyword,isPullDown: true)
             
         }
     }
@@ -1281,13 +1281,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             if(self.searchKeyword.characters.count == 0) {
                 if(isFromDailyDigest) {
                     //for daily digest
-                    self.dailyDigestAPICall(pageNo!,dailyDigestId: dailyDigestId)
+                    self.dailyDigestAPICall(pageNo!,dailyDigestId: dailyDigestId,isPullDown: false)
                 } else {
                     //for normal article list
-                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:pageNo!,searchString: self.searchKeyword)
+                    self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:pageNo!,searchString: self.searchKeyword,isPullDown: false)
                 }
             } else {
-                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:pageNo!,searchString: self.searchKeyword)
+                self.articleAPICall(self.activityTypeId, contentTypeId: self.contentTypeId, pageNo:pageNo!,searchString: self.searchKeyword,isPullDown: false)
             }
 
         }
@@ -1342,11 +1342,17 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 
    
     
-    func dailyDigestAPICall(pageNo:Int,dailyDigestId:Int) {
+    func dailyDigestAPICall(pageNo:Int,dailyDigestId:Int,isPullDown:Bool) {
 //        var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(dailyDigestId, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
+            var size:Int = 10
+            if(isPullDown) {
+                size = 100
+            } else {
+                size = 10
+            }
+            WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(dailyDigestId, securityToken: securityToken!, page: pageNo, size: size){ (json:JSON) in
                 self.refreshControl.endRefreshing()
                 if let results = json.array {
                     if(results.count != 0) {
@@ -1393,11 +1399,17 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     
-    func folderListAPICall(pageNo:Int,dailyDigestId:Int) {
+    func folderListAPICall(pageNo:Int,dailyDigestId:Int,isPullDown:Bool) {
         //        var nextSetOfArticles = [ArticleObject]()
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callFolderArticleListWebService(dailyDigestId, securityToken: securityToken!, page: pageNo, size: 10){ (json:JSON) in
+            var size:Int = 10
+            if(isPullDown) {
+                size = 100
+            } else {
+                size = 10
+            }
+            WebServiceManager.sharedInstance.callFolderArticleListWebService(dailyDigestId, securityToken: securityToken!, page: pageNo, size: size){ (json:JSON) in
                 self.refreshControl.endRefreshing()
                 if let results = json.array {
                     if(results.count != 0) {
@@ -1442,12 +1454,18 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         
     }
     
-    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pageNo:Int,searchString:String) {
+    func articleAPICall(activityTypeId:Int,contentTypeId:Int,pageNo:Int,searchString:String,isPullDown:Bool) {
 //        var nextSetOfArticles = [ArticleObject]()
         print("search string",searchString)
         let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
         if(securityToken?.characters.count != 0)  {
-            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId,companyId:sharedCustomerCompanyId, page: pageNo, size: 10,searchString: searchString){ (json:JSON) in
+            var size:Int = 10
+            if(isPullDown) {
+                size = 100
+            } else {
+                size = 10
+            }
+            WebServiceManager.sharedInstance.callArticleListWebService(activityTypeId, securityToken: securityToken!, contentTypeId: contentTypeId,companyId:sharedCustomerCompanyId, page: pageNo, size: size,searchString: searchString){ (json:JSON) in
                 self.refreshControl.endRefreshing()
                 if let results = json.array {
                     if(results.count != 0) {
