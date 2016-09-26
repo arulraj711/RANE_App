@@ -125,7 +125,7 @@ class CoreDataController {
     }
     
     
-    func getMenuNameFromArticleTypeId(contentTypeId:NSNumber)->String {
+    func getMenuNameFromArticleTypeId(contentTypeId:NSNumber,companyId:NSNumber)->String {
         var menuName:String! = ""
         //1 get managedcontext from appdelegate Object
         let appDelegate =
@@ -134,7 +134,10 @@ class CoreDataController {
         
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Menu")
-        fetchRequest.predicate = NSPredicate(format: "menuId == %@",contentTypeId)
+//        print("company id",NSUserDefaults.standardUserDefaults().integerForKey("companyId"))
+//        print("test",NSUserDefaults.standardUserDefaults().objectForKey("companyId")!)
+//        let companyIdStr:NSNumber = NSUserDefaults.standardUserDefaults().objectForKey("companyId")! as! NSNumber
+        fetchRequest.predicate = NSPredicate(format: "menuId == %@ AND companyId == %@",contentTypeId,companyId)
         //        print("predicate",fetchRequest)
         do {
             
@@ -223,7 +226,8 @@ class CoreDataController {
         
         //2 set predicate value
         let fetchRequest = NSFetchRequest(entityName: "Article")
-        fetchRequest.predicate = NSPredicate(format: "articleId == %@ AND contentTypeId == %@",articleJSON["id"].stringValue,String(contentTypeId))
+        //let companyIdStr:NSNumber = NSUserDefaults.standardUserDefaults().objectForKey("companyId")! as! NSNumber
+        fetchRequest.predicate = NSPredicate(format: "articleId == %@ AND contentTypeId == %@ AND companyId == %@",articleJSON["id"].stringValue,String(contentTypeId),articleJSON["companyId"].stringValue)
         print("article id and contenttypeid",articleJSON["id"].stringValue,String(contentTypeId))
         do {
             
@@ -628,7 +632,7 @@ class CoreDataController {
 
     
     
-    func getArticleListForContentTypeId(contentTypeId:NSNumber,isFromDailyDigest:Bool,pageNo:NSNumber,entityName:String) -> [Article] {
+    func getArticleListForContentTypeId(contentTypeId:NSNumber,companyId:NSNumber,isFromDailyDigest:Bool,pageNo:NSNumber,entityName:String) -> [Article] {
         var entityResult = [Article]()
         //1
         let appDelegate =
@@ -638,16 +642,34 @@ class CoreDataController {
         
         //2
         let fetchRequest = NSFetchRequest(entityName: entityName)
+        
+        
+       
+        
         if((pageNo.isEqualToNumber(0))) {
             if(contentTypeId.isEqualToNumber(6)) {
+                if(companyId.isEqualToNumber(0)) {
+                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1",contentTypeId)
+                } else {
+                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1 AND companyId == %@",contentTypeId,companyId)
+                }
                 
-                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1",contentTypeId)
             } else {
-                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+                if(companyId.isEqualToNumber(0)) {
+                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+                } else {
+                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND companyId == %@",contentTypeId,companyId)
+                }
+                
             }
             
         } else {
-            fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@",contentTypeId,pageNo)
+            if(companyId.isEqualToNumber(0)) {
+                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@",contentTypeId,pageNo)
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND pageNo == %@ AND companyId == %@",contentTypeId,pageNo,companyId)
+            }
+            
         }
 //        if(!isFromDailyDigest) {
 //            let sectionSortDescriptor = NSSortDescriptor(key: "articleModifiedDate", ascending: false)

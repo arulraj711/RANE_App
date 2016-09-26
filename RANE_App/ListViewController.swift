@@ -158,9 +158,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             } else {
                 //CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
                 if(self.contentTypeId == 20) {
-                    self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:true,pageNo: 0, entityName: "Article")
+                    self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId: 0,isFromDailyDigest:true,pageNo: 0, entityName: "Article")
                 } else {
-                    self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false, pageNo: 0, entityName: "Article")
+                    self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false, pageNo: 0, entityName: "Article")
                 }
                 
             }
@@ -264,9 +264,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest: true,pageNo: 0, entityName: "Article")
 //            } else {
             if(isFromDailyDigest) {
-                self.articles = CoreDataController().getArticleListForContentTypeId(self.dailyDigestId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
+                self.articles = CoreDataController().getArticleListForContentTypeId(self.dailyDigestId,companyId:0,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
             } else {
-                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
+                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
             }
             
            // }
@@ -291,7 +291,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         if(self.contentTypeId == 6 || self.contentTypeId == 9) {
             if(self.isDeletedFromDetailPage) {
                 CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
-                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
+                self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
                 self.groupedArticleArrayList.removeAllObjects()
                 self.listTableView.reloadData()
                 listActivityIndicator.center = self.view.center
@@ -560,11 +560,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     
     func groupByContentType(articleArray:[Article]) {
         for article in articleArray {
-            let sectionName = CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId)
+            let sectionName = CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId,companyId:article.companyId)
            // print("section name",sectionName)
             let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
             let existingGroupArticles:[Article] = self.getExistingGroupedArticle(sectionName)
-                if(existingGroupNameList.containsObject(CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId))) {
+                if(existingGroupNameList.containsObject(CoreDataController().getMenuNameFromArticleTypeId(article.articleTypeId,companyId:article.companyId))) {
                     let index:Int = self.getGroupedArticleIndex(sectionName)
                     self.groupedArticleArrayList.removeObjectAtIndex(index)
                     let articleGroupDictionary: NSMutableDictionary = NSMutableDictionary()
@@ -712,6 +712,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         vc.isFromDailyDigest = false
         print("",CoreDataController().getCompanyIdFromMenuId((singleDic.objectForKey("sectionId") as? Int)!, menuName: (singleDic.objectForKey("sectionName") as? String)!))
         vc.sharedCustomerCompanyId = CoreDataController().getCompanyIdFromMenuId((singleDic.objectForKey("sectionId") as? Int)!, menuName: (singleDic.objectForKey("sectionName") as? String)!)
+        print("shared company id",CoreDataController().getCompanyIdFromMenuId((singleDic.objectForKey("sectionId") as? Int)!, menuName: (singleDic.objectForKey("sectionName") as? String)!))
         vc.isFromListPage = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -1361,9 +1362,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             self.groupedArticleArrayList.removeAllObjects()
                             self.listTableView.reloadData()
                         }
-                        self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,isFromDailyDigest:true,pageNo: 0, entityName: "Article")
+                        self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:0,isFromDailyDigest:true,pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
-                        self.groupByContentType(CoreDataController().getArticleListForContentTypeId(dailyDigestId,isFromDailyDigest:true,pageNo: pageNo, entityName: "Article"))
+                        self.groupByContentType(CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:0,isFromDailyDigest:true,pageNo: pageNo, entityName: "Article"))
 //                        self.groupByContentType(CoreDataController().getEntityInfoFromCoreData("Menu"), articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
                         dispatch_async(dispatch_get_main_queue(),{
                             
@@ -1418,9 +1419,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                            self.groupedArticleArrayList.removeAllObjects()
 //                            self.listTableView.reloadData()
 //                        }
-                        self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
+                        self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
-                        self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(dailyDigestId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))
+                        self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))
                         //                        self.groupByContentType(CoreDataController().getEntityInfoFromCoreData("Menu"), articleArray: CoreDataController().getArticleListForContentTypeId(dailyDigestId, pageNo: pageNo, entityName: "Article"))
                         dispatch_async(dispatch_get_main_queue(),{
                             //self.tableView.reloadData()
@@ -1478,7 +1479,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             }
                             self.groupByModifiedDate(CoreDataController().getSearchArticleList(pageNo, entityName: "Article"))
                         } else {
-                            self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
+                            self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
 //                            if(pageNo == 0) {
 //                               // CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
 //                                self.groupedArticleArrayList.removeAllObjects()
@@ -1486,7 +1487,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                            }
 
                             print("pageNo and articles",pageNo,self.articles.count)
-                            self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))
+                            self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))
                         }
                         
                         dispatch_async(dispatch_get_main_queue(),{
