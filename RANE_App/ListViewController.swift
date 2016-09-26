@@ -499,10 +499,13 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             
         }
         sortedArray = (tempArray as NSArray).sortedArrayUsingDescriptors([
+            NSSortDescriptor(key: "contentCategoryId", ascending: true),
             NSSortDescriptor(key: "articleModifiedDate", ascending: false)
             ]) as! [Article]        
         return sortedArray
     }
+    
+    
     
     func getArticlePubslishedDateList(articleArray:[Article]) -> NSMutableArray {
         let articlePublishedDateArray: NSMutableArray = NSMutableArray()

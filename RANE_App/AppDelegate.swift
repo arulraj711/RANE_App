@@ -105,6 +105,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 WebServiceManager.sharedInstance.callContentCategoriesService(NSUserDefaults.standardUserDefaults().integerForKey("companyId"), securityToken: NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!) { (json:JSON) in
                     //print("content category JSON",json)
                 }
+                
+                let timeZone:NSTimeZone =  NSTimeZone.localTimeZone()
+                let pushNotificationDictionary: NSMutableDictionary = NSMutableDictionary()
+                let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceToken")
+                if(deviceToken?.characters.count != 0)  {
+                    pushNotificationDictionary.setValue(deviceToken, forKey: "deviceToken")
+                    pushNotificationDictionary.setValue(timeZone.name, forKey: "locale")
+                    pushNotificationDictionary.setValue(timeZone.abbreviation, forKey: "timeZone")
+                    pushNotificationDictionary.setValue(true, forKey: "isAllowPushNotification")
+                    WebServiceManager.sharedInstance.callPushNotificationService(NSUserDefaults.standardUserDefaults().stringForKey("securityToken")!, parameter: pushNotificationDictionary) { (json:JSON) in
+                        print("Push service",json)
+                    }
+                }
+                
             }
         } else {
         }

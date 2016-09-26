@@ -19,7 +19,7 @@ class WebServiceManager: NSObject {
     
     func callLoginWebService(parameter: NSMutableDictionary,onCompletion: (JSON) -> Void) {
         //api/v1/eti/customers/authenticate for RANE live login #userauthentication
-        let loginAPIFunctionName = "api/v1/eti/customers/authenticate"
+        let loginAPIFunctionName = "api/v1/userauthentication"
         WebService().makeHTTPPostRequest(loginAPIFunctionName, body: parameter, onCompletion: { json, err in
             onCompletion(json as JSON)
             print("login response",json)

@@ -269,6 +269,11 @@ class CoreDataController {
                 
                 /* fields name configuration */
                 if let fieldsArray = articleJSON["contentCategoryId"].array {
+                    
+                    if(fieldsArray.count != 0) {
+                        article.setValue(fieldsArray[0].intValue, forKey: "contentCategoryId")
+                    }
+                    
                     var fieldsName:String = ""
                     for fields in fieldsArray {
                         //print("fields",fields,CoreDataController().getContentNameFromContentTypeId(fields.int!))
@@ -377,6 +382,10 @@ class CoreDataController {
                 
                 /* fields name configuration */
                 if let fieldsArray = articleJSON["contentCategoryId"].array {
+                    if(fieldsArray.count != 0) {
+                        article.setValue(fieldsArray[0].intValue, forKey: "contentCategoryId")
+                    }
+                    
                     var fieldsName:String = ""
                     for fields in fieldsArray {
 //                        print("fields",fields)
@@ -515,6 +524,24 @@ class CoreDataController {
                 try managedContext.save() } } catch {}
     }
 
+    func getContentTypeIdsFromArticle() {
+        
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+//        let request = NSFetchRequest(entityName: "Article")
+//        request.propertiesToFetch = NSArray(object: "contentTypeId") as [AnyObject]
+//        request.returnsObjectsAsFaults = false
+//        request.returnsDistinctResults = true
+//        request.resultType = NSFetchRequestResultType.DictionaryResultType
+        
+        let fetchRequest = NSFetchRequest(entityName: "Article")
+        fetchRequest.resultType = .DictionaryResultType
+        fetchRequest.propertiesToFetch = ["contentTypeId"]
+        fetchRequest.returnsDistinctResults = true
+        let result = try! managedContext.executeFetchRequest(fetchRequest)
+        print("result",result)
+    }
     
     
     func updateMenuInfoInCoreData(menuJSON:JSON) {

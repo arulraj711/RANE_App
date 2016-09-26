@@ -26,6 +26,7 @@ extension Article {
     @NSManaged var isSavedForLater: NSNumber
     @NSManaged var isMarkedImportant: NSNumber
     @NSManaged var contentTypeId: NSNumber
+    @NSManaged var contentCategoryId: NSNumber
     @NSManaged var pageNo: NSNumber
     @NSManaged var fieldsName: String
     @NSManaged var outletName: String
