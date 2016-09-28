@@ -53,6 +53,27 @@ class WebService: NSObject {
                 
                 if let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
                     self.hideProgressView() //hide progressview
+                    print("function url",functionName)
+                    
+                    if(functionName.containsString("client/newsletter/0/")) {
+                        
+                        
+                        let dailyDigestModifiedDate = NSUserDefaults.standardUserDefaults().stringForKey("dailyDigestModifiedDate")
+                        
+                        if(dailyDigestModifiedDate	!= nil) {
+                            if(httpResponse.allHeaderFields["DailyDigest-Timestamp"] as? String == dailyDigestModifiedDate) {
+                                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isDailyDigestUpdated")
+                            } else {
+                                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isDailyDigestUpdated")
+                                NSUserDefaults.standardUserDefaults().setObject(httpResponse.allHeaderFields["DailyDigest-Timestamp"] as! String, forKey: "dailyDigestModifiedDate")
+                            }
+                        } else {
+                            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isDailyDigestUpdated")
+                            NSUserDefaults.standardUserDefaults().setObject(httpResponse.allHeaderFields["DailyDigest-Timestamp"] as! String, forKey: "dailyDigestModifiedDate")
+                        }
+                    }
+                    //print("all header response",httpResponse.allHeaderFields["total_items"]!)
+                    
                     let statusCode = httpResponse.statusCode
                     if(statusCode == 200) {
                         //success block

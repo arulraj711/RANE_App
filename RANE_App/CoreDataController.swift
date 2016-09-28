@@ -219,6 +219,9 @@ class CoreDataController {
     }
     
     func addArticle(articleJSON:JSON,contentTypeId:Int,pageNo:Int,searchText:String) {
+        
+        
+        
         //1 get managedcontext from appdelegate Object
         let appDelegate =
             UIApplication.sharedApplication().delegate as! AppDelegate

@@ -117,6 +117,16 @@ class WebServiceManager: NSObject {
         let dailyDigestAPIFunctionName = "api/v1/client/newsletter/"+String(dailyDigestId)+"/articles?security_token="+securityToken+"&page="+String(page)+"&size="+String(size)
         WebService().makeHTTPGetRequest(dailyDigestAPIFunctionName, onCompletion: { json, err in
                 print("content type id",dailyDigestId,"pageno",page)
+            
+            if(dailyDigestId == 0) {
+                let check:Bool = NSUserDefaults.standardUserDefaults().boolForKey("isDailyDigestUpdated") 
+                if(check) {
+                    CoreDataController().deleteExistingSavedArticles(dailyDigestId)
+                    
+                }
+            }
+            
+            
                 if let results = json.array {
                     for entry in results {
                         CoreDataController().addArticle(entry, contentTypeId: dailyDigestId, pageNo: page,searchText: "")

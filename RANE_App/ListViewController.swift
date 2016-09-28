@@ -954,6 +954,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                listActivityIndicator.center = self.view.center
 //                listActivityIndicator.startAnimating()
 //                self.view.addSubview(listActivityIndicator)
+                
+                
                 self.dailyDigestAPICall(0,dailyDigestId: dailyDigestId,isPullDown: true)
             } else {
                 //for normal article list
@@ -1353,15 +1355,27 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             } else {
                 size = 10
             }
+            
+            
+            
             WebServiceManager.sharedInstance.callDailyDigestArticleListWebService(dailyDigestId, securityToken: securityToken!, page: pageNo, size: size){ (json:JSON) in
                 self.refreshControl.endRefreshing()
                 if let results = json.array {
                     if(results.count != 0) {
-                        if(pageNo == 0 && self.contentTypeId == 20) {
-                            CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+                        
+                        if(dailyDigestId == 0 && pageNo == 0) {
+                            if(NSUserDefaults.standardUserDefaults().boolForKey("isDailyDigestUpdated")) {
+                                //CoreDataController().deleteExistingSavedArticles(contentTypeId)
+                                self.groupedArticleArrayList.removeAllObjects()
+                                self.listTableView.reloadData()
+                            } else {
+                                self.groupedArticleArrayList.removeAllObjects()
+                            }
+                        } else if(pageNo == 0) {
                             self.groupedArticleArrayList.removeAllObjects()
-                            self.listTableView.reloadData()
                         }
+                        
+                        
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:0,isFromDailyDigest:true,pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
                         self.groupByContentType(CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:0,isFromDailyDigest:true,pageNo: pageNo, entityName: "Article"))
@@ -1370,7 +1384,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             
                             //self.tableView.reloadData()
                             self.listTableView.reloadData()
-                            if(self.articles.count > 0) {
+                            if(self.articles.count > 0 && pageNo != 0) {
                                 self.myActivityIndicator.startAnimating()
                                 self.listTableView.tableFooterView = self.myActivityIndicator;
                             }
