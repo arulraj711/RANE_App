@@ -162,7 +162,7 @@ class ViewController: UIViewController,PKRevealing {
     @IBAction func forgotPasswordButtonClick(sender: UIButton) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc:ReadFullArticleViewController = storyboard.instantiateViewControllerWithIdentifier("readFullArticleView") as! ReadFullArticleViewController
-                vc.articleUrl = "https://ranenetwork.com/app/cms/users/password/new"
+                vc.articleUrl = "https://app.ranenetwork.com/app/cms/users/password/new"
                 self.navigationController?.pushViewController(vc, animated: true)
     }
     
