@@ -13,6 +13,10 @@ import PKRevealController
 
 class ViewController: UIViewController,PKRevealing {
     
+    @IBOutlet var forgotPasswordLeftConstraint: NSLayoutConstraint!
+    @IBOutlet var loginButtonLeftConstraint: NSLayoutConstraint!
+    @IBOutlet var userInfoRightConstraint: NSLayoutConstraint!
+    @IBOutlet var userInfoLeftConstraint: NSLayoutConstraint!
     @IBOutlet var emailAddressField: UITextField!
     @IBOutlet var userInfoView: UIView!
     @IBOutlet var loginButton: UIButton!
@@ -61,6 +65,43 @@ class ViewController: UIViewController,PKRevealing {
     }
     
     override func viewDidLayoutSubviews() {
+        print("orientation",UIDevice.currentDevice().orientation)
+        
+        switch UIDevice.currentDevice().userInterfaceIdiom {
+        case .Phone:
+            // It's an iPhone
+            
+            break
+        case .Pad:
+            // It's an iPad
+            if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation))
+            {
+                print("landscape",self.view.frame.size.width,self.userInfoView.frame.size.width,self.loginButton.frame.size.width)
+                self.userInfoLeftConstraint.constant = 345
+                self.loginButtonLeftConstraint.constant = 345
+                self.forgotPasswordLeftConstraint.constant = 345
+                //            self.userInfoLeftConstraint.constant = (self.view.frame.size.width-self.userInfoView.frame.size.width)/2
+            }
+            
+            if(UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation))
+            {
+                print("Portrait",self.view.frame.size.width,self.userInfoView.frame.size.width,self.loginButton.frame.size.width)
+                self.userInfoLeftConstraint.constant = 217
+                self.loginButtonLeftConstraint.constant = 217
+                self.forgotPasswordLeftConstraint.constant = 217
+                //            self.userInfoLeftConstraint.constant = 344
+            }
+            break
+        case .Unspecified:
+            break
+        default:
+            break
+            // Uh, oh! What could it be?
+        }
+
+        
+        
+        
     }
     
     //Key board actions

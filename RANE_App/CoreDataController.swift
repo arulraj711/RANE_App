@@ -194,17 +194,17 @@ class CoreDataController {
                 // Populate Record
                 record.setValue(menuJSON["id"].intValue, forKey: "menuId")
                 record.setValue(menuJSON["name"].stringValue, forKey: "menuName")
-                print("menu",menuJSON)
-                print("menu url",menuJSON["iconUrl"].stringValue)
+                //print("menu",menuJSON)
+                //print("menu url",menuJSON["iconUrl"].stringValue)
                 if(menuJSON["iconUrl"].stringValue.characters.count == 0) {
                     record.setValue("", forKey: "menuIconURL")
                 } else {
                     record.setValue(menuJSON["iconUrl"].stringValue, forKey: "menuIconURL")
                 }
                 
-                print("one",menuJSON["iconUrl"].stringValue.characters.count)
+               // print("one",menuJSON["iconUrl"].stringValue.characters.count)
                 record.setValue(menuJSON["companyId"].intValue, forKey: "companyId")
-                print("two",menuJSON["companyId"].intValue)
+                //print("two",menuJSON["companyId"].intValue)
                 // Save Record
                 appDelegate.saveContext()
             }

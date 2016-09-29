@@ -81,9 +81,9 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             //                cell.menuIconImage.image = UIImage(data: data)
             //            }
             //        }
-            if(menu.menuId.integerValue == 101) {
+            if(menu.menuId.integerValue == 10001) {
                 cell.menuIconImage.kf_setImageWithURL(NSURL(string:"http://www.3daspect.com.au/here/wp-content/themes/gds3daspect/images/contact-icon-black-phone-90x90.png")!, placeholderImage: nil)
-            } else if(menu.menuId.integerValue == 102) {
+            } else if(menu.menuId.integerValue == 10002) {
                 cell.menuIconImage.image = UIImage(named: "Logout")
             } else {
                 cell.menuIconImage.kf_setImageWithURL(NSURL(string:menu.menuIconURL)!, placeholderImage: nil)
@@ -167,11 +167,11 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 37) {
             //Media analysis #21-stage #37-live
             
-        } else if(menu.menuId == 101) {
+        } else if(menu.menuId == 10001) {
             let actionSheet = UIActionSheet(title: "Contact RANE", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Call +1-844-RUN-RANE")
             actionSheet.showInView(self.view)
             
-        } else if(menu.menuId == 102) {
+        } else if(menu.menuId == 10002) {
             //logout action
             CoreDataController().deleteAndResetStack()
             

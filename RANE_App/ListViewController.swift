@@ -450,6 +450,7 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
             print("article modified date",articleModifiedDate)
             let existingGroupNameList:NSMutableArray = self.getExistingGroupNamesList()
             let existingGroupArticles:[Article] = self.getExistingGroupedArticle(String(articleModifiedDate))
+            print("existing count",existingGroupArticles.count)
             let groupedArticleArray = self.groupArticlesBasedOnModofiedDate(articleModifiedDate as! String, articleArray: articleArray,existingGroupedArticle: existingGroupArticles)
             if(existingGroupNameList.containsObject(articleModifiedDate as! String)) {
                 let index:Int = self.getGroupedArticleIndex(String(articleModifiedDate))
@@ -481,9 +482,12 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
     }
     
     func groupArticlesBasedOnModofiedDate(modifiedDate:String,articleArray:[Article],existingGroupedArticle:[Article]) -> [Article] {
+        print("inside existing group",existingGroupedArticle.count)
         var tempArray = [Article]()
         var sortedArray = [Article]()
-        tempArray = existingGroupedArticle
+        if(existingGroupedArticle.count != 0) {
+            tempArray = existingGroupedArticle
+        }
         for article in articleArray {
             if(tempArray.contains(article)) {
                 continue
@@ -1428,9 +1432,9 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 self.refreshControl.endRefreshing()
                 if let results = json.array {
                     if(results.count != 0) {
-                        if(pageNo == 0) {
-                            self.groupedArticleArrayList.removeAllObjects()
-                        }
+//                        if(pageNo == 0) {
+//                            self.groupedArticleArrayList.removeAllObjects()
+//                        }
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
                         self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))
@@ -1491,11 +1495,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                             }
                             self.groupByModifiedDate(CoreDataController().getSearchArticleList(pageNo, entityName: "Article"))
                         } else {
-                            if(pageNo == 0) {
-                                //CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
-                                self.groupedArticleArrayList.removeAllObjects()
-                                //self.listTableView.reloadData()
-                            }
+//                            if(pageNo == 0) {
+//                                //CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+//                                self.groupedArticleArrayList.removeAllObjects()
+//                                //self.listTableView.reloadData()
+//                            }
                             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
 //                            if(pageNo == 0) {
 //                               // CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
