@@ -109,7 +109,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
         } else if(menu.menuId == 9) {
             activityTypeId = 2
         }
-        if(menu.menuId == 36){
+        if(menu.menuId == 2){
             //Newsletter list #2-stage #36-live
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -125,7 +125,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
             }
             
             
-        } else if(menu.menuId == 35) {
+        } else if(menu.menuId == 19) {
             //Folder list #19-stage #35-live
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -139,7 +139,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 frontViewContrller.titleString = menu.menuName
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
-        } else if(menu.menuId == 38) {
+        } else if(menu.menuId == 20) {
             //Daily digest article list #20-stage #38-live
             NSUserDefaults.standardUserDefaults().setInteger(menu.companyId.integerValue, forKey: "sharedCustomerCompanyId")
             if(UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
@@ -164,7 +164,7 @@ class MenuViewController: UIViewController,UIActionSheetDelegate {
                 frontViewContrller.isFromListPage = false
                 self.revealController.setFrontViewController(navCtlr, focusAfterChange: true, completion: nil)
             }
-        } else if(menu.menuId == 37) {
+        } else if(menu.menuId == 21) {
             //Media analysis #21-stage #37-live
             
         } else if(menu.menuId == 10001) {

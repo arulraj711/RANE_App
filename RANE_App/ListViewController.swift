@@ -1432,9 +1432,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
                 self.refreshControl.endRefreshing()
                 if let results = json.array {
                     if(results.count != 0) {
-//                        if(pageNo == 0) {
-//                            self.groupedArticleArrayList.removeAllObjects()
-//                        }
+                        if(pageNo == 0) {
+                            // CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+                            self.groupedArticleArrayList.removeAllObjects()
+                            self.listTableView.reloadData()
+                        }
                         self.articles = CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
                         print("newsletter article count",self.articles.count)
                         self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(dailyDigestId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))
@@ -1501,11 +1503,11 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
 //                                //self.listTableView.reloadData()
 //                            }
                             self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
-//                            if(pageNo == 0) {
-//                               // CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
-//                                self.groupedArticleArrayList.removeAllObjects()
-//                                //self.listTableView.reloadData()
-//                            }
+                            if(pageNo == 0) {
+                               // CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
+                                self.groupedArticleArrayList.removeAllObjects()
+                                self.listTableView.reloadData()
+                            }
 
                             print("pageNo and articles",pageNo,self.articles.count)
                             self.groupByModifiedDate(CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: pageNo, entityName: "Article"))

@@ -241,7 +241,7 @@ class CoreDataController {
                 let article = results[0] as Article
                 
                 article.setValue(articleJSON["id"].stringValue, forKey: "articleId")
-                article.setValue(articleJSON["articleDescription"].stringValue.capitalizedString, forKey: "articleDescription")
+                article.setValue(articleJSON["articleDescription"].stringValue, forKey: "articleDescription")
                 article.setValue(articleJSON["articleDetailedDescription"].stringValue, forKey: "articleDetailedDescription")
                 article.setValue(articleJSON["articleURL"].stringValue, forKey: "articleURL")
                 article.setValue(articleJSON["heading"].stringValue, forKey: "articleTitle")
@@ -353,7 +353,7 @@ class CoreDataController {
                 
                 
                 article.setValue(articleJSON["id"].stringValue, forKey: "articleId")
-                article.setValue(articleJSON["articleDescription"].stringValue.capitalizedString, forKey: "articleDescription")
+                article.setValue(articleJSON["articleDescription"].stringValue, forKey: "articleDescription")
                 article.setValue(articleJSON["articleDetailedDescription"].stringValue, forKey: "articleDetailedDescription")
                 article.setValue(articleJSON["articleURL"].stringValue, forKey: "articleURL")
                 article.setValue(articleJSON["heading"].stringValue, forKey: "articleTitle")
@@ -636,6 +636,7 @@ class CoreDataController {
     
     
     func getArticleListForContentTypeId(contentTypeId:NSNumber,companyId:NSNumber,isFromDailyDigest:Bool,pageNo:NSNumber,entityName:String) -> [Article] {
+        print("marked important",contentTypeId,companyId)
         var entityResult = [Article]()
         //1
         let appDelegate =
@@ -651,12 +652,14 @@ class CoreDataController {
         
         if((pageNo.isEqualToNumber(0))) {
             if(contentTypeId.isEqualToNumber(6)) {
-                if(companyId.isEqualToNumber(0)) {
-                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1",contentTypeId)
-                } else {
-                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1 AND companyId == %@",contentTypeId,companyId)
-                }
+               // if(companyId.isEqualToNumber(0)) {
+                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
+//                } else {
+//                    fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@ AND isSavedForLater == 1 AND companyId == %@",contentTypeId,companyId)
+//                }
                 
+            } else if(contentTypeId.isEqualToNumber(9)) {
+                fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
             } else {
                 if(companyId.isEqualToNumber(0)) {
                     fetchRequest.predicate = NSPredicate(format: "contentTypeId == %@",contentTypeId)
