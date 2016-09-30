@@ -457,6 +457,7 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
         self.currentindex = indexPath.row
         dispatch_async(dispatch_get_main_queue(),{
             self.reloadNavBarItems(articleObject)
+            self.updateArticleReadStatus(articleObject.articleId)
         })
         
         if(articleObject.fieldsName.characters.count == 0) {
@@ -487,6 +488,22 @@ class DetailViewController: UIViewController,UICollectionViewDataSource,UICollec
     
         return cell
     }
+    
+    func updateArticleReadStatus(articleId:String) {
+        let securityToken = NSUserDefaults.standardUserDefaults().stringForKey("securityToken")
+        if(securityToken?.characters.count != 0)  {
+            let userActivitiesInputDictionary: NSMutableDictionary = NSMutableDictionary()
+            userActivitiesInputDictionary.setValue("1", forKey: "status")
+            userActivitiesInputDictionary.setValue(articleId, forKey: "selectedArticleId")
+            userActivitiesInputDictionary.setValue(securityToken, forKey: "securityToken")
+            userActivitiesInputDictionary.setValue(true, forKey: "isSelected")
+            
+            WebServiceManager.sharedInstance.callUserActivitiesOnArticlesWebService(userActivitiesInputDictionary) { (json:JSON) in
+                CoreDataController().setMarkedUnSyncToSync()
+            }
+        }
+    }
+    
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 //        print("flow layout delegate",self.view.frame.size.width,self.view.frame.size.height)

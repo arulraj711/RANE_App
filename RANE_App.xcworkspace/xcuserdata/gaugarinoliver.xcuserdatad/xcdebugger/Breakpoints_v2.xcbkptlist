@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "459"
             endingLineNumber = "459"
-            landmarkName = "updateSavedForLaterStatusInArticle(_:contentTypeId:isSaved:isSavedSync:)"
+            landmarkName = "addArticle(_:contentTypeId:pageNo:searchText:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
