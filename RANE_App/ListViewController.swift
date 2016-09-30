@@ -135,7 +135,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         myActivityIndicator.stopAnimating()
         
         
-        if(!Reachability.isConnectedToNetwork()) {
+        if(!Reachability.isConnectedToNetwork() && self.articles.count != 0) {
+            self.refreshControl.endRefreshing()
             listActivityIndicator.stopAnimating()
             listActivityIndicator.removeFromSuperview()
             let noNetworkView = NoNetworkView.instanceFromNib()
@@ -290,6 +291,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         print("view did appear")
         if(self.contentTypeId == 6 || self.contentTypeId == 9) {
             if(self.isDeletedFromDetailPage) {
+                myActivityIndicator.stopAnimating()
+                myActivityIndicator.removeFromSuperview()
                 CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
                 self.articles = CoreDataController().getArticleListForContentTypeId(contentTypeId,companyId:self.sharedCustomerCompanyId,isFromDailyDigest:false,pageNo: 0, entityName: "Article")
                 self.groupedArticleArrayList.removeAllObjects()
@@ -304,6 +307,8 @@ class ListViewController: UIViewController,UIGestureRecognizerDelegate,MFMailCom
         }
         
         if(self.isFromFolder && self.isDeletedFromDetailPage) {
+            myActivityIndicator.stopAnimating()
+            myActivityIndicator.removeFromSuperview()
             CoreDataController().deleteExistingSavedArticles(self.contentTypeId)
             self.groupedArticleArrayList.removeAllObjects()
             self.listTableView.reloadData()
